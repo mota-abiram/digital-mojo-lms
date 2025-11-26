@@ -1,6 +1,6 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { CourseViewer } from './pages/CourseViewer';
@@ -8,10 +8,15 @@ import { QuizPage } from './pages/Quiz';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
+
 import { MOCK_USER } from './constants';
 import { User } from './types';
 
-// Layout wrapper for Authenticated Routes that need sidebar
+import { getUserData, logoutUser } from './services/db';
+import { auth } from './firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
+
+
 // Layout wrapper for Authenticated Routes that need sidebar
 const MainLayout: React.FC<{
   user: User;
@@ -26,10 +31,20 @@ const MainLayout: React.FC<{
 
   return (
     <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark transition-colors duration-200">
-      <Header user={user} onLogout={onLogout} searchQuery={searchQuery} onSearchChange={onSearchChange} />
+      <Header
+        user={user}
+        onLogout={onLogout}
+        searchQuery={searchQuery}
+        onSearchChange={onSearchChange}
+      />
       <div className="flex flex-1 relative">
-        <Sidebar user={user} activeRoute={activeRoute} onNavigate={navigate} onLogout={onLogout} />
-        {/* Main Content Area - Needs margin left on desktop to account for fixed sidebar */}
+        <Sidebar
+          user={user}
+          activeRoute={activeRoute}
+          onNavigate={navigate}
+          onLogout={onLogout}
+        />
+
         <main className="flex-1 w-full md:ml-64 p-0">
           {children}
         </main>
@@ -38,10 +53,6 @@ const MainLayout: React.FC<{
   );
 };
 
-import { auth, getUserData, logoutUser } from './services/db';
-import { onAuthStateChanged } from 'firebase/auth';
-
-// ... (MainLayout remains same)
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -51,16 +62,17 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // User is signed in, fetch their profile data
         const userData = await getUserData(firebaseUser.uid);
         if (userData) {
           setUser(userData);
         } else {
-          // Fallback if no data found (shouldn't happen with proper setup)
-          setUser({ ...MOCK_USER, id: firebaseUser.uid, email: firebaseUser.email || '' });
+          setUser({
+            ...MOCK_USER,
+            id: firebaseUser.uid,
+            email: firebaseUser.email || '',
+          });
         }
       } else {
-        // User is signed out
         setUser(null);
       }
       setLoading(false);
@@ -75,7 +87,11 @@ export default function App() {
   };
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -83,13 +99,18 @@ export default function App() {
       <Routes>
         <Route
           path="/login"
-          element={!user ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />}
+          element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
         />
 
         <Route
           path="/dashboard"
           element={user ? (
-            <MainLayout user={user} onLogout={handleLogout} searchQuery={searchQuery} onSearchChange={setSearchQuery}>
+            <MainLayout
+              user={user}
+              onLogout={handleLogout}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            >
               <Dashboard user={user} searchQuery={searchQuery} />
             </MainLayout>
           ) : <Navigate to="/login" replace />}
@@ -131,7 +152,7 @@ export default function App() {
           ) : <Navigate to="/login" replace />}
         />
 
-        {/* Note: CourseViewer and Quiz have their own specific layouts defined in their components */}
+        {/* Course and Quiz */}
         <Route
           path="/course/:courseId"
           element={user ? <CourseViewer user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
