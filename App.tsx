@@ -113,7 +113,7 @@ export default function App() {
 
         <Route
           path="/register"
-          element={!user ? <Register /> : <Navigate to="/dashboard" replace />}
+          element={<Register user={user} />}
         />
 
         <Route

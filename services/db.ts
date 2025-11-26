@@ -35,6 +35,15 @@ export const registerUser = async (email: string, pass: string, name: string, ro
         };
 
         await setDoc(userRef, userData);
+
+        // Sign out immediately so the user has to log in manually
+        try {
+            await signOut(auth);
+        } catch (logoutError) {
+            console.warn("Auto-logout after registration failed", logoutError);
+            // We don't throw here because the registration itself was successful
+        }
+
         return user;
     } catch (error) {
         console.error("Registration failed", error);

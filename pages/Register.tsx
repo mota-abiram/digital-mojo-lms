@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/db';
+import { User } from '../types';
 
-export const Register: React.FC = () => {
+interface RegisterProps {
+    user?: User | null;
+}
+
+export const Register: React.FC<RegisterProps> = ({ user }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -39,7 +44,7 @@ export const Register: React.FC = () => {
             if (err.code === 'auth/email-already-in-use') {
                 setError('This email is already registered.');
             } else {
-                setError('Registration failed. Please try again.');
+                setError(`Registration failed: ${err.message}`);
             }
         } finally {
             setLoading(false);
