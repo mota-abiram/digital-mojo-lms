@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
 import { CourseViewer } from './pages/CourseViewer';
 import { QuizPage } from './pages/Quiz';
@@ -100,6 +101,11 @@ export default function App() {
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
+        />
+
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/dashboard" replace />}
         />
 
         <Route

@@ -15,6 +15,33 @@ export const loginWithEmail = async (email: string, pass: string) => {
     }
 };
 
+export const registerUser = async (email: string, pass: string, name: string, role: string, department: string) => {
+    try {
+        // 1. Create Auth User
+        const { createUserWithEmailAndPassword } = await import('firebase/auth');
+        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+
+        // 2. Create User Profile in Firestore
+        const userRef = doc(db, "users", user.uid);
+        const userData: User = {
+            id: user.uid,
+            name,
+            email,
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`,
+            role,
+            department,
+            joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        };
+
+        await setDoc(userRef, userData);
+        return user;
+    } catch (error) {
+        console.error("Registration failed", error);
+        throw error;
+    }
+};
+
 export const logoutUser = async () => {
     try {
         await signOut(auth);

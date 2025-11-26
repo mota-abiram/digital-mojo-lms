@@ -146,7 +146,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 </div>
 
                 <div className="pt-4 text-center">
-                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Don't have an account? <button onClick={handleContactAdmin} className="font-medium text-primary hover:underline">Contact Administrator</button></p>
+                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Don't have an account? <button onClick={() => window.location.hash = '#/register'} className="font-medium text-primary hover:underline">Create an account</button></p>
                 </div>
               </form>
             </div>

@@ -5,6 +5,8 @@ export const MOCK_USER: User = {
   name: 'John Doe',
   email: 'john.doe@digitalmojo.com',
   avatar: 'https://picsum.photos/seed/user1/200/200',
+  role: 'Account Manager',
+  department: 'Sales',
   joinDate: 'Oct 2023'
 };
 
