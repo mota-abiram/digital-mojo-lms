@@ -63,14 +63,22 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const userData = await getUserData(firebaseUser.uid);
+        const userData = await getUserData(firebaseUser.uid, firebaseUser.email);
         if (userData) {
           setUser(userData);
         } else {
+          // If no data found and not mock user, we might want to handle this.
+          // For now, we can just set a basic user object or redirect to a setup page.
+          // But since we have registration, this case should ideally not happen unless manual DB deletion.
+          // Let's set a minimal user object so they can at least see the dashboard (albeit empty)
           setUser({
-            ...MOCK_USER,
             id: firebaseUser.uid,
+            name: firebaseUser.displayName || 'User',
             email: firebaseUser.email || '',
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
+            role: 'Member',
+            department: 'General',
+            joinDate: new Date().toLocaleDateString()
           });
         }
       } else {

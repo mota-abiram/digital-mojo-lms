@@ -24,8 +24,16 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       // but we can keep it for any immediate UI feedback if passed
       if (onLogin) onLogin();
     } catch (err: any) {
-      setError('Login failed. Please check your credentials.');
       console.error(err);
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+        setError('Incorrect email or password.');
+      } else if (err.code === 'auth/user-not-found') {
+        setError('No account found with this email.');
+      } else if (err.code === 'auth/too-many-requests') {
+        setError('Too many failed attempts. Please try again later.');
+      } else {
+        setError('Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

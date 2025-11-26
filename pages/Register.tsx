@@ -12,6 +12,7 @@ export const Register: React.FC = () => {
         department: 'Sales'
     });
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -31,8 +32,8 @@ export const Register: React.FC = () => {
                 formData.role,
                 formData.department
             );
-            // Registration successful, redirect to dashboard (App.tsx will handle auth state change)
-            navigate('/dashboard');
+            // Registration successful, show success message
+            setSuccess(true);
         } catch (err: any) {
             console.error(err);
             if (err.code === 'auth/email-already-in-use') {
@@ -44,6 +45,28 @@ export const Register: React.FC = () => {
             setLoading(false);
         }
     };
+
+    if (success) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4">
+                <div className="w-full max-w-md bg-card-light dark:bg-card-dark rounded-xl shadow-lg p-8 border border-border-light dark:border-border-dark text-center">
+                    <div className="mb-4 flex justify-center">
+                        <span className="material-symbols-outlined text-6xl text-green-500">check_circle</span>
+                    </div>
+                    <h1 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary mb-2">Account Created!</h1>
+                    <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6">
+                        Your account has been successfully created. You can now log in with your credentials.
+                    </p>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                    >
+                        Go to Login
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4">

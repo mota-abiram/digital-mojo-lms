@@ -54,7 +54,8 @@ export const logoutUser = async () => {
 // Database Services
 
 // Fetch user profile from Firestore, or fallback to Mock if new user
-export const getUserData = async (uid: string): Promise<User | null> => {
+// Fetch user profile from Firestore, or fallback to Mock ONLY if it's the mock user
+export const getUserData = async (uid: string, email?: string | null): Promise<User | null> => {
     try {
         const userRef = doc(db, "users", uid);
         const userSnap = await getDoc(userRef);
@@ -62,9 +63,12 @@ export const getUserData = async (uid: string): Promise<User | null> => {
         if (userSnap.exists()) {
             return userSnap.data() as User;
         } else {
-            // For demo purposes, if user doesn't exist in DB, return a default profile based on Mock
-            // In a real app, you might create the user document on sign-up
-            return { ...MOCK_USER, id: uid };
+            // Only return mock data if the email matches the mock user
+            if (email === MOCK_USER.email) {
+                return { ...MOCK_USER, id: uid };
+            }
+            // Otherwise return null (user needs to register or data is missing)
+            return null;
         }
     } catch (error) {
         console.error("Error fetching user data", error);
