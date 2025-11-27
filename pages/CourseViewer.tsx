@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { MOCK_COURSES, MOCK_QUIZZES } from '../constants';
 import { User } from '../types';
 import { Header } from '../components/Header';
@@ -11,6 +11,13 @@ interface CourseViewerProps {
     onLogout: () => void;
 }
 
+declare global {
+    interface Window {
+        onYouTubeIframeAPIReady: () => void;
+        YT: any;
+    }
+}
+
 export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) => {
     const { courseId } = useParams();
     const navigate = useNavigate();
@@ -19,13 +26,23 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     // Default to first module if no specific state, tracking active module ID
     const [activeModuleId, setActiveModuleId] = useState<string | undefined>(undefined);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const playerRef = useRef<any>(null);
+
+    // Flatten all modules for easy navigation
+    const allModules = course?.sections.flatMap(section => section.modules) || [];
+
+    const location = useLocation();
 
     // Initialize activeModuleId when course loads
     useEffect(() => {
-        if (course && !activeModuleId) {
-            setActiveModuleId(course.modules[0].id);
+        if (course && allModules.length > 0) {
+            if (location.state?.activeModuleId) {
+                setActiveModuleId(location.state.activeModuleId);
+            } else if (!activeModuleId) {
+                setActiveModuleId(allModules[0].id);
+            }
         }
-    }, [course, activeModuleId]);
+    }, [course, allModules, location.state]);
 
     // State to track if we are showing the video or the quiz start card for a quiz module
     const [showQuizStart, setShowQuizStart] = useState(false);
@@ -35,23 +52,48 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
         setShowQuizStart(false);
     }, [activeModuleId]);
 
+    // Load YouTube API
+    useEffect(() => {
+        if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+        }
+    }, []);
+
     if (!course) return <div className="p-8 text-center text-text-light-primary dark:text-text-dark-primary">Course not found</div>;
 
-    const activeModuleIndex = course.modules.findIndex(m => m.id === activeModuleId);
-    const activeModule = course.modules[activeModuleIndex];
+    const activeModuleIndex = allModules.findIndex(m => m.id === activeModuleId);
+    const activeModule = allModules[activeModuleIndex];
 
-    const handleNext = async () => {
-        if (activeModule && user.id) {
-            // Save progress to Firestore
+    // Helper to check if a module is completed based on user data
+    const isModuleCompleted = (moduleId: string) => {
+        if (location.state?.completedModuleId === moduleId) return true; // Optimistic update
+        if (!user.progress || !user.progress[course.id]) return false;
+        return user.progress[course.id].completedModules.includes(moduleId);
+    };
+
+    const completedModulesCount = allModules.filter(m => isModuleCompleted(m.id)).length;
+    const progressPercentage = Math.round((completedModulesCount / allModules.length) * 100);
+
+    const handleModuleComplete = async (moduleId: string) => {
+        if (user.id) {
             try {
-                await updateModuleProgress(user.id, course.id, activeModule.id);
+                await updateModuleProgress(user.id, course.id, moduleId);
             } catch (error) {
                 console.error("Failed to save progress", error);
             }
         }
+    };
 
-        if (activeModuleIndex < course.modules.length - 1) {
-            setActiveModuleId(course.modules[activeModuleIndex + 1].id);
+    const handleNext = async () => {
+        if (activeModule) {
+            await handleModuleComplete(activeModule.id);
+        }
+
+        if (activeModuleIndex < allModules.length - 1) {
+            setActiveModuleId(allModules[activeModuleIndex + 1].id);
         } else {
             // Course Complete
             if (window.confirm("Congratulations! You've reached the end of this course. Return to Dashboard?")) {
@@ -62,9 +104,56 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
 
     const handlePrev = () => {
         if (activeModuleIndex > 0) {
-            setActiveModuleId(course.modules[activeModuleIndex - 1].id);
+            setActiveModuleId(allModules[activeModuleIndex - 1].id);
         }
     };
+
+    // Initialize Player when active module changes
+    useEffect(() => {
+        if (activeModule?.type === 'video' && activeModule.videoUrl && window.YT) {
+            const videoId = activeModule.videoUrl.includes('watch?v=')
+                ? activeModule.videoUrl.split('watch?v=')[1].split('&')[0]
+                : activeModule.videoUrl.includes('youtu.be/')
+                    ? activeModule.videoUrl.split('youtu.be/')[1].split('?')[0]
+                    : null;
+
+            if (videoId) {
+                // Small delay to ensure container is ready
+                setTimeout(() => {
+                    if (playerRef.current) {
+                        playerRef.current.destroy();
+                    }
+
+                    playerRef.current = new window.YT.Player('youtube-player', {
+                        height: '100%',
+                        width: '100%',
+                        videoId: videoId,
+                        playerVars: {
+                            'playsinline': 1,
+                            'rel': 0
+                        },
+                        events: {
+                            'onStateChange': (event: any) => {
+                                if (event.data === window.YT.PlayerState.ENDED) {
+                                    // Only mark complete if there is NO quiz for this module
+                                    const hasQuiz = Object.values(MOCK_QUIZZES).some(q => q.moduleId === activeModule.id);
+                                    if (!hasQuiz) {
+                                        handleModuleComplete(activeModule.id);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+        }
+        return () => {
+            if (playerRef.current) {
+                // playerRef.current.destroy(); // Keeping it might be safer to avoid memory leaks, but sometimes causes issues with rapid switching
+            }
+        };
+    }, [activeModule, window.YT]);
+
 
     return (
         <div className="flex flex-col h-screen bg-background-light dark:bg-background-dark overflow-hidden">
@@ -74,37 +163,67 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
             <div className="flex flex-1 overflow-hidden relative">
                 {/* Course Sidebar */}
                 <aside className={`absolute md:relative z-10 h-full w-80 bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0 md:w-0 md:border-none overflow-hidden'}`}>
-                    <div className="p-4 border-b border-border-light dark:border-border-dark flex justify-between items-center">
-                        <div>
-                            <h2 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary uppercase tracking-wider">Course Content</h2>
-                            <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{course.modules.filter(m => m.isCompleted).length}/{course.modules.length} Completed</p>
+                    <div className="p-4 border-b border-border-light dark:border-border-dark flex flex-col gap-3">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h2 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary uppercase tracking-wider">Course Content</h2>
+                                <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{completedModulesCount}/{allModules.length} Completed</p>
+                            </div>
+                            <button onClick={() => setSidebarOpen(false)} className="md:hidden text-text-light-secondary">
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
                         </div>
-                        <button onClick={() => setSidebarOpen(false)} className="md:hidden text-text-light-secondary">
-                            <span className="material-symbols-outlined">close</span>
-                        </button>
+                        {/* Progress Bar */}
+                        <div className="w-full bg-background-light dark:bg-background-dark rounded-full h-2 overflow-hidden">
+                            <div
+                                className="h-full bg-green-500 transition-all duration-500 ease-out"
+                                style={{ width: `${progressPercentage}%` }}
+                            ></div>
+                        </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-2 space-y-2">
-                        {course.modules.map((module, index) => (
-                            <div
-                                key={module.id}
-                                onClick={() => setActiveModuleId(module.id)}
-                                className={`p-3 rounded-lg cursor-pointer flex items-start gap-3 transition-colors ${activeModuleId === module.id
-                                    ? 'bg-primary/10 border border-primary/20'
-                                    : 'hover:bg-background-light dark:hover:bg-background-dark'
-                                    }`}
-                            >
-                                <div className={`mt-0.5 rounded-full p-0.5 ${module.isCompleted ? 'text-green-500' : activeModuleId === module.id ? 'text-primary' : 'text-text-light-secondary dark:text-text-dark-secondary'}`}>
-                                    <span className="material-symbols-outlined text-[20px]">
-                                        {module.isCompleted ? 'check_circle' : module.type === 'quiz' ? 'quiz' : 'play_circle'}
-                                    </span>
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className={`text-sm font-medium ${activeModuleId === module.id ? 'text-primary' : 'text-text-light-primary dark:text-text-dark-primary'}`}>
-                                        {index + 1}. {module.title}
-                                    </h3>
-                                    <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{module.duration} • {module.type}</p>
-                                </div>
+                    <div className="flex-1 overflow-y-auto p-2 space-y-4">
+                        {course.sections.map((section) => (
+                            <div key={section.id} className="flex flex-col gap-1">
+                                <h3 className="px-3 text-xs font-bold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider mb-1">
+                                    {section.title}
+                                </h3>
+                                {
+                                    section.modules.map((module, index) => {
+                                        const isCompleted = isModuleCompleted(module.id);
+
+                                        // Check if previous module is completed to determine lock state
+                                        // Find index of this module in allModules
+                                        const moduleGlobalIndex = allModules.findIndex(m => m.id === module.id);
+                                        const prevModule = moduleGlobalIndex > 0 ? allModules[moduleGlobalIndex - 1] : null;
+                                        const isLocked = prevModule ? !isModuleCompleted(prevModule.id) : false;
+
+                                        return (
+                                            <div
+                                                key={module.id}
+                                                onClick={() => !isLocked && setActiveModuleId(module.id)}
+                                                className={`mx-2 p-3 rounded-lg flex items-start gap-3 transition-colors ${isLocked
+                                                    ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-800'
+                                                    : activeModuleId === module.id
+                                                        ? 'bg-primary/10 border border-primary/20 cursor-pointer'
+                                                        : 'hover:bg-background-light dark:hover:bg-background-dark cursor-pointer'
+                                                    }`}
+                                            >
+                                                <div className={`mt-0.5 rounded-full p-0.5 ${isCompleted ? 'text-green-500' : activeModuleId === module.id ? 'text-primary' : 'text-text-light-secondary dark:text-text-dark-secondary'}`}>
+                                                    <span className="material-symbols-outlined text-[20px]">
+                                                        {isCompleted ? 'check_circle' : isLocked ? 'lock' : module.type === 'quiz' ? 'quiz' : 'play_circle'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h4 className={`text-sm font-medium ${activeModuleId === module.id ? 'text-primary' : 'text-text-light-primary dark:text-text-dark-primary'}`}>
+                                                        {module.title}
+                                                    </h4>
+                                                    <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{module.duration} • {module.type}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
                             </div>
                         ))}
                     </div>
@@ -140,37 +259,11 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                     const linkedQuizId = Object.keys(MOCK_QUIZZES).find(id => MOCK_QUIZZES[id].moduleId === activeModule.id);
                                     const hasQuiz = !!linkedQuizId;
 
-                                    // Helper to convert YouTube URLs to embed format
-                                    const getEmbedUrl = (url?: string) => {
-                                        if (!url) return 'https://www.youtube.com/embed/sL6z4-Rak2g';
-
-                                        // Handle standard watch URLs (youtube.com/watch?v=ID)
-                                        if (url.includes('watch?v=')) {
-                                            const videoId = url.split('watch?v=')[1].split('&')[0];
-                                            return `https://www.youtube.com/embed/${videoId}`;
-                                        }
-
-                                        // Handle short URLs (youtu.be/ID)
-                                        if (url.includes('youtu.be/')) {
-                                            const videoId = url.split('youtu.be/')[1].split('?')[0];
-                                            return `https://www.youtube.com/embed/${videoId}`;
-                                        }
-
-                                        // Return as is if it's already an embed link or unknown format
-                                        return url;
-                                    };
-
                                     if (activeModule.type === 'video' || activeModule.type === 'quiz') {
                                         if (!showQuizStart) {
                                             return (
                                                 <div className="relative w-full h-full">
-                                                    <iframe
-                                                        className="w-full h-full"
-                                                        src={`${getEmbedUrl(activeModule.videoUrl)}?autoplay=0&controls=1&rel=0`}
-                                                        title="Course Video"
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                        allowFullScreen
-                                                    ></iframe>
+                                                    <div id="youtube-player" className="w-full h-full"></div>
                                                     {hasQuiz && (
                                                         <div className="absolute bottom-4 right-4 z-10">
                                                             <button
@@ -229,7 +322,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                     <span className="material-symbols-outlined text-primary">info</span>
                                     <h3 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary m-0">Module Overview</h3>
                                 </div>
-                                <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed">
+                                <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed whitespace-pre-line">
                                     {activeModule.description || "Welcome to this module. Here we will explore fundamental principles. Please complete all materials before proceeding."}
                                 </p>
                             </div>
@@ -248,17 +341,37 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                     Previous
                                 </button>
                                 <button
-                                    onClick={handleNext}
+                                    onClick={() => {
+                                        const linkedQuizId = Object.keys(MOCK_QUIZZES).find(id => MOCK_QUIZZES[id].moduleId === activeModule.id);
+                                        const isCompleted = isModuleCompleted(activeModule.id);
+
+                                        if (linkedQuizId && !isCompleted) {
+                                            navigate(`/course/${courseId}/quiz/${linkedQuizId}`);
+                                        } else {
+                                            handleNext();
+                                        }
+                                    }}
                                     className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20"
                                 >
-                                    {activeModuleIndex === course.modules.length - 1 ? 'Finish Course' : 'Mark as Complete & Next'}
+                                    {(() => {
+                                        const linkedQuizId = Object.keys(MOCK_QUIZZES).find(id => MOCK_QUIZZES[id].moduleId === activeModule.id);
+                                        const isCompleted = isModuleCompleted(activeModule.id);
+
+                                        if (isCompleted) {
+                                            return 'Next Module';
+                                        }
+                                        if (linkedQuizId) {
+                                            return 'Take Quiz';
+                                        }
+                                        return activeModuleIndex === allModules.length - 1 ? 'Finish Course' : 'Mark as Complete & Next';
+                                    })()}
                                     <span className="material-symbols-outlined">arrow_forward</span>
                                 </button>
                             </div>
                         </div>
                     )}
                 </main>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };

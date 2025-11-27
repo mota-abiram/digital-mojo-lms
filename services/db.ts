@@ -1,6 +1,6 @@
 import { auth, db } from '../firebaseConfig';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore';
 import { User, CourseModule } from '../types';
 import { MOCK_USER } from '../constants';
 
@@ -90,6 +90,26 @@ export const getUserData = async (uid: string, email?: string | null): Promise<U
         console.error("Error fetching user data", error);
         return null;
     }
+};
+
+export const subscribeToUserData = (uid: string, onUpdate: (user: User | null) => void) => {
+    const userRef = doc(db, "users", uid);
+    return onSnapshot(userRef, (doc) => {
+        if (doc.exists()) {
+            const data = doc.data();
+            if (data && typeof data.name === 'string' && typeof data.department === 'string') {
+                onUpdate(data as User);
+            } else {
+                console.warn("User data incomplete in subscription", data);
+                onUpdate(null);
+            }
+        } else {
+            onUpdate(null);
+        }
+    }, (error) => {
+        console.error("Error subscribing to user data", error);
+        onUpdate(null);
+    });
 };
 
 // Update progress for a specific module

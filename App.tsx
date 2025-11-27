@@ -61,33 +61,43 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    let unsubscribeUser: (() => void) | undefined;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const userData = await getUserData(firebaseUser.uid, firebaseUser.email);
-        if (userData) {
-          setUser(userData);
-        } else {
-          // If no data found and not mock user, we might want to handle this.
-          // For now, we can just set a basic user object or redirect to a setup page.
-          // But since we have registration, this case should ideally not happen unless manual DB deletion.
-          // Let's set a minimal user object so they can at least see the dashboard (albeit empty)
-          setUser({
-            id: firebaseUser.uid,
-            name: firebaseUser.displayName || 'User',
-            email: firebaseUser.email || '',
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
-            role: 'Member',
-            department: 'General',
-            joinDate: new Date().toLocaleDateString()
-          });
-        }
+        // Subscribe to real-time user data
+        const { subscribeToUserData } = await import('./services/db');
+        unsubscribeUser = subscribeToUserData(firebaseUser.uid, (userData) => {
+          if (userData) {
+            setUser(userData);
+          } else {
+            // Fallback for missing data or new user
+            setUser({
+              id: firebaseUser.uid,
+              name: firebaseUser.displayName || 'User',
+              email: firebaseUser.email || '',
+              avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
+              role: 'Member',
+              department: 'General',
+              joinDate: new Date().toLocaleDateString()
+            });
+          }
+          setLoading(false);
+        });
       } else {
         setUser(null);
+        setLoading(false);
+        if (unsubscribeUser) {
+          unsubscribeUser();
+          unsubscribeUser = undefined;
+        }
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeUser) unsubscribeUser();
+    };
   }, []);
 
   const handleLogout = async () => {

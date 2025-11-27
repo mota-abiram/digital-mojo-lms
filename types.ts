@@ -6,6 +6,12 @@ export interface User {
   role: string;
   department: string;
   joinDate: string;
+  progress?: {
+    [courseId: string]: {
+      completedModules: string[];
+      lastUpdated: string;
+    }
+  };
 }
 
 export interface CourseModule {
@@ -18,6 +24,12 @@ export interface CourseModule {
   videoUrl?: string;
 }
 
+export interface CourseSection {
+  id: string;
+  title: string;
+  modules: CourseModule[];
+}
+
 export interface Course {
   id: string;
   title: string;
@@ -26,7 +38,7 @@ export interface Course {
   image: string;
   category: 'mandated' | 'role-specific' | 'optional';
   dueDate?: string;
-  modules: CourseModule[];
+  sections: CourseSection[];
 }
 
 export interface Question {
@@ -42,6 +54,7 @@ export interface Quiz {
   moduleId: string;
   totalQuestions: number;
   timeLimit: string; // e.g. "15:00"
+  passingScore?: number;
   questions: Question[];
 }
 
