@@ -97,10 +97,9 @@ export const subscribeToUserData = (uid: string, onUpdate: (user: User | null) =
     return onSnapshot(userRef, (doc) => {
         if (doc.exists()) {
             const data = doc.data();
-            if (data && typeof data.name === 'string' && typeof data.department === 'string') {
+            if (data) {
                 onUpdate(data as User);
             } else {
-                console.warn("User data incomplete in subscription", data);
                 onUpdate(null);
             }
         } else {

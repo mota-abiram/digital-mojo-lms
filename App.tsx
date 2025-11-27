@@ -68,20 +68,19 @@ export default function App() {
         // Subscribe to real-time user data
         const { subscribeToUserData } = await import('./services/db');
         unsubscribeUser = subscribeToUserData(firebaseUser.uid, (userData) => {
-          if (userData) {
-            setUser(userData);
-          } else {
-            // Fallback for missing data or new user
-            setUser({
-              id: firebaseUser.uid,
-              name: firebaseUser.displayName || 'User',
-              email: firebaseUser.email || '',
-              avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
-              role: 'Member',
-              department: 'General',
-              joinDate: new Date().toLocaleDateString()
-            });
-          }
+          // Merge Firestore data with Auth defaults to handle partial records (e.g. only progress saved)
+          const mergedUser: User = {
+            id: firebaseUser.uid,
+            name: userData?.name || firebaseUser.displayName || 'User',
+            email: userData?.email || firebaseUser.email || '',
+            avatar: userData?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
+            role: userData?.role || 'Member',
+            department: userData?.department || 'General',
+            joinDate: userData?.joinDate || new Date().toLocaleDateString(),
+            progress: userData?.progress
+          };
+
+          setUser(mergedUser);
           setLoading(false);
         });
       } else {

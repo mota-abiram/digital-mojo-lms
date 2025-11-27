@@ -52,6 +52,9 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
         setShowQuizStart(false);
     }, [activeModuleId]);
 
+    // Track YouTube API readiness
+    const [isYouTubeApiReady, setIsYouTubeApiReady] = useState(false);
+
     // Load YouTube API
     useEffect(() => {
         if (!window.YT) {
@@ -59,6 +62,13 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
             tag.src = "https://www.youtube.com/iframe_api";
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+            // Define the callback for when the API is ready
+            window.onYouTubeIframeAPIReady = () => {
+                setIsYouTubeApiReady(true);
+            };
+        } else {
+            setIsYouTubeApiReady(true);
         }
     }, []);
 
@@ -108,9 +118,9 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
         }
     };
 
-    // Initialize Player when active module changes
+    // Initialize Player when active module changes or API becomes ready
     useEffect(() => {
-        if (activeModule?.type === 'video' && activeModule.videoUrl && window.YT) {
+        if (activeModule?.type === 'video' && activeModule.videoUrl && isYouTubeApiReady && window.YT) {
             const videoId = activeModule.videoUrl.includes('watch?v=')
                 ? activeModule.videoUrl.split('watch?v=')[1].split('&')[0]
                 : activeModule.videoUrl.includes('youtu.be/')
@@ -120,8 +130,13 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
             if (videoId) {
                 // Small delay to ensure container is ready
                 setTimeout(() => {
+                    // If a player already exists, destroy it first
                     if (playerRef.current) {
-                        playerRef.current.destroy();
+                        try {
+                            playerRef.current.destroy();
+                        } catch (e) {
+                            console.warn("Error destroying player", e);
+                        }
                     }
 
                     playerRef.current = new window.YT.Player('youtube-player', {
@@ -148,11 +163,9 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
             }
         }
         return () => {
-            if (playerRef.current) {
-                // playerRef.current.destroy(); // Keeping it might be safer to avoid memory leaks, but sometimes causes issues with rapid switching
-            }
+            // Cleanup logic if needed, though destroying on unmount can sometimes cause issues with React strict mode
         };
-    }, [activeModule, window.YT]);
+    }, [activeModule, isYouTubeApiReady]);
 
 
     return (
