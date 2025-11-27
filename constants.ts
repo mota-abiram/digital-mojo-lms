@@ -741,7 +741,8 @@ Spend time learning Canva features so execution becomes smoother and faster.`,
 Never publish raw AI output—always refine.`,
             duration: '15 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/vB1sOWPPJfU?si=gTDTenqxdj4EMpjm',
           },
           {
             id: 'm22',
@@ -779,7 +780,8 @@ Never publish raw AI output—always refine.`,
 A developer should never guess. Give everything upfront.`,
             duration: '18 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/gWkSeWFi6Nw?si=5h6KOnEHCJ68ejy5',
           },
         ]
       },
@@ -819,7 +821,8 @@ Example: ₹8,00,000 budget → ~₹26,000/day
 Spot early → Fix early → Avoid escalation.`,
             duration: '12 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/0jDYZ6z9wyM?si=9Leuo0LmDOeCh22v',
           },
           {
             id: 'm24',
@@ -850,7 +853,8 @@ They are potential revenue.
 If the sheet doesn’t match the ad dashboard → something is broken.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/A0Vi9yNpius?si=2uPPRnJE5dmjd20o',
           },
           {
             id: 'm25',
@@ -883,7 +887,8 @@ If the sheet doesn’t match the ad dashboard → something is broken.`,
 Numbers don’t lie — but they only help if you act.`,
             duration: '14 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/VtEofgg9VlM?si=svH9ESGHH0sFczOm',
           },
           {
             id: 'm26',
@@ -920,7 +925,8 @@ Frequency: **Daily**
 If you see it early — you solve it early.`,
             duration: '12 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/6H0vdfNRgxE?si=GXoCYgxnJKVq_UyQ',
           },
           {
             id: 'm27',
@@ -956,7 +962,8 @@ Ask:
 Lead quality improvement is a continuous loop — not a one-time event.`,
             duration: '11 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/T2LvlezMOto?si=2usicaYv3qyvfBDA',
           },
         ]
       },
@@ -998,7 +1005,8 @@ Frequency: **Daily**
 “If it's not in Basecamp, it’s not official.”`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/04rpD26B-ro?si=CQhAOqhTaJ9Gpvky',
           },
           {
             id: 'm29',
@@ -1032,7 +1040,8 @@ Frequency: **Daily**
 “Track early → Prevent late.”`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/YHq6Kj6S_7U?si=mPgLHvBsMIss-YOD',
           },
           {
             id: 'm30',
@@ -1064,7 +1073,8 @@ Frequency: **Conditional**
 Revisions should move forward — not repeat the same mistake.`,
             duration: '11 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/53G7b1Qu4tw?si=4RkN_clsDo7dxj0F',
           },
           {
             id: 'm31',
@@ -1096,7 +1106,8 @@ Frequency: **Daily**
 Documentation protects execution.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/_qUvSdJu3Es?si=69D3sih6RSIsho7V',
           },
           {
             id: 'm32',
@@ -1129,7 +1140,8 @@ Documentation protects execution.`,
 🔥 Rule: Never forward unchecked or raw creative. You are the filter before the client.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/3G8z2QBo6u8?si=LdSipoTil9Ik3pgY',
           },
         ]
       },
@@ -1167,7 +1179,8 @@ Documentation protects execution.`,
 🔥 RULE: Scheduling = preparedness. If it isn’t scheduled in advance, it isn’t managed properly.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/lsXv9j6ZVWY?si=-Xsxlg8RJMyGoPUF',
           },
           {
             id: 'm34',
@@ -1195,7 +1208,8 @@ Documentation protects execution.`,
 🔥 RULE: Instagram captions entertain — YouTube titles and descriptions must be searchable.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/DV1JgMykl2c?si=nwlbP6zzRfkNzNwU',
           },
           {
             id: 'm35',
@@ -1223,7 +1237,8 @@ Documentation protects execution.`,
 🔥 RULE: Posting is not complete until it has been checked live.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/odHVAwBnUBo?si=IqKcBWqcHxaosEZq',
           },
         ]
       },
@@ -1258,7 +1273,8 @@ Documentation protects execution.`,
 🔥 RULE: GOOD SHOOTS ARE PLANNED — NOT IMPROVISED.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/VgrTpCDfe38?si=BpB0wUuBK9ESaGEE',
           },
           {
             id: 'm37',
@@ -1286,7 +1302,8 @@ Documentation protects execution.`,
 Never leave a shoot assuming “It will be fixed in editing.”`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/WGtdaWK1xjI?si=rnvitW9ycjkFSwLU',
           },
           {
             id: 'm38',
@@ -1317,7 +1334,8 @@ Never leave a shoot assuming “It will be fixed in editing.”`,
 If feedback is not specific, the final output will never match expectations.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/9o2jOEW-hf4?si=ccguAWelwiiBFxL1',
           },
         ]
       },
