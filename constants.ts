@@ -1383,7 +1383,8 @@ If you’d like, we can review this on a quick call.”
 Never let a week pass without a tagged update in the client group.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/qlx8sA4oS_I?si=cEyS4aOZ7YA5msYn',
           },
           {
             id: 'm40',
@@ -1413,7 +1414,8 @@ Never let a week pass without a tagged update in the client group.`,
 If you don’t understand the report, the client won’t either.`,
             duration: '11 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/Ozoa0iq4k84?si=sQPqG1NFX6i8Onb_',
           },
           {
             id: 'm41',
@@ -1441,7 +1443,8 @@ If you don’t understand the report, the client won’t either.`,
 A review call should leave ZERO assumptions — only clarity, alignment, and next steps.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/ZtWAczQ902E?si=YL-88vgd1C2eY-vm',
           },
         ]
       },
@@ -1475,7 +1478,8 @@ A review call should leave ZERO assumptions — only clarity, alignment, and nex
 Clarity created at the beginning eliminates friction later.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/EzVvQSfNHYA?si=jYK4SuQsxClWE9p3',
           },
           {
             id: 'm43',
@@ -1509,7 +1513,8 @@ Clarity created at the beginning eliminates friction later.`,
 Don’t imitate the competitor — outperform them with insight-based clarity.`,
             duration: '12 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/uDqN3QLhWhc?si=yXejjZMImhRCQnd-',
           },
           {
             id: 'm44',
@@ -1539,7 +1544,8 @@ Don’t imitate the competitor — outperform them with insight-based clarity.`,
 Alignment now saves hundreds of correction hours later.`,
             duration: '11 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/E5ErwQKZf-o?si=rUU87ZNjNSk1fDB2',
           },
           {
             id: 'm45',
@@ -1567,7 +1573,8 @@ Alignment now saves hundreds of correction hours later.`,
 No ads should run until the landing page is approved and fully functional.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/tSUn61MCcZw?si=902oqai3aVRFsq4n',
           },
         ]
       },
@@ -1602,7 +1609,8 @@ No ads should run until the landing page is approved and fully functional.`,
 AI generates drafts — you create meaning.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/cFFtkEXD0As?si=BFlZTTeqUS0_nHFb',
           },
           {
             id: 'm47',
@@ -1633,7 +1641,8 @@ AI generates drafts — you create meaning.`,
 AI provides direction — you provide judgment.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/tRTquj3f7Bk?si=8m1yxsXP1q1yonnb',
           },
           {
             id: 'm48',
@@ -1663,7 +1672,8 @@ AI provides direction — you provide judgment.`,
 AI summarizes — you make the meaning and direction clear.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/EoqulLySYGA?si=40F6JzNX4V-GDrXp',
           },
         ]
       },
@@ -1696,7 +1706,8 @@ AI summarizes — you make the meaning and direction clear.`,
 If it isn’t stored correctly — it doesn’t exist.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/qvWcHy9hr80?si=8N2BpMAZMlM-uuyV',
           },
           {
             id: 'm50',
@@ -1728,7 +1739,8 @@ If it isn’t stored correctly — it doesn’t exist.`,
 If the tracker isn’t updated, the work is not considered done.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/PInX4ieiZnA?si=ulGIVM9BpAtJRnA2',
           },
           {
             id: 'm51',
@@ -1758,7 +1770,8 @@ No names like “final2”, “last-last”, “newnew”
 A clean folder = a clean execution system.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/m9OEc_inKs0?si=EiQaD551hMj-8cRC',
           },
         ]
       },
@@ -1795,7 +1808,8 @@ A clean folder = a clean execution system.`,
 A proper KT ensures continuity without chaos.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/nZe96gshGIE?si=bLM7TZ1cv41yI_97',
           },
           {
             id: 'm53',
@@ -1819,38 +1833,11 @@ A proper KT ensures continuity without chaos.`,
 Handover is complete ONLY when the team is fully clear — not when you simply share the file.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/nZe96gshGIE?si=bLM7TZ1cv41yI_97',
           },
         ]
       },
-      {
-        id: 's13',
-        title: 'Progress',
-        modules: [
-          {
-            id: 'm54',
-            title: 'Course Progress Check',
-            description: 'Review your progress and ensure all modules are completed.',
-            duration: '10 min',
-            isCompleted: false,
-            type: 'video'
-          }
-        ]
-      },
-      {
-        id: 's14',
-        title: 'Quiz',
-        modules: [
-          {
-            id: 'm55',
-            title: 'Account Manager Certification Quiz',
-            description: 'Final assessment to certify your knowledge as an Account Manager.',
-            duration: '30 min',
-            isCompleted: false,
-            type: 'quiz'
-          }
-        ]
-      }
 
     ],
   },
