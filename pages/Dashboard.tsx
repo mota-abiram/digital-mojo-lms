@@ -82,20 +82,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 {/* Welcome Banner */}
                 <div className="bg-gradient-to-r from-primary/90 to-primary/70 rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
                     <div className="relative z-10 max-w-2xl">
-                        <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user.name.split(' ')[0]}!</h1>
-                        <p className="text-white/90 text-lg mb-6">We're thrilled to have you on the {user.department} team. Let's get you settled in.</p>
+                        <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
+                        <p className="text-white/90 text-lg mb-6">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
 
                         <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 w-fit">
                             <div className="relative size-12">
                                 <svg className="size-full -rotate-90" viewBox="0 0 36 36">
                                     <path className="text-white/30" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
-                                    <path className="text-white transition-all duration-1000" strokeDasharray={`${onboardingProgress}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
+                                    <path className="text-white transition-all duration-1000" strokeDasharray={`${onboardingProgress || 0}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
                                 </svg>
-                                <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{onboardingProgress}%</div>
+                                <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{onboardingProgress || 0}%</div>
                             </div>
                             <div>
                                 <p className="font-bold text-sm">Onboarding Progress</p>
-                                <p className="text-xs text-white/80">{completedMandatory} of {totalMandatory} mandatory modules completed</p>
+                                <p className="text-xs text-white/80">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
                             </div>
                         </div>
                     </div>

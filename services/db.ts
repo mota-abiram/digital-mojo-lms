@@ -70,7 +70,14 @@ export const getUserData = async (uid: string, email?: string | null): Promise<U
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-            return userSnap.data() as User;
+            const data = userSnap.data();
+            // Validate required fields to prevent UI crashes
+            if (data && typeof data.name === 'string' && typeof data.department === 'string') {
+                return data as User;
+            } else {
+                console.warn("User data found but incomplete:", data);
+                return null; // Triggers App.tsx fallback
+            }
         } else {
             // Only return mock data if the email matches the mock user
             if (email === MOCK_USER.email) {
