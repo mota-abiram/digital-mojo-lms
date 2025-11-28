@@ -9,14 +9,14 @@ interface HeaderProps {
   onSearchChange?: (query: string) => void;
 }
 
+import logo from '../assets/logo.png';
+
 export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = true, searchQuery = '', onSearchChange }) => {
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-card-light dark:bg-card-dark sticky top-0 z-20">
       <div className="flex items-center gap-4">
-        <div className="size-6 text-primary">
-          <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
-          </svg>
+        <div className="h-10 w-auto">
+          <img src={logo} alt="Digital Mojo" className="h-full w-auto object-contain" />
         </div>
         <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">Digital Mojo</h2>
       </div>

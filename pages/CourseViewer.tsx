@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { MOCK_COURSES, MOCK_QUIZZES } from '../constants';
 import { User } from '../types';
 import { Header } from '../components/Header';
@@ -256,7 +256,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                         <div className="max-w-4xl mx-auto flex flex-col gap-6">
                             {/* Breadcrumbs */}
                             <div className="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                                <span onClick={() => navigate('/dashboard')} className="cursor-pointer hover:underline hover:text-primary">My Courses</span>
+                                <Link to="/dashboard" className="cursor-pointer hover:underline hover:text-primary">My Courses</Link>
                                 <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                                 <span className="truncate max-w-[150px]">{course.title}</span>
                                 <span className="material-symbols-outlined text-[16px]">chevron_right</span>
@@ -277,17 +277,6 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                             return (
                                                 <div className="relative w-full h-full">
                                                     <div id="youtube-player" className="w-full h-full"></div>
-                                                    {hasQuiz && (
-                                                        <div className="absolute bottom-4 right-4 z-10">
-                                                            <button
-                                                                onClick={() => setShowQuizStart(true)}
-                                                                className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 shadow-lg transition-transform hover:scale-105 animate-pulse"
-                                                            >
-                                                                Take Quiz
-                                                                <span className="material-symbols-outlined">arrow_forward</span>
-                                                            </button>
-                                                        </div>
-                                                    )}
                                                 </div>
                                             );
                                         } else if (hasQuiz) {
@@ -356,9 +345,8 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                 <button
                                     onClick={() => {
                                         const linkedQuizId = Object.keys(MOCK_QUIZZES).find(id => MOCK_QUIZZES[id].moduleId === activeModule.id);
-                                        const isCompleted = isModuleCompleted(activeModule.id);
 
-                                        if (linkedQuizId && !isCompleted) {
+                                        if (linkedQuizId) {
                                             navigate(`/course/${courseId}/quiz/${linkedQuizId}`);
                                         } else {
                                             handleNext();
@@ -370,11 +358,11 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                         const linkedQuizId = Object.keys(MOCK_QUIZZES).find(id => MOCK_QUIZZES[id].moduleId === activeModule.id);
                                         const isCompleted = isModuleCompleted(activeModule.id);
 
+                                        if (linkedQuizId) {
+                                            return isCompleted ? 'View Quiz Results' : 'Take Quiz';
+                                        }
                                         if (isCompleted) {
                                             return 'Next Module';
-                                        }
-                                        if (linkedQuizId) {
-                                            return 'Take Quiz';
                                         }
                                         return activeModuleIndex === allModules.length - 1 ? 'Finish Course' : 'Mark as Complete & Next';
                                     })()}

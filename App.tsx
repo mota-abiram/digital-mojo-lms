@@ -6,6 +6,7 @@ import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
 import { CourseViewer } from './pages/CourseViewer';
 import { QuizPage } from './pages/Quiz';
+import { Profile } from './pages/Profile';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -28,7 +29,6 @@ const MainLayout: React.FC<{
 }> = ({ user, onLogout, children, searchQuery, onSearchChange }) => {
   const location = useLocation();
   const activeRoute = location.pathname.substring(1) || 'dashboard';
-  const navigate = (path: string) => { window.location.hash = `/${path}`; };
 
   return (
     <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark transition-colors duration-200">
@@ -42,7 +42,6 @@ const MainLayout: React.FC<{
         <Sidebar
           user={user}
           activeRoute={activeRoute}
-          onNavigate={navigate}
           onLogout={onLogout}
         />
 
@@ -161,7 +160,7 @@ export default function App() {
           path="/profile"
           element={user ? (
             <MainLayout user={user} onLogout={handleLogout}>
-              <PlaceholderPage title="My Profile" type="profile" />
+              <Profile user={user} />
             </MainLayout>
           ) : <Navigate to="/login" replace />}
         />

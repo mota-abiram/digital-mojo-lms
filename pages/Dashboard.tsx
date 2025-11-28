@@ -1,17 +1,16 @@
-
 import React from 'react';
 import { MOCK_COURSES } from '../constants';
 import { User, Course } from '../types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface DashboardProps {
     user: User;
     searchQuery?: string;
 }
 
-const CourseCard: React.FC<{ course: Course; onClick: () => void }> = ({ course, onClick }) => {
+const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
     return (
-        <div className="group flex flex-col gap-3 rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+        <Link to={`/course/${course.id}`} className="group flex flex-col gap-3 rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
             <div className="relative w-full h-32 overflow-hidden">
                 <div
                     className="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-500"
@@ -40,24 +39,37 @@ const CourseCard: React.FC<{ course: Course; onClick: () => void }> = ({ course,
                     </div>
                 </div>
 
-                <button
-                    onClick={onClick}
-                    className="mt-2 w-full rounded-md bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-2 text-xs font-bold transition-colors"
+                <div
+                    className="mt-2 w-full rounded-md bg-transparent border border-primary text-primary group-hover:bg-primary group-hover:text-white py-2 text-xs font-bold transition-colors text-center"
                 >
                     {course.progress === 0 ? 'Start' : 'Continue'}
-                </button>
+                </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) => {
     const navigate = useNavigate();
 
+    const getCourseWithProgress = (course: Course) => {
+        if (!user.progress || !user.progress[course.id]) {
+            return { ...course, progress: 0 };
+        }
+
+        const completedModules = user.progress[course.id].completedModules;
+        const totalModules = course.sections.flatMap(s => s.modules).length;
+        const progress = totalModules > 0 ? Math.round((completedModules.length / totalModules) * 100) : 0;
+
+        return { ...course, progress };
+    };
+
     const filterCourses = (courses: Course[]) => {
-        if (!searchQuery) return courses;
+        const coursesWithProgress = courses.map(getCourseWithProgress);
+
+        if (!searchQuery) return coursesWithProgress;
         const lowerQuery = searchQuery.toLowerCase();
-        return courses.filter(c =>
+        return coursesWithProgress.filter(c =>
             c.title.toLowerCase().includes(lowerQuery) ||
             c.description.toLowerCase().includes(lowerQuery)
         );
@@ -112,7 +124,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
                         {mandatoryCourses.map(course => (
-                            <CourseCard key={course.id} course={course} onClick={() => navigate(`/course/${course.id}`)} />
+                            <CourseCard key={course.id} course={course} />
                         ))}
                     </div>
                 </section>
@@ -125,7 +137,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
                         {roleCourses.map(course => (
-                            <CourseCard key={course.id} course={course} onClick={() => navigate(`/course/${course.id}`)} />
+                            <CourseCard key={course.id} course={course} />
                         ))}
                     </div>
                 </section>

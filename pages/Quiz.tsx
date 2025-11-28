@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MOCK_QUIZZES, MOCK_COURSES } from '../constants';
 import { Header } from '../components/Header';
@@ -14,20 +14,94 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
     const navigate = useNavigate();
     const quiz = quizId ? MOCK_QUIZZES[quizId] : undefined;
 
-    if (!quiz) return <div>Quiz not found</div>;
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [quizSubmitted, setQuizSubmitted] = useState(false);
     const [score, setScore] = useState(0);
 
+    // Timer state
+    const [timeLeft, setTimeLeft] = useState<number>(0);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Check for previous completion
+    useEffect(() => {
+        if (quiz && user.progress && courseId && user.progress[courseId]) {
+            const isCompleted = user.progress[courseId].completedModules.includes(quiz.moduleId);
+            if (isCompleted) {
+                setQuizSubmitted(true);
+                setScore(quiz.passingScore || 70); // Assume passing score if already completed
+            }
+        }
+    }, [quiz, user.progress, courseId]);
+
+    // Initialize timer
+    useEffect(() => {
+        if (quiz && !quizSubmitted) {
+            const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+            setTimeLeft(minutes * 60 + seconds);
+        }
+    }, [quiz, quizSubmitted]);
+
+    // Timer countdown
+    useEffect(() => {
+        if (quizSubmitted || timeLeft <= 0) return;
+
+        timerRef.current = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    handleSubmit(); // Auto-submit
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, [timeLeft, quizSubmitted]);
+
+    if (!quiz) return <div>Quiz not found</div>;
+
     const currentQuestion = quiz.questions[currentQuestionIndex];
     const progress = ((currentQuestionIndex) / quiz.totalQuestions) * 100;
+
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
 
     const handleOptionSelect = (index: number) => {
         if (quizSubmitted) return;
         setSelectedOption(index);
         setAnswers({ ...answers, [currentQuestion.id]: index });
+    };
+
+    const handleSubmit = async () => {
+        // Submit Quiz
+        let correctCount = 0;
+        quiz.questions.forEach(q => {
+            if (answers[q.id] === q.correctOptionIndex) {
+                correctCount++;
+            }
+        });
+
+        const finalScore = Math.round((correctCount / quiz.totalQuestions) * 100);
+        setScore(finalScore);
+        setQuizSubmitted(true);
+
+        const passingScore = quiz.passingScore || 70;
+        if (finalScore >= passingScore && user.id && courseId) {
+            // Mark module as complete
+            try {
+                const { updateModuleProgress } = await import('../services/db');
+                await updateModuleProgress(user.id, courseId, quiz.moduleId);
+            } catch (error) {
+                console.error("Failed to save quiz progress", error);
+            }
+        }
     };
 
     const handleNext = async () => {
@@ -36,28 +110,7 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
             const nextQId = quiz.questions[currentQuestionIndex + 1].id;
             setSelectedOption(answers[nextQId] ?? null);
         } else {
-            // Submit Quiz
-            let correctCount = 0;
-            quiz.questions.forEach(q => {
-                if (answers[q.id] === q.correctOptionIndex) {
-                    correctCount++;
-                }
-            });
-
-            const finalScore = Math.round((correctCount / quiz.totalQuestions) * 100);
-            setScore(finalScore);
-            setQuizSubmitted(true);
-
-            const passingScore = quiz.passingScore || 70;
-            if (finalScore >= passingScore && user.id && courseId) {
-                // Mark module as complete
-                try {
-                    const { updateModuleProgress } = await import('../services/db');
-                    await updateModuleProgress(user.id, courseId, quiz.moduleId);
-                } catch (error) {
-                    console.error("Failed to save quiz progress", error);
-                }
-            }
+            await handleSubmit();
         }
     };
 
@@ -67,6 +120,16 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
             const prevQId = quiz.questions[currentQuestionIndex - 1].id;
             setSelectedOption(answers[prevQId] ?? null);
         }
+    };
+
+    const handleRetake = () => {
+        setQuizSubmitted(false);
+        setCurrentQuestionIndex(0);
+        setSelectedOption(null);
+        setAnswers({});
+        setScore(0);
+        const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+        setTimeLeft(minutes * 60 + seconds);
     };
 
     // Calculate next module
@@ -119,14 +182,13 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
                                 </button>
                             )}
 
-                            {score < (quiz.passingScore || 70) && (
-                                <button
-                                    onClick={() => window.location.reload()}
-                                    className="w-full py-3 bg-transparent border border-border-light dark:border-border-dark rounded-lg font-bold hover:bg-background-light dark:hover:bg-background-dark/50"
-                                >
-                                    Retry Quiz
-                                </button>
-                            )}
+                            <button
+                                onClick={handleRetake}
+                                className="w-full py-3 bg-transparent border border-border-light dark:border-border-dark rounded-lg font-bold hover:bg-background-light dark:hover:bg-background-dark/50"
+                            >
+                                Retake Quiz
+                            </button>
+
                             {/* If passed and no next module, maybe show Dashboard button? */}
                             {score >= (quiz.passingScore || 70) && !nextModuleId && (
                                 <button
@@ -162,9 +224,9 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
                     <div className="flex flex-col gap-3 rounded-xl bg-card-light dark:bg-card-dark p-6 shadow-sm border border-border-light dark:border-border-dark">
                         <div className="flex justify-between items-center">
                             <p className="text-base font-bold">Question {currentQuestionIndex + 1} of {quiz.totalQuestions}</p>
-                            <div className="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-background-dark px-3 py-1 rounded-full">
+                            <div className={`flex items-center gap-2 text-sm px-3 py-1 rounded-full ${timeLeft < 60 ? 'text-red-600 bg-red-100' : 'text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-background-dark'}`}>
                                 <span className="material-symbols-outlined text-lg">timer</span>
-                                <span>{quiz.timeLimit} remaining</span>
+                                <span>{formatTime(timeLeft)} remaining</span>
                             </div>
                         </div>
                         <div className="w-full bg-background-light dark:bg-background-dark rounded-full h-2.5 overflow-hidden">
