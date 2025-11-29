@@ -10,6 +10,20 @@ export interface User {
     [courseId: string]: {
       completedModules: string[];
       lastUpdated: string;
+      lastAccessedModuleId?: string; // For "Resume" functionality
+      quizScores?: {
+        [quizId: string]: {
+          score: number;
+          attempts: number;
+          passed: boolean;
+          completedAt: string;
+        }
+      };
+      certificate?: {
+        id: string;
+        issuedAt: string;
+        url?: string; // If we upload it, otherwise we just regenerate it on fly
+      };
     }
   };
 }

@@ -1,192 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebaseConfig';
+import { getUserData, subscribeToUserData, logoutUser } from './services/db';
+import { User } from './types';
+import { MainLayout } from './components/MainLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { Dashboard } from './pages/Dashboard';
-import { CourseViewer } from './pages/CourseViewer';
-import { QuizPage } from './pages/Quiz';
-import { Profile } from './pages/Profile';
-import { PlaceholderPage } from './pages/PlaceholderPage';
-import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
-import { MOCK_USER } from './constants';
-import { User } from './types';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
-import { getUserData, logoutUser } from './services/db';
-import { auth } from './firebaseConfig';
-import { onAuthStateChanged } from 'firebase/auth';
+// Lazy Load Pages
+const Dashboard = lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const CourseViewer = lazy(() => import('./pages/CourseViewer').then(module => ({ default: module.CourseViewer })));
+const QuizPage = lazy(() => import('./pages/Quiz').then(module => ({ default: module.QuizPage })));
+const Profile = lazy(() => import('./pages/Profile').then(module => ({ default: module.Profile })));
+const AdminSeed = lazy(() => import('./pages/AdminSeed').then(module => ({ default: module.AdminSeed })));
+const AdminAnalytics = lazy(() => import('./pages/AdminAnalytics').then(module => ({ default: module.AdminAnalytics })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
+const AdminCourseUpload = lazy(() => import('./pages/AdminCourseUpload').then(module => ({ default: module.AdminCourseUpload })));
+const AdminQuizUpload = lazy(() => import('./pages/AdminQuizUpload').then(module => ({ default: module.AdminQuizUpload })));
+const PlaceholderPage = lazy(() => import('./pages/PlaceholderPage').then(module => ({ default: module.PlaceholderPage })));
 
+const LoadingScreen = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
 
-// Layout wrapper for Authenticated Routes that need sidebar
-const MainLayout: React.FC<{
-  user: User;
-  onLogout: () => void;
-  children: React.ReactNode;
-  searchQuery?: string;
-  onSearchChange?: (query: string) => void;
-}> = ({ user, onLogout, children, searchQuery, onSearchChange }) => {
-  const location = useLocation();
-  const activeRoute = location.pathname.substring(1) || 'dashboard';
-
-  return (
-    <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark transition-colors duration-200">
-      <Header
-        user={user}
-        onLogout={onLogout}
-        searchQuery={searchQuery}
-        onSearchChange={onSearchChange}
-      />
-      <div className="flex flex-1 relative">
-        <Sidebar
-          user={user}
-          activeRoute={activeRoute}
-          onLogout={onLogout}
-        />
-
-        <main className="flex-1 w-full md:ml-64 p-0">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-};
-
-
-export default function App() {
+const AppContent: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    let unsubscribeUser: (() => void) | undefined;
-
-    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Subscribe to real-time user data
-        const { subscribeToUserData } = await import('./services/db');
-        unsubscribeUser = subscribeToUserData(firebaseUser.uid, (userData) => {
-          // Merge Firestore data with Auth defaults to handle partial records (e.g. only progress saved)
-          const mergedUser: User = {
-            id: firebaseUser.uid,
-            name: userData?.name || firebaseUser.displayName || 'User',
-            email: userData?.email || firebaseUser.email || '',
-            avatar: userData?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(firebaseUser.email || 'U')}&background=random`,
-            role: userData?.role || 'Member',
-            department: userData?.department || 'General',
-            joinDate: userData?.joinDate || new Date().toLocaleDateString(),
-            progress: userData?.progress
-          };
+        // Initial fetch
+        const userData = await getUserData(firebaseUser.uid, firebaseUser.email);
+        setUser(userData);
 
-          setUser(mergedUser);
-          setLoading(false);
+        // Subscribe to real-time updates
+        const unsubUserData = subscribeToUserData(firebaseUser.uid, (updatedUser) => {
+          if (updatedUser) setUser(updatedUser);
         });
+
+        setLoading(false);
+        return () => unsubUserData();
       } else {
         setUser(null);
         setLoading(false);
-        if (unsubscribeUser) {
-          unsubscribeUser();
-          unsubscribeUser = undefined;
-        }
       }
     });
 
-    return () => {
-      unsubscribeAuth();
-      if (unsubscribeUser) unsubscribeUser();
-    };
+    return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setDarkMode(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
   const handleLogout = async () => {
-    await logoutUser();
-    setSearchQuery('');
+    try {
+      await logoutUser();
+      setUser(null);
+      setSearchQuery('');
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
-        Loading...
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
-        />
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingScreen />}>
+        <Routes>
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
+          <Route path="/register" element={!user ? <Register user={user} /> : <Navigate to="/dashboard" replace />} />
 
-        <Route
-          path="/register"
-          element={<Register user={user} />}
-        />
-
-        <Route
-          path="/dashboard"
-          element={user ? (
+          <Route element={user ? (
             <MainLayout
               user={user}
               onLogout={handleLogout}
+              darkMode={darkMode}
+              toggleTheme={toggleTheme}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
-            >
-              <Dashboard user={user} searchQuery={searchQuery} />
-            </MainLayout>
-          ) : <Navigate to="/login" replace />}
-        />
+            />
+          ) : <Navigate to="/login" replace />}>
+            <Route path="/dashboard" element={<Dashboard user={user!} searchQuery={searchQuery} />} />
+            <Route path="/profile" element={<Profile user={user!} />} />
+            <Route path="/wiki" element={<PlaceholderPage title="Company Wiki" type="wiki" />} />
+            <Route path="/directory" element={<PlaceholderPage title="Team Directory" type="directory" />} />
+            <Route path="/support" element={<PlaceholderPage title="IT & HR Support" type="support" />} />
+            <Route path="/community" element={<PlaceholderPage title="Community" />} />
+            <Route path="/messages" element={<PlaceholderPage title="Messages" />} />
+            <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+          </Route>
 
-        <Route
-          path="/wiki"
-          element={user ? (
-            <MainLayout user={user} onLogout={handleLogout}>
-              <PlaceholderPage title="Company Wiki" type="wiki" />
-            </MainLayout>
-          ) : <Navigate to="/login" replace />}
-        />
+          {/* Standalone Routes */}
+          <Route
+            path="/course/:courseId"
+            element={user ? <CourseViewer user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/course/:courseId/module/:moduleId"
+            element={user ? <CourseViewer user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/course/:courseId/quiz/:quizId"
+            element={user ? <QuizPage user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+          />
 
-        <Route
-          path="/directory"
-          element={user ? (
-            <MainLayout user={user} onLogout={handleLogout}>
-              <PlaceholderPage title="Team Directory" type="directory" />
-            </MainLayout>
-          ) : <Navigate to="/login" replace />}
-        />
+          {/* Admin Routes - Protected */}
+          <Route element={<ProtectedRoute user={user} allowedRoles={['admin', 'Admin']} />}>
+            <Route element={<MainLayout
+              user={user!}
+              onLogout={handleLogout}
+              darkMode={darkMode}
+              toggleTheme={toggleTheme}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />}>
+              <Route path="/admin" element={<AdminDashboard user={user!} />} />
+              <Route path="/admin/analytics" element={<AdminAnalytics user={user!} />} />
+              <Route path="/admin/course-upload" element={<AdminCourseUpload />} />
+              <Route path="/admin/quiz-upload" element={<AdminQuizUpload />} />
+              <Route path="/admin/seed" element={<AdminSeed user={user!} onLogout={handleLogout} />} />
+            </Route>
+          </Route>
 
-        <Route
-          path="/profile"
-          element={user ? (
-            <MainLayout user={user} onLogout={handleLogout}>
-              <Profile user={user} />
-            </MainLayout>
-          ) : <Navigate to="/login" replace />}
-        />
+          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
 
-        <Route
-          path="/support"
-          element={user ? (
-            <MainLayout user={user} onLogout={handleLogout}>
-              <PlaceholderPage title="IT & HR Support" type="support" />
-            </MainLayout>
-          ) : <Navigate to="/login" replace />}
-        />
-
-        {/* Course and Quiz */}
-        <Route
-          path="/course/:courseId"
-          element={user ? <CourseViewer user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
-        />
-
-        <Route
-          path="/course/:courseId/quiz/:quizId"
-          element={user ? <QuizPage user={user} onLogout={handleLogout} /> : <Navigate to="/login" replace />}
-        />
-
-        <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
-      </Routes>
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
-}
+};
+
+export default App;

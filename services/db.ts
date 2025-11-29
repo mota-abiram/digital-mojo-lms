@@ -5,12 +5,25 @@ import { User, CourseModule } from '../types';
 import { MOCK_USER } from '../constants';
 
 // Auth Services
-export const loginWithEmail = async (email: string, pass: string) => {
+export const loginWithEmail = async (email: string, pass: string, rememberMe: boolean = false) => {
     try {
+        const { setPersistence, browserLocalPersistence, browserSessionPersistence } = await import('firebase/auth');
+        await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+
         const userCredential = await signInWithEmailAndPassword(auth, email, pass);
         return userCredential.user;
     } catch (error) {
         console.error("Login failed", error);
+        throw error;
+    }
+};
+
+export const resetPassword = async (email: string) => {
+    try {
+        const { sendPasswordResetEmail } = await import('firebase/auth');
+        await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+        console.error("Password reset failed", error);
         throw error;
     }
 };
@@ -114,10 +127,6 @@ export const subscribeToUserData = (uid: string, onUpdate: (user: User | null) =
 // Update progress for a specific module
 export const updateModuleProgress = async (userId: string, courseId: string, moduleId: string) => {
     try {
-        // We store progress in a subcollection or a map field. 
-        // For simplicity, let's assume a 'progress' map in the user document:
-        // users/{userId} -> { progress: { [courseId]: { completedModules: [moduleId, ...] } } }
-
         const userRef = doc(db, "users", userId);
 
         // Using setDoc with merge: true to create if not exists or update
@@ -125,7 +134,8 @@ export const updateModuleProgress = async (userId: string, courseId: string, mod
             progress: {
                 [courseId]: {
                     completedModules: arrayUnion(moduleId),
-                    lastUpdated: new Date().toISOString()
+                    lastUpdated: new Date().toISOString(),
+                    lastAccessedModuleId: moduleId
                 }
             }
         }, { merge: true });
@@ -134,5 +144,120 @@ export const updateModuleProgress = async (userId: string, courseId: string, mod
     } catch (error) {
         console.error("Error updating progress", error);
         throw error;
+    }
+};
+
+export const saveQuizResult = async (userId: string, courseId: string, quizId: string, score: number, passed: boolean) => {
+    try {
+        const { runTransaction } = await import('firebase/firestore');
+        const userRef = doc(db, "users", userId);
+
+        await runTransaction(db, async (transaction) => {
+            const userDoc = await transaction.get(userRef);
+            if (!userDoc.exists()) {
+                throw "User does not exist!";
+            }
+
+            const userData = userDoc.data() as User;
+            const currentProgress = userData.progress?.[courseId];
+            const currentQuizScore = currentProgress?.quizScores?.[quizId];
+
+            const currentAttempts = currentQuizScore?.attempts || 0;
+            const newAttempts = currentAttempts + 1;
+
+            // Only update score if it's higher or if it's the first attempt
+            // OR if we want to track the *latest* score regardless. 
+            // Let's keep the highest score for passing purposes, but update attempts.
+            // Actually, for a quiz, usually the latest attempt counts, or best. 
+            // Let's store the BEST score, but update attempts.
+            const bestScore = Math.max(currentQuizScore?.score || 0, score);
+            const isPassed = passed || currentQuizScore?.passed || false;
+
+            const updateData = {
+                [`progress.${courseId}.quizScores.${quizId}`]: {
+                    score: bestScore,
+                    passed: isPassed,
+                    attempts: newAttempts,
+                    completedAt: new Date().toISOString()
+                },
+                [`progress.${courseId}.lastUpdated`]: new Date().toISOString()
+            };
+
+            transaction.update(userRef, updateData);
+        });
+
+        console.log(`Quiz result saved for user ${userId}, quiz ${quizId}, score ${score}`);
+    } catch (error) {
+        console.error("Error saving quiz result", error);
+        throw error;
+    }
+};
+
+export const updateUserProfile = async (userId: string, data: Partial<User>) => {
+    try {
+        const userRef = doc(db, "users", userId);
+        await setDoc(userRef, data, { merge: true });
+        console.log(`User profile updated for ${userId}`);
+    } catch (error) {
+        console.error("Error updating user profile", error);
+        throw error;
+    }
+};
+
+// Content Services
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { Course, Quiz } from '../types';
+
+export const getCourses = async (): Promise<Course[]> => {
+    try {
+        const coursesRef = collection(db, 'courses');
+        const snapshot = await getDocs(coursesRef);
+        return snapshot.docs.map(doc => doc.data() as Course);
+    } catch (error) {
+        console.error("Error fetching courses", error);
+        return [];
+    }
+};
+
+export const getCourse = async (courseId: string): Promise<Course | null> => {
+    try {
+        const docRef = doc(db, 'courses', courseId);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+            return snapshot.data() as Course;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching course", error);
+        return null;
+    }
+};
+
+export const getQuiz = async (quizId: string): Promise<Quiz | null> => {
+    try {
+        const docRef = doc(db, 'quizzes', quizId);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+            return snapshot.data() as Quiz;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching quiz", error);
+        return null;
+    }
+};
+
+export const getQuizByModuleId = async (moduleId: string): Promise<Quiz | null> => {
+    try {
+        const quizzesRef = collection(db, 'quizzes');
+        const q = query(quizzesRef, where("moduleId", "==", moduleId));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+            return snapshot.docs[0].data() as Quiz;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching quiz by module", error);
+        return null;
     }
 };

@@ -13,7 +13,7 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
         name: '',
         email: '',
         password: '',
-        role: 'Account Manager',
+        role: 'user', // Default role is ALWAYS user
         department: 'Sales'
     });
     const [error, setError] = useState('');
@@ -56,7 +56,7 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4">
                 <div className="w-full max-w-md bg-card-light dark:bg-card-dark rounded-xl shadow-lg p-8 border border-border-light dark:border-border-dark text-center">
                     <div className="mb-4 flex justify-center">
-                        <span className="material-symbols-outlined text-6xl text-green-500">check_circle</span>
+                        <span className="material-symbols-outlined text-6xl text-success">check_circle</span>
                     </div>
                     <h1 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary mb-2">Account Created!</h1>
                     <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6">
@@ -82,7 +82,7 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
                 </div>
 
                 {error && (
-                    <div className="mb-6 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                    <div className="mb-6 p-3 bg-warning/10 border border-warning/30 text-warning rounded text-sm">
                         {error}
                     </div>
                 )}
@@ -125,21 +125,8 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Role</label>
-                            <select
-                                name="role"
-                                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none"
-                                value={formData.role}
-                                onChange={handleChange}
-                            >
-                                <option value="Account Manager">Account Manager</option>
-                                <option value="Performance Specialist">Performance Specialist</option>
-                                <option value="Web Developer">Web Developer</option>
-                                <option value="SEO Specialist">SEO Specialist</option>
-                            </select>
-                        </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        {/* Role selection removed - hidden from user */}
                         <div>
                             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Department</label>
                             <select

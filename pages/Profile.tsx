@@ -25,10 +25,28 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
         }));
     };
 
-    const handleSave = () => {
-        // Here you would typically update the user in the backend
-        alert("Profile updated successfully! (Mock action)");
-        setIsEditing(false);
+    const handleSave = async () => {
+        if (user.id) {
+            try {
+                const { updateUserProfile } = await import('../services/db');
+                await updateUserProfile(user.id, {
+                    name: formData.name,
+                    role: formData.role,
+                    department: formData.department,
+                    // We can also save bio and preferences if we add them to the User type, 
+                    // but for now let's persist the core fields that exist on User.
+                    // If you want to save bio/prefs, you'd need to update the User interface first.
+                    // For now, I'll assume we might want to extend the user object or just save them loosely if Firestore allows (it does).
+                    ...formData
+                } as any); // Casting to any to allow saving extra fields like bio/prefs to Firestore even if not in strict User type yet
+
+                alert("Profile updated successfully!");
+                setIsEditing(false);
+            } catch (error) {
+                console.error("Failed to update profile", error);
+                alert("Failed to update profile. Please try again.");
+            }
+        }
     };
 
     return (

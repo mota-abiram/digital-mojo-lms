@@ -1,41 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { MOCK_QUIZZES, MOCK_COURSES } from '../constants';
-import { Header } from '../components/Header';
-import { User } from '../types';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { User, Quiz } from '../types';
+import { getQuiz } from '../services/db';
 
-interface QuizProps {
+interface QuizPageProps {
     user: User;
     onLogout: () => void;
 }
 
-export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
+export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
     const { courseId, quizId } = useParams();
     const navigate = useNavigate();
-    const quiz = quizId ? MOCK_QUIZZES[quizId] : undefined;
+    const [quiz, setQuiz] = useState<Quiz | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState<number | null>(null);
-    const [answers, setAnswers] = useState<Record<string, number>>({});
+    const [answers, setAnswers] = useState<{ [key: string]: number }>({});
     const [quizSubmitted, setQuizSubmitted] = useState(false);
     const [score, setScore] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(0); // in seconds
 
-    // Timer state
-    const [timeLeft, setTimeLeft] = useState<number>(0);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-    // Check for previous completion
+    // Fetch Quiz
     useEffect(() => {
-        if (quiz && user.progress && courseId && user.progress[courseId]) {
-            const isCompleted = user.progress[courseId].completedModules.includes(quiz.moduleId);
-            if (isCompleted) {
+        const fetchQuiz = async () => {
+            if (quizId) {
+                const data = await getQuiz(quizId);
+                setQuiz(data);
+                setLoading(false);
+            }
+        };
+        fetchQuiz();
+    }, [quizId]);
+
+    // Check for existing progress
+    useEffect(() => {
+        if (quiz && user.progress && user.progress[courseId || '']) {
+            const courseProgress = user.progress[courseId || ''];
+            const quizResult = courseProgress.quizScores?.[quiz.id];
+
+            if (quizResult && quizResult.passed) {
                 setQuizSubmitted(true);
-                setScore(quiz.passingScore || 70); // Assume passing score if already completed
+                setScore(quizResult.score);
+            } else if (courseProgress.completedModules.includes(quiz.moduleId)) {
+                // Fallback for legacy completion without score
+                setQuizSubmitted(true);
+                setScore(100);
             }
         }
     }, [quiz, user.progress, courseId]);
 
-    // Initialize timer
+    // Initialize Timer
     useEffect(() => {
         if (quiz && !quizSubmitted) {
             const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
@@ -43,43 +57,32 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
         }
     }, [quiz, quizSubmitted]);
 
-    // Timer countdown
+    // Timer Logic
     useEffect(() => {
-        if (quizSubmitted || timeLeft <= 0) return;
+        if (quizSubmitted || timeLeft <= 0 || !quiz) return;
 
-        timerRef.current = setInterval(() => {
+        const timer = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
-                    handleSubmit(); // Auto-submit
+                    clearInterval(timer);
+                    handleSubmit();
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
 
-        return () => {
-            if (timerRef.current) clearInterval(timerRef.current);
-        };
-    }, [timeLeft, quizSubmitted]);
+        return () => clearInterval(timer);
+    }, [timeLeft, quizSubmitted, quiz]);
 
-    if (!quiz) return <div>Quiz not found</div>;
-
-    const currentQuestion = quiz.questions[currentQuestionIndex];
-    const progress = ((currentQuestionIndex) / quiz.totalQuestions) * 100;
-
-    const formatTime = (seconds: number) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    const handleOptionSelect = (index: number) => {
+    const handleOptionSelect = (questionId: string, optionIndex: number) => {
         if (quizSubmitted) return;
-        setSelectedOption(index);
-        setAnswers({ ...answers, [currentQuestion.id]: index });
+        setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
     };
 
     const handleSubmit = async () => {
+        if (!quiz) return;
+
         // Submit Quiz
         let correctCount = 0;
         quiz.questions.forEach(q => {
@@ -93,217 +96,164 @@ export const QuizPage: React.FC<QuizProps> = ({ user, onLogout }) => {
         setQuizSubmitted(true);
 
         const passingScore = quiz.passingScore || 70;
-        if (finalScore >= passingScore && user.id && courseId) {
-            // Mark module as complete
+        const passed = finalScore >= passingScore;
+
+        if (user.id && courseId) {
             try {
-                const { updateModuleProgress } = await import('../services/db');
-                await updateModuleProgress(user.id, courseId, quiz.moduleId);
+                // Save detailed quiz result
+                const { saveQuizResult, updateModuleProgress } = await import('../services/db');
+                await saveQuizResult(user.id, courseId, quiz.id, finalScore, passed);
+
+                // If passed, mark module as complete
+                if (passed) {
+                    await updateModuleProgress(user.id, courseId, quiz.moduleId);
+                }
             } catch (error) {
                 console.error("Failed to save quiz progress", error);
             }
         }
     };
 
-    const handleNext = async () => {
-        if (currentQuestionIndex < quiz.questions.length - 1) {
-            setCurrentQuestionIndex(prev => prev + 1);
-            const nextQId = quiz.questions[currentQuestionIndex + 1].id;
-            setSelectedOption(answers[nextQId] ?? null);
-        } else {
-            await handleSubmit();
-        }
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, '0')}`;
     };
 
-    const handlePrevious = () => {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(prev => prev - 1);
-            const prevQId = quiz.questions[currentQuestionIndex - 1].id;
-            setSelectedOption(answers[prevQId] ?? null);
-        }
-    };
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">Loading quiz...</div>;
+    if (!quiz) return <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">Quiz not found</div>;
 
-    const handleRetake = () => {
-        setQuizSubmitted(false);
-        setCurrentQuestionIndex(0);
-        setSelectedOption(null);
-        setAnswers({});
-        setScore(0);
-        const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
-        setTimeLeft(minutes * 60 + seconds);
-    };
-
-    // Calculate next module
-    const getNextModuleId = () => {
-        if (!courseId) return null;
-        const course = MOCK_COURSES.find(c => c.id === courseId);
-        if (!course) return null;
-
-        const allModules = course.sections.flatMap(s => s.modules);
-        const currentIndex = allModules.findIndex(m => m.id === quiz.moduleId);
-
-        if (currentIndex !== -1 && currentIndex < allModules.length - 1) {
-            return allModules[currentIndex + 1].id;
-        }
-        return null;
-    };
-
-    const nextModuleId = getNextModuleId();
-
-    if (quizSubmitted) {
-        return (
-            <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
-                <Header user={user} onLogout={onLogout} showSearch={false} />
-                <main className="flex flex-1 items-center justify-center p-4">
-                    <div className="bg-card-light dark:bg-card-dark p-8 rounded-xl shadow-lg max-w-md w-full text-center border border-border-light dark:border-border-dark">
-                        <div className={`w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 ${score >= (quiz.passingScore || 70) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                            <span className="material-symbols-outlined text-5xl">{score >= (quiz.passingScore || 70) ? 'emoji_events' : 'sentiment_dissatisfied'}</span>
-                        </div>
-                        <h1 className="text-3xl font-bold mb-2">{score >= (quiz.passingScore || 70) ? 'Quiz Passed!' : 'Quiz Failed'}</h1>
-                        <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6">
-                            You scored <span className={`font-bold ${score >= (quiz.passingScore || 70) ? 'text-green-600' : 'text-red-600'}`}>{score}%</span>
-                        </p>
-                        <p className="text-sm mb-8 text-text-light-secondary dark:text-text-dark-secondary">
-                            {score >= (quiz.passingScore || 70) ? 'Great job! You have completed this module.' : `You need ${quiz.passingScore || 70}% to pass. Please review the material and try again.`}
-                        </p>
-                        <div className="flex flex-col gap-3">
-                            {score >= (quiz.passingScore || 70) && nextModuleId ? (
-                                <button
-                                    onClick={() => navigate(`/course/${courseId}`, { state: { activeModuleId: nextModuleId, completedModuleId: quiz.moduleId } })}
-                                    className="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90"
-                                >
-                                    Next Module
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => navigate(`/course/${courseId}`)}
-                                    className="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90"
-                                >
-                                    Return to Course
-                                </button>
-                            )}
-
-                            <button
-                                onClick={handleRetake}
-                                className="w-full py-3 bg-transparent border border-border-light dark:border-border-dark rounded-lg font-bold hover:bg-background-light dark:hover:bg-background-dark/50"
-                            >
-                                Retake Quiz
-                            </button>
-
-                            {/* If passed and no next module, maybe show Dashboard button? */}
-                            {score >= (quiz.passingScore || 70) && !nextModuleId && (
-                                <button
-                                    onClick={() => navigate('/dashboard')}
-                                    className="w-full py-3 bg-transparent border border-border-light dark:border-border-dark rounded-lg font-bold hover:bg-background-light dark:hover:bg-background-dark/50"
-                                >
-                                    Back to Dashboard
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </main>
-            </div>
-        );
-    }
+    const currentQuestion = quiz.questions[currentQuestionIndex];
+    const isLastQuestion = currentQuestionIndex === quiz.questions.length - 1;
+    const progress = ((currentQuestionIndex + 1) / quiz.totalQuestions) * 100;
 
     return (
-        <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
-            <Header user={user} onLogout={onLogout} showSearch={false} />
-
-            <main className="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col w-full max-w-3xl flex-1 gap-8">
-
-                    <div className="flex flex-col gap-2">
-                        <button onClick={() => navigate(`/course/${courseId}`)} className="flex items-center gap-1 text-sm text-text-light-secondary dark:text-text-dark-secondary hover:text-primary w-fit mb-2">
-                            <span className="material-symbols-outlined text-lg">arrow_back</span>
-                            Back to Course
-                        </button>
-                        <h1 className="text-2xl md:text-3xl font-black leading-tight">{quiz.title}</h1>
+        <div className="min-h-screen bg-background-light dark:bg-background-dark flex flex-col items-center p-6">
+            <div className="w-full max-w-3xl">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-8">
+                    <button
+                        onClick={() => navigate(`/course/${courseId}/module/${quiz.moduleId}`)}
+                        className="text-text-light-secondary dark:text-text-dark-secondary hover:text-primary flex items-center gap-1"
+                    >
+                        <span className="material-symbols-outlined">arrow_back</span>
+                        Exit Quiz
+                    </button>
+                    <div className={`font-mono text-xl font-bold ${timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-primary'}`}>
+                        {formatTime(timeLeft)}
                     </div>
+                </div>
 
-                    {/* Progress Card */}
-                    <div className="flex flex-col gap-3 rounded-xl bg-card-light dark:bg-card-dark p-6 shadow-sm border border-border-light dark:border-border-dark">
-                        <div className="flex justify-between items-center">
-                            <p className="text-base font-bold">Question {currentQuestionIndex + 1} of {quiz.totalQuestions}</p>
-                            <div className={`flex items-center gap-2 text-sm px-3 py-1 rounded-full ${timeLeft < 60 ? 'text-red-600 bg-red-100' : 'text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-background-dark'}`}>
-                                <span className="material-symbols-outlined text-lg">timer</span>
-                                <span>{formatTime(timeLeft)} remaining</span>
+                {!quizSubmitted ? (
+                    <div className="bg-card-light dark:bg-card-dark rounded-2xl shadow-lg border border-border-light dark:border-border-dark overflow-hidden">
+                        {/* Progress Bar */}
+                        <div className="w-full h-2 bg-background-light dark:bg-background-dark">
+                            <div
+                                className="h-full bg-primary transition-all duration-300"
+                                style={{ width: `${progress}%` }}
+                            ></div>
+                        </div>
+
+                        <div className="p-8 md:p-10">
+                            <div className="flex justify-between items-start mb-6">
+                                <span className="text-sm font-bold text-primary uppercase tracking-wider">Question {currentQuestionIndex + 1} of {quiz.totalQuestions}</span>
                             </div>
-                        </div>
-                        <div className="w-full bg-background-light dark:bg-background-dark rounded-full h-2.5 overflow-hidden">
-                            <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }}></div>
-                        </div>
-                    </div>
 
-                    {/* Question Card */}
-                    <div className="flex flex-col gap-6 rounded-xl bg-card-light dark:bg-card-dark p-6 md:p-8 shadow-sm border border-border-light dark:border-border-dark">
-                        <div className="flex flex-col md:flex-row gap-6">
-                            <div className="hidden md:block w-32 h-32 rounded-lg bg-gray-100 dark:bg-gray-800 flex-shrink-0 bg-center bg-cover" style={{ backgroundImage: `url("https://picsum.photos/seed/quiz${currentQuestionIndex}/200/200")` }}></div>
-                            <div className="flex-1">
-                                <p className="text-lg md:text-xl font-bold leading-relaxed mb-2">
-                                    {currentQuestion.text}
-                                </p>
-                                <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Select one of the following options.</p>
+                            <h2 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary mb-8 leading-snug">
+                                {currentQuestion.text}
+                            </h2>
+
+                            <div className="space-y-4">
+                                {currentQuestion.options.map((option, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleOptionSelect(currentQuestion.id, index)}
+                                        className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 group ${answers[currentQuestion.id] === index
+                                            ? 'border-primary bg-primary/5 text-primary'
+                                            : 'border-border-light dark:border-border-dark hover:border-primary/50 hover:bg-background-light dark:hover:bg-background-dark text-text-light-secondary dark:text-text-dark-secondary'
+                                            }`}
+                                    >
+                                        <div className={`size-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${answers[currentQuestion.id] === index
+                                            ? 'border-primary bg-primary text-white'
+                                            : 'border-text-light-secondary dark:border-text-dark-secondary group-hover:border-primary'
+                                            }`}>
+                                            {answers[currentQuestion.id] === index && <span className="material-symbols-outlined text-[16px]">check</span>}
+                                        </div>
+                                        <span className="font-medium">{option}</span>
+                                    </button>
+                                ))}
                             </div>
-                        </div>
 
-                        <div className="flex flex-col gap-3 mt-2">
-                            {currentQuestion.options.map((option, idx) => (
-                                <label
-                                    key={idx}
-                                    className={`flex cursor-pointer items-center gap-4 rounded-lg border p-4 transition-all duration-200 group
-                                        ${selectedOption === idx
-                                            ? 'border-primary bg-primary/5 dark:bg-primary/20 ring-1 ring-primary'
-                                            : 'border-border-light dark:border-border-dark hover:border-primary/50 hover:bg-background-light dark:hover:bg-background-dark/50'
-                                        }`}
+                            <div className="mt-10 flex justify-between items-center">
+                                <button
+                                    onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+                                    disabled={currentQuestionIndex === 0}
+                                    className={`text-text-light-secondary dark:text-text-dark-secondary font-medium px-4 py-2 rounded-lg hover:bg-background-light dark:hover:bg-background-dark disabled:opacity-50 disabled:cursor-not-allowed`}
                                 >
-                                    <div className={`flex items-center justify-center w-5 h-5 rounded-full border-2 transition-colors ${selectedOption === idx ? 'border-primary' : 'border-gray-400 group-hover:border-primary/70'}`}>
-                                        {selectedOption === idx && <div className="w-2.5 h-2.5 bg-primary rounded-full" />}
-                                    </div>
-                                    <input
-                                        type="radio"
-                                        name={`question-${currentQuestion.id}`}
-                                        className="hidden"
-                                        checked={selectedOption === idx}
-                                        onChange={() => handleOptionSelect(idx)}
-                                    />
-                                    <div className="flex grow flex-col">
-                                        <p className={`text-base font-medium ${selectedOption === idx ? 'text-primary' : 'text-text-light-primary dark:text-text-dark-primary'}`}>{option}</p>
-                                    </div>
-                                </label>
-                            ))}
+                                    Previous
+                                </button>
+
+                                {isLastQuestion ? (
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={Object.keys(answers).length !== quiz.totalQuestions}
+                                        className="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform hover:scale-105"
+                                    >
+                                        Submit Quiz
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => setCurrentQuestionIndex(prev => Math.min(quiz.questions.length - 1, prev + 1))}
+                                        className="bg-text-light-primary dark:bg-text-dark-primary text-background-light dark:text-background-dark px-8 py-3 rounded-lg font-bold hover:opacity-90 transition-transform hover:scale-105"
+                                    >
+                                        Next Question
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
+                ) : (
+                    <div className="bg-card-light dark:bg-card-dark rounded-2xl shadow-lg border border-border-light dark:border-border-dark p-10 text-center animate-fade-in">
+                        <div className={`size-24 rounded-full mx-auto flex items-center justify-center mb-6 ${score >= (quiz.passingScore || 70) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                            <span className="material-symbols-outlined text-5xl">
+                                {score >= (quiz.passingScore || 70) ? 'emoji_events' : 'sentiment_dissatisfied'}
+                            </span>
+                        </div>
 
-                    {/* Navigation Buttons */}
-                    <div className="flex flex-col-reverse sm:flex-row justify-between gap-4 mt-2">
-                        <button
-                            onClick={handlePrevious}
-                            disabled={currentQuestionIndex === 0}
-                            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-base font-bold transition-colors ${currentQuestionIndex === 0
-                                ? 'opacity-50 cursor-not-allowed text-gray-400 bg-gray-100 dark:bg-gray-800'
-                                : 'bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800'
-                                }`}
-                        >
-                            <span className="material-symbols-outlined">arrow_back</span>
-                            Previous
-                        </button>
-                        <div className="flex gap-4 w-full sm:w-auto">
+                        <h2 className="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary mb-2">
+                            {score >= (quiz.passingScore || 70) ? 'Quiz Passed!' : 'Quiz Failed'}
+                        </h2>
+                        <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">
+                            You scored <span className={`font-bold ${score >= (quiz.passingScore || 70) ? 'text-green-600' : 'text-red-600'}`}>{score}%</span>.
+                            Passing score is {quiz.passingScore || 70}%.
+                        </p>
+
+                        <div className="flex justify-center gap-4">
+                            {score < (quiz.passingScore || 70) && (
+                                <button
+                                    onClick={() => {
+                                        setQuizSubmitted(false);
+                                        setAnswers({});
+                                        setCurrentQuestionIndex(0);
+                                        setScore(0);
+                                        const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+                                        setTimeLeft(minutes * 60 + seconds);
+                                    }}
+                                    className="px-6 py-3 border border-border-light dark:border-border-dark rounded-lg font-bold text-text-light-primary dark:text-text-dark-primary hover:bg-background-light dark:hover:bg-background-dark"
+                                >
+                                    Retake Quiz
+                                </button>
+                            )}
                             <button
-                                onClick={handleNext}
-                                disabled={selectedOption === null}
-                                className={`flex flex-1 sm:flex-initial items-center justify-center gap-2 px-8 py-3 rounded-lg text-base font-bold text-white transition-all shadow-lg ${selectedOption === null
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-primary hover:bg-primary/90 shadow-primary/30'
-                                    }`}
+                                onClick={() => navigate(`/course/${courseId}/module/${quiz.moduleId}`)}
+                                className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 shadow-lg shadow-primary/30"
                             >
-                                {currentQuestionIndex === quiz.questions.length - 1 ? 'Submit Quiz' : 'Next'}
-                                {currentQuestionIndex < quiz.questions.length - 1 && <span className="material-symbols-outlined">arrow_forward</span>}
+                                Return to Course
                             </button>
                         </div>
                     </div>
-
-                </div>
-            </main>
+                )}
+            </div>
         </div>
     );
 };

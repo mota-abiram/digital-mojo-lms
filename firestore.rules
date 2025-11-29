@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is Admin
+    // We check both 'admin' and 'Admin' to be safe, though we should standardize on lowercase 'admin'
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+    }
+
+    // User Profiles
+    match /users/{userId} {
+      // Users can read/write their own data
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Admins can read all users (for Analytics)
+      allow read: if request.auth != null && isAdmin();
+      
+      // Only Admins can write to other users' profiles (e.g. to promote them) - strictly controlled manually in console usually, 
+      // but allowing write here lets an admin dashboard update user roles if we build that feature.
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Courses
+    match /courses/{courseId} {
+      // Authenticated users can read courses
+      allow read: if request.auth != null;
+      
+      // Only Admins can create/update/delete courses
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Quizzes
+    match /quizzes/{quizId} {
+      // Authenticated users can read quizzes
+      allow read: if request.auth != null;
+      
+      // Only Admins can create/update/delete quizzes
+      allow write: if request.auth != null && isAdmin();
+    }
+  }
+}

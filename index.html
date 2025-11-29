@@ -1,69 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" class="light">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Mojo LMS</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-    <style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      /* Custom scrollbar for webkit */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
-      }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #334155;
-      }
-      .dark ::-webkit-scrollbar-thumb:hover {
-        background: #475569;
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#06aed7",
-              "brand-green": "#1ea34f",
-              "brand-blue": "#06aed7",
-              "brand-orange": "#eb7311",
-              "brand-purple": "#754c9b",
-              "brand-yellow": "#f0bc00",
-              "background-light": "#f6f7f8",
-              "background-dark": "#101922",
-              "card-light": "#ffffff",
-              "card-dark": "#18232f",
-              "text-light-primary": "#0d141b",
-              "text-dark-primary": "#ffffff",
-              "text-light-secondary": "#4c739a",
-              "text-dark-secondary": "#9fb3c8",
-              "border-light": "#e7edf3",
-              "border-dark": "#334155",
-            },
-            fontFamily: {
-              "display": ["Inter", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Mojo LMS</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* Custom scrollbar for webkit */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            // Brand Palette
+            "brand-green": "#1ea34f",
+            "brand-blue": "#06aed7",
+            "brand-orange": "#eb7311",
+            "brand-purple": "#754c9b",
+            "brand-yellow": "#f0bc00",
+
+            // Semantic Roles
+            "primary": "#06aed7",   // Brand Blue
+            "secondary": "#754c9b", // Brand Purple
+            "success": "#1ea34f",   // Brand Green
+            "warning": "#eb7311",   // Brand Orange
+            "accent": "#f0bc00",    // Brand Yellow
+            "info": "#06aed7",      // Brand Blue
+
+            // UI Structure
+            "background-light": "#f8fafc", // Slate-50
+            "background-dark": "#0f172a",  // Slate-900
+            "card-light": "#ffffff",
+            "card-dark": "#1e293b",        // Slate-800
+            "text-light-primary": "#0f172a", // Slate-900
+            "text-dark-primary": "#f8fafc",  // Slate-50
+            "text-light-secondary": "#64748b", // Slate-500
+            "text-dark-secondary": "#94a3b8",  // Slate-400
+            "border-light": "#e2e8f0",     // Slate-200
+            "border-dark": "#334155",      // Slate-700
           },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "2xl": "1.5rem",
+            "full": "9999px"
+          },
+          boxShadow: {
+            'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            'glow': '0 0 15px rgba(6, 174, 215, 0.3)',
+          }
         },
-      }
-    </script>
+      },
+    }
+  </script>
   <script type="importmap">
 {
   "imports": {
@@ -74,10 +104,13 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
-    <div id="root"></div>
+
+<body
+  class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

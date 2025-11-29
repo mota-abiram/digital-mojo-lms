@@ -1,23 +1,28 @@
-import React from 'react';
-import { MOCK_COURSES } from '../constants';
+import React, { useState, useEffect } from 'react';
 import { User, Course } from '../types';
 import { useNavigate, Link } from 'react-router-dom';
+import { getCourses } from '../services/db';
 
 interface DashboardProps {
     user: User;
     searchQuery?: string;
 }
 
-const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
+const CourseCard: React.FC<{ course: Course; user: User }> = ({ course, user }) => {
+    const lastAccessedModuleId = user.progress?.[course.id]?.lastAccessedModuleId;
+    const linkTo = lastAccessedModuleId
+        ? `/course/${course.id}/module/${lastAccessedModuleId}`
+        : `/course/${course.id}`;
+
     return (
-        <Link to={`/course/${course.id}`} className="group flex flex-col gap-3 rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+        <Link to={linkTo} className="group flex flex-col gap-3 rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
             <div className="relative w-full h-32 overflow-hidden">
                 <div
                     className="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-500"
                     style={{ backgroundImage: `url("${course.image}")` }}
                 ></div>
                 {course.dueDate && course.progress < 100 && (
-                    <div className="absolute top-2 right-2 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded-md shadow-sm">
+                    <div className="absolute top-2 right-2 bg-brand-orange/10 text-brand-orange text-xs font-bold px-2 py-1 rounded-md shadow-sm border border-brand-orange/20 backdrop-blur-sm">
                         Due: {course.dueDate}
                     </div>
                 )}
@@ -33,7 +38,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
                     </div>
                     <div className="w-full bg-background-light dark:bg-background-dark rounded-full h-1.5 overflow-hidden">
                         <div
-                            className={`h-full rounded-full transition-all duration-1000 ease-out ${course.progress === 100 ? 'bg-green-500' : 'bg-primary'}`}
+                            className={`h-full rounded-full transition-all duration-1000 ease-out ${course.progress === 100 ? 'bg-success' : 'bg-primary'}`}
                             style={{ width: `${course.progress}%` }}
                         ></div>
                     </div>
@@ -51,6 +56,22 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
 
 export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) => {
     const navigate = useNavigate();
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const data = await getCourses();
+                setCourses(data);
+            } catch (error) {
+                console.error("Failed to fetch courses", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
 
     const getCourseWithProgress = (course: Course) => {
         if (!user.progress || !user.progress[course.id]) {
@@ -58,7 +79,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
         }
 
         const completedModules = user.progress[course.id].completedModules;
-        const totalModules = course.sections.flatMap(s => s.modules).length;
+        const totalModules = course.sections?.flatMap(s => s.modules).length || 0;
         const progress = totalModules > 0 ? Math.round((completedModules.length / totalModules) * 100) : 0;
 
         return { ...course, progress };
@@ -75,16 +96,31 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
         );
     };
 
-    const mandatoryCourses = filterCourses(MOCK_COURSES.filter(c => c.category === 'mandated'));
-    const roleCourses = filterCourses(MOCK_COURSES.filter(c => c.category === 'role-specific'));
+    const mandatoryCourses = filterCourses(courses.filter(c => c.category === 'mandated'));
+    const roleCourses = filterCourses(courses.filter(c => c.category === 'role-specific'));
 
     const completedMandatory = mandatoryCourses.filter(c => c.progress === 100).length;
     const totalMandatory = mandatoryCourses.length;
-    const onboardingProgress = Math.round((completedMandatory / totalMandatory) * 100);
+    const onboardingProgress = totalMandatory > 0 ? Math.round((completedMandatory / totalMandatory) * 100) : 0;
 
-    const handleAction = (actionName: string) => {
-        alert(`${actionName} feature initiated. This would typically open a modal or new window.`);
-    };
+    if (loading) {
+        return <div className="p-10 text-center">Loading courses...</div>;
+    }
+
+    if (courses.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center h-full p-10 text-center text-text-light-primary dark:text-text-dark-primary">
+                <span className="material-symbols-outlined text-6xl text-text-light-secondary mb-4">folder_off</span>
+                <h2 className="text-2xl font-bold mb-2">No Courses Available</h2>
+                <p className="text-text-light-secondary mb-6 max-w-md">
+                    The course catalog appears to be empty. If you're setting up the system, you may need to seed the database.
+                </p>
+                <Link to="/admin/seed" className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                    Go to Database Migration
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col lg:flex-row h-full">
@@ -92,7 +128,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col gap-8 overflow-y-auto">
 
                 {/* Welcome Banner */}
-                <div className="bg-gradient-to-r from-primary/90 to-primary/70 rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
+                <div className="bg-gradient-to-r from-brand-blue to-brand-purple rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
                     <div className="relative z-10 max-w-2xl">
                         <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
                         <p className="text-white/90 text-lg mb-6">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
@@ -122,11 +158,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                         <span className="material-symbols-outlined text-orange-500">priority_high</span>
                         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Mandatory Onboarding</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-                        {mandatoryCourses.map(course => (
-                            <CourseCard key={course.id} course={course} />
-                        ))}
-                    </div>
+                    {mandatoryCourses.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+                            {mandatoryCourses.map(course => (
+                                <CourseCard key={course.id} course={course} user={user} />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-text-light-secondary">No mandatory courses found.</p>
+                    )}
                 </section>
 
                 {/* Role Specific Section */}
@@ -135,11 +175,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                         <span className="material-symbols-outlined text-primary">school</span>
                         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Your Learning Path</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-                        {roleCourses.map(course => (
-                            <CourseCard key={course.id} course={course} />
-                        ))}
-                    </div>
+                    {roleCourses.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+                            {roleCourses.map(course => (
+                                <CourseCard key={course.id} course={course} user={user} />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-text-light-secondary">No role-specific courses found.</p>
+                    )}
                 </section>
             </div>
 

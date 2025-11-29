@@ -11,11 +11,16 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
   const menuItems = [
     { id: 'dashboard', path: '/dashboard', icon: 'dashboard', label: 'Onboarding Hub' },
-    { id: 'courses', path: '/dashboard', icon: 'school', label: 'Learning Center' }, // Assuming Learning Center is also Dashboard for now, or maybe a separate route? Keeping as dashboard based on previous behavior
+    { id: 'courses', path: '/dashboard', icon: 'school', label: 'Learning Center' },
     { id: 'wiki', path: '/wiki', icon: 'menu_book', label: 'Company Wiki' },
     { id: 'directory', path: '/directory', icon: 'groups', label: 'Team Directory' },
     { id: 'profile', path: '/profile', icon: 'person', label: 'My Profile' },
   ];
+
+  // Hidden Admin Link
+  if (user.role === 'admin' || user.role === 'Admin') {
+    menuItems.push({ id: 'admin', path: '/admin', icon: 'admin_panel_settings', label: 'Admin Console' });
+  }
 
   return (
     <aside className="fixed top-[65px] left-0 z-10 flex h-[calc(100vh-65px)] w-64 flex-col border-r border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark transition-transform -translate-x-full md:translate-x-0">
@@ -34,9 +39,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
               <NavLink
                 key={item.id}
                 to={item.path}
-                className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left ${isActive
-                    ? 'bg-primary/10 text-primary font-semibold'
-                    : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-background-light dark:hover:bg-background-dark'
+                className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-r-lg transition-all duration-200 w-full text-left ${isActive
+                  ? 'bg-primary/10 text-primary font-bold border-l-4 border-primary shadow-sm'
+                  : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-background-light dark:hover:bg-background-dark hover:text-primary'
                   }`}
               >
                 <span className={`material-symbols-outlined`}>{item.icon}</span>
