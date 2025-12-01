@@ -57,7 +57,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                     onClick={() => isEditing ? handleSave() : setIsEditing(true)}
                     className={`px-6 py-2 rounded-lg font-bold transition-colors ${isEditing
                         ? 'bg-green-500 text-white hover:bg-green-600'
-                        : 'bg-primary text-white hover:bg-primary/90'
+                        : 'bg-primary text-black hover:bg-primary/90'
                         }`}
                 >
                     {isEditing ? 'Save Changes' : 'Edit Profile'}
@@ -74,7 +74,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                                 style={{ backgroundImage: `url("${user.avatar}")` }}
                             ></div>
                             {isEditing && (
-                                <button className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg hover:bg-primary/90 transition-transform hover:scale-105">
+                                <button className="absolute bottom-0 right-0 bg-primary text-black p-2 rounded-full shadow-lg hover:bg-primary/90 transition-transform hover:scale-105">
                                     <span className="material-symbols-outlined text-sm">edit</span>
                                 </button>
                             )}

@@ -50,7 +50,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     }, [courseId]);
 
     // Flatten all modules for easy navigation
-    const allModules = course?.sections?.flatMap(section => section.modules) || [];
+    const allModules = course?.sections?.flatMap(section => section.modules || []) || [];
 
     // Sync activeModuleId with URL or defaults
     useEffect(() => {
@@ -234,7 +234,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     const isModuleCompleted = (moduleId: string) => {
         if (location.state?.completedModuleId === moduleId) return true; // Optimistic update
         if (!user.progress || !user.progress[course.id]) return false;
-        return user.progress[course.id].completedModules.includes(moduleId);
+        return (user.progress[course.id].completedModules || []).includes(moduleId);
     };
 
     const completedModulesCount = allModules.filter(m => isModuleCompleted(m.id)).length;
@@ -432,7 +432,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                                     </p>
                                                     <button
                                                         onClick={() => navigate(`/course/${courseId}/quiz/${linkedQuizId}`)}
-                                                        className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-transform hover:scale-105"
+                                                        className="px-6 py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 transition-transform hover:scale-105"
                                                     >
                                                         Start Quiz
                                                     </button>
@@ -495,7 +495,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                                 handleNext();
                                             }
                                         }}
-                                        className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-primary text-black hover:bg-primary/90 shadow-md shadow-primary/20"
                                     >
                                         {(() => {
                                             const isCompleted = isModuleCompleted(activeModule.id);

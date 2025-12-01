@@ -42,7 +42,7 @@ export const AdminSeed: React.FC<AdminSeedProps> = ({ user, onLogout }) => {
                     {status === 'idle' && (
                         <button
                             onClick={handleSeed}
-                            className="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                            className="w-full py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 transition-colors"
                         >
                             Start Migration
                         </button>

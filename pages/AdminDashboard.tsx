@@ -10,7 +10,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user }) => {
     return (
         <div className="p-8 max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 bg-brand-purple/10 text-brand-purple rounded-full">
+                <div className="p-3 bg-primary/10 text-primary rounded-full">
                     <span className="material-symbols-outlined text-3xl">admin_panel_settings</span>
                 </div>
                 <div>
@@ -23,10 +23,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user }) => {
                 {/* Analytics Card */}
                 <Link to="/admin/analytics" className="group p-6 bg-card-light dark:bg-card-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark hover:shadow-md transition-all">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-brand-blue/10 text-brand-blue rounded-lg group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                        <div className="p-2 bg-primary/10 text-primary rounded-lg group-hover:bg-primary group-hover:text-black transition-colors">
                             <span className="material-symbols-outlined">analytics</span>
                         </div>
-                        <span className="material-symbols-outlined text-gray-400 group-hover:text-brand-blue transition-colors">arrow_forward</span>
+                        <span className="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors">arrow_forward</span>
                     </div>
                     <h3 className="text-lg font-bold text-text-light-primary dark:text-text-dark-primary mb-1">Analytics</h3>
                     <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">View user progress and completion rates.</p>
@@ -35,10 +35,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user }) => {
                 {/* Database Seed Card */}
                 <Link to="/admin/seed" className="group p-6 bg-card-light dark:bg-card-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark hover:shadow-md transition-all">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-brand-orange/10 text-brand-orange rounded-lg group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                        <div className="p-2 bg-warning/10 text-warning rounded-lg group-hover:bg-warning group-hover:text-black transition-colors">
                             <span className="material-symbols-outlined">database</span>
                         </div>
-                        <span className="material-symbols-outlined text-gray-400 group-hover:text-brand-orange transition-colors">arrow_forward</span>
+                        <span className="material-symbols-outlined text-gray-400 group-hover:text-warning transition-colors">arrow_forward</span>
                     </div>
                     <h3 className="text-lg font-bold text-text-light-primary dark:text-text-dark-primary mb-1">Database Migration</h3>
                     <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Seed database with mock data.</p>

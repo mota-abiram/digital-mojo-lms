@@ -109,7 +109,7 @@ export const CertificateGenerator: React.FC<CertificateGeneratorProps> = ({ user
                     </button>
                     <button
                         onClick={handleDownload}
-                        className="px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 shadow-lg flex items-center gap-2"
+                        className="px-6 py-2 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 shadow-lg flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined">download</span>
                         Download PDF

@@ -174,7 +174,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                                             }`}
                                     >
                                         <div className={`size-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${answers[currentQuestion.id] === index
-                                            ? 'border-primary bg-primary text-white'
+                                            ? 'border-primary bg-primary text-black'
                                             : 'border-text-light-secondary dark:border-text-dark-secondary group-hover:border-primary'
                                             }`}>
                                             {answers[currentQuestion.id] === index && <span className="material-symbols-outlined text-[16px]">check</span>}
@@ -197,7 +197,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                                     <button
                                         onClick={handleSubmit}
                                         disabled={Object.keys(answers).length !== quiz.totalQuestions}
-                                        className="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform hover:scale-105"
+                                        className="bg-primary text-black px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform hover:scale-105"
                                     >
                                         Submit Quiz
                                     </button>
@@ -246,7 +246,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                             )}
                             <button
                                 onClick={() => navigate(`/course/${courseId}/module/${quiz.moduleId}`)}
-                                className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 shadow-lg shadow-primary/30"
+                                className="px-6 py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 shadow-lg shadow-primary/30"
                             >
                                 Return to Course
                             </button>

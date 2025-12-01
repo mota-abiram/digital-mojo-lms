@@ -186,7 +186,7 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                 </div>
                 <div className="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
                     <h3 className="text-text-light-secondary dark:text-text-dark-secondary text-sm font-bold uppercase tracking-wider mb-2">Total Completions</h3>
-                    <p className="text-4xl font-bold text-blue-600">
+                    <p className="text-4xl font-bold text-primary">
                         {courseStats.reduce((acc, curr) => acc + curr.completedCount, 0)}
                     </p>
                 </div>

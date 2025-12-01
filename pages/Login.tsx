@@ -197,7 +197,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   <button
                     type="button" // CRITICAL: Prevents Enter key from triggering this button
                     onClick={handleForgotPass}
-                    className="text-sm font-medium text-primary hover:text-brand-purple hover:underline transition-colors focus:outline-none"
+                    className="text-sm font-medium text-primary hover:text-accent hover:underline transition-colors focus:outline-none"
                   >
                     Forgot Password?
                   </button>
@@ -207,7 +207,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   <button
                     type="submit"
                     disabled={!isValid || loading}
-                    className={`flex w-full items-center justify-center rounded-lg h-12 px-6 text-base font-bold text-white shadow-lg transition-all duration-200
+                    className={`flex w-full items-center justify-center rounded-lg h-12 px-6 text-base font-bold text-black shadow-lg transition-all duration-200
                         ${!isValid || loading
                         ? 'bg-gray-400 cursor-not-allowed opacity-70'
                         : 'bg-primary hover:bg-primary/90 hover:shadow-primary/50'

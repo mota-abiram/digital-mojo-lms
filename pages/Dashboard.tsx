@@ -22,7 +22,7 @@ const CourseCard: React.FC<{ course: Course; user: User }> = ({ course, user }) 
                     style={{ backgroundImage: `url("${course.image}")` }}
                 ></div>
                 {course.dueDate && course.progress < 100 && (
-                    <div className="absolute top-2 right-2 bg-brand-orange/10 text-brand-orange text-xs font-bold px-2 py-1 rounded-md shadow-sm border border-brand-orange/20 backdrop-blur-sm">
+                    <div className="absolute top-2 right-2 bg-warning/10 text-warning text-xs font-bold px-2 py-1 rounded-md shadow-sm border border-warning/20 backdrop-blur-sm">
                         Due: {course.dueDate}
                     </div>
                 )}
@@ -78,8 +78,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             return { ...course, progress: 0 };
         }
 
-        const completedModules = user.progress[course.id].completedModules;
-        const totalModules = course.sections?.flatMap(s => s.modules).length || 0;
+        const completedModules = user.progress[course.id].completedModules || [];
+        const totalModules = course.sections?.flatMap(s => s.modules)?.length || 0;
         const progress = totalModules > 0 ? Math.round((completedModules.length / totalModules) * 100) : 0;
 
         return { ...course, progress };
@@ -115,7 +115,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 <p className="text-text-light-secondary mb-6 max-w-md">
                     The course catalog appears to be empty. If you're setting up the system, you may need to seed the database.
                 </p>
-                <Link to="/admin/seed" className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                <Link to="/admin/seed" className="px-6 py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
                     Go to Database Migration
                 </Link>
             </div>
@@ -128,27 +128,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col gap-8 overflow-y-auto">
 
                 {/* Welcome Banner */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-purple rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
+                <div className="bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-2xl p-6 md:p-8 text-black shadow-lg relative overflow-hidden">
                     <div className="relative z-10 max-w-2xl">
                         <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
-                        <p className="text-white/90 text-lg mb-6">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
+                        <p className="text-black/80 text-lg mb-6">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
 
-                        <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 w-fit">
+                        <div className="flex items-center gap-4 bg-black/5 backdrop-blur-sm p-4 rounded-xl border border-black/10 w-fit">
                             <div className="relative size-12">
                                 <svg className="size-full -rotate-90" viewBox="0 0 36 36">
-                                    <path className="text-white/30" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
-                                    <path className="text-white transition-all duration-1000" strokeDasharray={`${onboardingProgress || 0}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
+                                    <path className="text-black/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
+                                    <path className="text-black transition-all duration-1000" strokeDasharray={`${onboardingProgress || 0}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
                                 </svg>
                                 <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{onboardingProgress || 0}%</div>
                             </div>
                             <div>
                                 <p className="font-bold text-sm">Onboarding Progress</p>
-                                <p className="text-xs text-white/80">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
+                                <p className="text-xs text-black/60">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
                             </div>
                         </div>
                     </div>
-                    <div className="absolute right-0 bottom-0 opacity-20 transform translate-x-1/4 translate-y-1/4">
-                        <span className="material-symbols-outlined text-[250px]">rocket_launch</span>
+                    <div className="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4">
+                        <span className="material-symbols-outlined text-[250px] text-black">rocket_launch</span>
                     </div>
                 </div>
 
