@@ -317,7 +317,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                                         // Find index of this module in allModules
                                         const moduleGlobalIndex = allModules.findIndex(m => m.id === module.id);
                                         const prevModule = moduleGlobalIndex > 0 ? allModules[moduleGlobalIndex - 1] : null;
-                                        const isLocked = prevModule ? !isModuleCompleted(prevModule.id) : false;
+                                        const isLocked = user.role === 'admin' ? false : (prevModule ? !isModuleCompleted(prevModule.id) : false);
 
                                         return (
                                             <div

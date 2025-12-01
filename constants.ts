@@ -1851,117 +1851,1441 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
     sections: [
       {
         id: 's1',
-        title: 'Campaign Launch',
+        title: 'Campaign Setup & Planning',
         modules: [
           {
             id: 'pm_m1',
-            title: 'Campaign Setup & Planning',
-            description: 'Create campaign plans based on approved strategy from Performance Lead. Understand goals, funnel type, budget, and perform keyword/audience research.',
-            duration: '25 min',
+            title: 'Create campaign plans based on approved strategy from Performance Lead.',
+            description: `🧩 CAMPAIGN PLANNING CHECKLIST (Before Launch)
+
+✔ REVIEW STRATEGY  
+- Objective  
+- Budget  
+- Target audience  
+- Timelines  
+- Creative direction  
+
+✔ MAP CAMPAIGN STRUCTURE  
+- Platforms (Meta, Google, LinkedIn)  
+- Number of campaigns  
+- Ad sets / ad groups  
+- Audience layers  
+- Placements  
+- Bidding strategy  
+
+✔ DEFINE SUCCESS METRICS  
+- CPL  
+- CTR  
+- CPA  
+- Lead volume  
+
+✔ DOCUMENT PLAN  
+- Share with Performance Lead for confirmation  
+- Save in project folder  
+
+🔥 RULE:  
+If the plan is unclear, the performance will be unclear.`,
+            duration: '9 min',
             isCompleted: false,
             type: 'video'
           },
           {
-            id: 'pm_m2',
-            title: 'Ad Launch & Quality Check',
-            description: 'Set up campaigns on Google, Meta, and LinkedIn Ads Manager. Verify settings, tracking, and perform full test leads before launch.',
-            duration: '24 min',
+            id: 'pm_m1b',
+            title: 'Define campaign objectives, ad sets, budgets, and target audiences.',
+            description: `📌 CAMPAIGN SETUP BLUEPRINT
+
+✔ OBJECTIVE  
+- Lead Gen  
+- Conversions  
+- Traffic  
+- Awareness  
+Choose based on KPI, not guesswork.
+
+✔ AD SET STRUCTURE  
+- One testing logic per ad set  
+- Separate cold, warm, retargeting  
+- Maintain naming conventions  
+
+✔ BUDGET  
+- Allocate based on funnel  
+- Avoid spreading budget too thin  
+- Monitor pacing availability  
+
+✔ TARGET AUDIENCE  
+- Interests  
+- Lookalikes  
+- Custom audiences  
+- Exclusions  
+- Geographic filters  
+
+🔥 RULE:  
+Wrong objective or wrong audience = wrong results.`,
+            duration: '8 min',
             isCompleted: false,
             type: 'video'
           },
+          {
+            id: 'pm_m1c',
+            title: 'Coordinate with Creative and Copy teams for final ad assets.',
+            description: `🎨 CREATIVE & COPY COORDINATION CHECKLIST
+
+✔ BEFORE BRIEF  
+- Review campaign objective  
+- Identify key message or hook  
+- Study competing ads  
+
+✔ SHARE A CLEAR BRIEF  
+- Objective  
+- Audience  
+- Hook direction  
+- Format: 1:1, 9:16, carousel, video  
+- References and benchmarks  
+- Mandatory text  
+
+✔ DURING CREATION  
+- Review early drafts  
+- Check alignment with funnel goals  
+- Suggest improvements (hook, CTA, clarity)  
+
+✔ BEFORE FINAL APPROVAL  
+- Check compliance & platform rules  
+- Verify naming conventions  
+- Upload to tracker  
+
+🔥 RULE:  
+Strong ads come from strong briefs, not guesswork.`,
+            duration: '10 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m1d',
+            title: 'Implement naming conventions and tracking codes per SOP.',
+            description: `🧩 NAMING & TRACKING CHECKLIST (Every Setup)
+
+✔ NAMING CONVENTIONS  
+- ClientName_Objective_AudienceType_Platform_Version  
+- Example: Client_LeadGen_Cold_LLA1_V1  
+- No random names like “test1,” “sample,” “tryagain”  
+
+✔ TRACKING CODES  
+- Add UTMs to all landing page URLs  
+- Ensure parameters reflect: Source, Medium, Campaign, Content  
+- Example: ?utm_source=meta&utm_medium=leadgen&utm_campaign=cold_v1  
+
+✔ BEFORE LAUNCH  
+- Recheck campaign, ad set, ad names  
+- Verify all links have UTMs  
+- Update naming & tracking log in tracker  
+
+🔥 RULE:  
+Bad naming = bad data.  
+Bad data = bad decisions.`,
+            duration: '9 min',
+            isCompleted: false,
+            type: 'video'
+          }
         ]
       },
       {
         id: 's2',
-        title: 'Ongoing Management',
+        title: 'Ad Launch & Quality Check',
         modules: [
           {
-            id: 'pm_m3',
-            title: 'Campaign Optimization',
-            description: 'Monitor live campaigns daily for performance metrics (CTR, CPC, CPL, ROAS). Identify high/low performers and adjust bids/creatives.',
-            duration: '25 min',
+            id: 'pm_m2',
+            title: 'Set up campaigns on Google, Meta, and LinkedIn Ads Manager.',
+            description: `🚀 CAMPAIGN SETUP CHECKLIST (Google, Meta, LinkedIn)
+
+✔ OBJECTIVE  
+- Lead Gen / Conversions / Traffic  
+- Must match campaign plan  
+
+✔ AUDIENCE  
+- Cold interests  
+- Lookalikes  
+- Retargeting pools  
+- LinkedIn job/industry filters  
+
+✔ STRUCTURE  
+- One testing logic per ad set  
+- Clean naming conventions  
+- Accurate budget distribution  
+
+✔ ASSETS  
+- Upload correct creative formats  
+- Add captions, headlines, CTAs  
+- Check instant form or landing URL  
+
+✔ TRACKING  
+- Meta Pixel  
+- Google Tag & Conversions  
+- LinkedIn Insight Tag  
+- UTMs on all links  
+
+✔ FINAL PRE-LAUNCH CHECK  
+- Preview ads  
+- Validate placements  
+- Ensure budget pacing is correct  
+
+🔥 RULE:  
+A clean setup prevents messy performance.`,
+            duration: '10 min',
             isCompleted: false,
             type: 'video'
           },
           {
-            id: 'pm_m4',
-            title: 'Budget Monitoring',
-            description: 'Track daily and weekly spend against allocated budget. Adjust pacing to prevent over- or under-spending and reallocate dynamically.',
-            duration: '24 min',
+            id: 'pm_m2b',
+            title: 'Verify pixels, tracking events, and UTM parameters before going live.',
+            description: `📍 TRACKING VERIFICATION CHECKLIST (Before Launch)
+
+✔ PIXEL & TAG CHECK  
+- Meta Pixel installed and firing  
+- Google Tag + Conversion events verified  
+- LinkedIn Insight Tag active  
+- Use Pixel Helper / Tag Assistant  
+
+✔ EVENT VALIDATION  
+- PageView  
+- Lead / Submit  
+- Button click  
+- Thank-you page events  
+- Instant Form mapping check  
+
+✔ UTM PARAMETERS  
+- utm_source  
+- utm_medium  
+- utm_campaign  
+- utm_content  
+- Test all URLs in preview mode  
+
+✔ FINAL TEST  
+- Click ad preview  
+- Submit test lead  
+- Check if it reflects in sheet + CRM  
+
+🔥 RULE:  
+If tracking is wrong, performance data is a lie.`,
+            duration: '10 min',
             isCompleted: false,
             type: 'video'
           },
           {
-            id: 'pm_m5',
-            title: 'Reporting & Analysis',
-            description: 'Prepare weekly reports showing campaign performance and key insights. Highlight learning points, creative winners, and improvement areas.',
-            duration: '24 min',
+            id: 'pm_m2c',
+            title: 'Run a test preview of each ad to check copy, design, and call-to-action accuracy.',
+            description: `🔍 AD PREVIEW CHECKLIST (Before Launch)
+
+✔ COPY CHECK  
+- No spelling or grammar errors  
+- Hook visible in first line  
+- Headline clear and relevant  
+- CTA text aligned to objective  
+
+✔ CREATIVE CHECK  
+- No cropping issues  
+- High-resolution creative  
+- Text readable on mobile  
+- Layout aligned with brand  
+
+✔ CTA & LINK CHECK  
+- CTA button matches campaign goal  
+- Link opens correct landing page  
+- UTMs visible and working  
+- Form loads and submits
+
+✔ DEVICE & PLACEMENT CHECK  
+- Preview on mobile + desktop  
+- Check feed, stories, reels, in-stream where applicable  
+
+🔥 RULE: If you haven’t previewed it, you haven’t launched it.`,
+            duration: '8 min',
             isCompleted: false,
             type: 'video'
           },
+          {
+            id: 'pm_m2d',
+            title: 'Document campaign setup details in central tracker.',
+            description: `📘 CAMPAIGN SETUP DOCUMENTATION CHECKLIST  
+Frequency: Daily (post-launch)
+
+✔ WHAT TO DOCUMENT  
+- Platform (Meta / Google / LinkedIn)  
+- Objective  
+- Campaign Name (as per naming SOP)  
+- Ad Set / Ad Group details  
+- Budgets & bids  
+- Audience breakdown  
+- Placements  
+- Creatives & copy links  
+- Tracking (UTM / pixel events)  
+- Start date  
+
+✔ HOW TO DOCUMENT  
+1️⃣ Open central tracker  
+2️⃣ Fill all fields immediately after launch  
+3️⃣ Attach screenshots for clarity  
+4️⃣ Update again if any edits are made  
+
+✔ WHY IT MATTERS  
+- Enables proper optimization  
+- Ensures transparency  
+- Helps others pick up the work anytime  
+
+🔥 RULE:  
+If the campaign is live, the tracker must be live too.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          }
         ]
       },
       {
         id: 's3',
-        title: 'Collaboration & Tools',
+        title: 'Campaign Optimization',
         modules: [
           {
-            id: 'pm_m6',
-            title: 'Cross-Team Coordination',
-            description: 'Collaborate with Account team for new client goals. Share ad performance data with Creative team and work with SEO/Automation teams.',
-            duration: '20 min',
+            id: 'pm_m3',
+            title: 'Monitor live campaigns daily for performance metrics (CTR, CPC, CPL, ROAS).',
+            description: `📌 DAILY CAMPAIGN MONITORING CHECKLIST (Daily)
+
+✔ QUICK DASHBOARD SCAN
+- Check CTR, CPC, CPL, ROAS at account & campaign level
+- Identify campaigns with large deviations vs. 7-day average
+
+✔ DRILL DOWN
+- Open ad-level view for low CTR or high CPC campaigns
+- Check audience overlap, frequency, and creative fatigue
+- Review landing page load and conversion events if CPL spikes
+
+✔ IMMEDIATE ACTIONS
+- Pause non-performing ads or audiences (if bleeding budget)
+- Reallocate budget to winners or experiments
+- Request new creative/tests for low CTR ad sets
+
+✔ COMMUNICATION & DOCUMENTATION
+- Log issues + actions in tracker (screenshot + note)
+- Flag red-alert accounts to Performance Lead
+- Add follow-up actions for account manager if client dependency exists
+
+🔥 RULE: Daily monitoring is not just checking numbers — it's spotting signals and taking one immediate action.`,
+            duration: '10 min',
             isCompleted: false,
             type: 'video'
           },
           {
-            id: 'pm_m7',
-            title: 'AI & Automation Integration',
-            description: 'Use AI tools (ChatGPT, AdCreative.ai) for ad copy and creative suggestions. Leverage Meta Advantage+ and automate reporting dashboards.',
-            duration: '20 min',
+            id: 'pm_m3b',
+            title: 'Identify high and low-performing segments and make adjustments.',
+            description: `📌 SEGMENT PERFORMANCE OPTIMIZATION CHECKLIST (Daily/Weekly)
+
+✔ IDENTIFY HIGH-PERFORMING SEGMENTS  
+- Strong CTR (above benchmark)  
+- Low/steady CPC  
+- Stable CPL within target  
+- High engagement or conversion rate  
+- Expand: increase budget, create new variations  
+
+✔ IDENTIFY LOW-PERFORMING SEGMENTS  
+- CTR dropping  
+- CPC unusually high  
+- CPL exceeding target  
+- Weak conversion signals  
+- Action: pause, shrink, or refresh creatives  
+
+✔ WHAT TO ANALYZE  
+- Audience groups  
+- Age brackets  
+- Gender  
+- Placements  
+- Locations  
+- Devices  
+- Ad types (Reels, Display, Search, Demand Gen)  
+
+✔ IMMEDIATE ACTIONS  
+- Scale winners  
+- Fix or pause losers  
+- Request new creatives for segments showing fatigue  
+
+✔ DOCUMENTATION  
+- Update tracker with:  
+  • Segment name  
+  • Issue spotted  
+  • Action taken  
+  • Next review date  
+
+🔥 RULE: Optimize segments, not whole campaigns — precision beats random changes.`,
+            duration: '10 min',
             isCompleted: false,
             type: 'video'
           },
+          {
+            id: 'pm_m3c',
+            title: 'Perform A/B testing for creative and audience variations.',
+            description: `📌 SEGMENT PERFORMANCE OPTIMIZATION CHECKLIST (Daily/Weekly)
+
+✔ IDENTIFY HIGH-PERFORMING SEGMENTS  
+- Strong CTR (above benchmark)  
+- Low/steady CPC  
+- Stable CPL within target  
+- High engagement or conversion rate  
+- Expand: increase budget, create new variations  
+
+✔ IDENTIFY LOW-PERFORMING SEGMENTS  
+- CTR dropping  
+- CPC unusually high  
+- CPL exceeding target  
+- Weak conversion signals  
+- Action: pause, shrink, or refresh creatives  
+
+✔ WHAT TO ANALYZE  
+- Audience groups  
+- Age brackets  
+- Gender  
+- Placements  
+- Locations  
+- Devices  
+- Ad types (Reels, Display, Search, Demand Gen)  
+
+✔ IMMEDIATE ACTIONS  
+- Scale winners  
+- Fix or pause losers  
+- Request new creatives for segments showing fatigue  
+
+✔ DOCUMENTATION  
+- Update tracker with:  
+  • Segment name  
+  • Issue spotted  
+  • Action taken  
+  • Next review date  
+
+🔥 RULE: Optimize segments, not whole campaigns — precision beats random changes.`,
+            duration: '10 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m3d',
+            title: 'Update optimization actions and insights in campaign log.',
+            description: `📌 OPTIMIZATION LOGGING CHECKLIST (Daily)
+
+✔ WHAT TO LOG  
+- Budget changes  
+- Audience shifts  
+- Creative replacements  
+- Placement adjustments  
+- Negative keyword updates  
+- Bid strategy changes  
+- Paused segments  
+- New tests initiated  
+
+✔ HOW TO WRITE A GOOD LOG ENTRY  
+- 📅 Date  
+- 🎯 Issue found  
+- 🔧 Action taken  
+- 💡 Why you took it (hypothesis)  
+- ⏳ When to review  
+- 📊 Expected outcome  
+
+✔ EXAMPLE ENTRY  
+**Date:** 26 Nov  
+**Issue:** CPL increased from ₹120 to ₹220 on Lookalike 2%  
+**Action:** Paused LAL 2% and shifted ₹2,000 to Retargeting  
+**Reason:** Drop in CTR and spike in CPC indicated audience fatigue  
+**Review:** After 24 hours  
+
+✔ RULES  
+- If you optimized but didn’t log — it didn’t happen  
+- Logs help diagnose performance dips  
+- Logs help explain decisions during client or internal reviews  
+
+🔥 Treat logs as “black box recordings” of the campaign.`,
+            duration: '9 min',
+            isCompleted: false,
+            type: 'video'
+          }
         ]
       },
       {
         id: 's4',
-        title: 'Client Relations',
+        title: 'Budget Monitoring',
         modules: [
           {
-            id: 'pm_m8',
-            title: 'Client Updates & Escalations',
-            description: 'Share ad highlights and reports with Account team weekly. Flag campaign issues proactively and ensure transparent communication.',
-            duration: '20 min',
+            id: 'pm_m4',
+            title: 'Track daily and weekly spend against allocated budget.',
+            description: `📌 SPEND TRACKING CHECKLIST (Daily / Weekly)
+
+✔ DAILY CHECK  
+- Check account-level spend vs. daily run-rate (Monthly Budget ÷ Working Days)  
+- Verify key campaigns are within daily budget limits  
+- Confirm no campaign is pacing to exhaust funds prematurely  
+- Note any unusual spikes or unexpected spend  
+
+✔ WEEKLY CHECK  
+- Review cumulative weekly spend vs. planned week allocation  
+- Identify under-spend opportunities and scale winners if CPA/CPL are healthy  
+- Flag over-spending campaigns and apply caps / reduce bids / pause experiments  
+
+✔ ACTIONS FOR COMMON SCENARIOS  
+- Overspend without performance uplift → cap or pause, notify AM + Lead  
+- Underspend with good performance → reallocate to top performers or run tests  
+- Imminent fund exhaustion (≤48 hours) → escalate to Account Manager and Ops immediately  
+- Sudden spend spike → check for duplicated campaigns, bid changes, or platform anomalies  
+
+✔ RECORDING & COMMUNICATION  
+- Update budget pacing sheet every morning (screenshot proof)  
+- Note changes in campaign log with reason and timestamp  
+- Inform AM if client top-up / fund scheduling is required  
+
+🔥 RULE:  
+If budget pacing is off, act first and notify second — immediate action avoids downtime.`,
+            duration: '8 min',
             isCompleted: false,
             type: 'video'
           },
+          {
+            id: 'pm_m4b',
+            title: 'Adjust pacing to prevent over- or under-spending.',
+            description: `📌 PACING ADJUSTMENT CHECKLIST (Daily)
+
+✔ MONITOR  
+- Compare actual vs. ideal spend  
+- Identify over-spending campaigns  
+- Identify under-spending campaigns  
+- Check performance metrics before adjusting  
+
+✔ ACTIONS FOR OVER-SPENDING  
+- Reduce daily budgets  
+- Pause low-performing ad sets  
+- Tighten targeting  
+- Shift budgets to better-performing segments  
+
+✔ ACTIONS FOR UNDER-SPENDING  
+- Increase daily budgets on top performers  
+- Expand audience size  
+- Activate dormant or test campaigns  
+- Improve creative variety to increase traffic  
+
+✔ DOCUMENT  
+- Log pacing changes in the campaign tracker  
+- Screenshot unusual spikes  
+- Notify AM if pacing issues impact lead flow  
+
+🔥 RULE:  
+Pacing is never about random budget changes — every adjustment must be strategic.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m4c',
+            title: 'Reallocate budget dynamically to maximize performance.',
+            description: `📌 BUDGET REALLOCATION CHECKLIST (Daily / Weekly)
+
+✔ IDENTIFY WINNERS  
+- Low CPL  
+- High CTR  
+- Stable or improving CPC  
+- Strong conversion rate  
+- Positive ROAS  
+
+✔ IDENTIFY LOSERS  
+- High CPL  
+- Weak CTR  
+- Rising CPC  
+- Low or unstable conversions  
+- Poor lead quality  
+
+✔ ACTIONS  
+- Increase budget on winners  
+- Reduce/stop budget on low performers  
+- Redistribute spend from cold to warm audiences  
+- Scale conversion campaigns when enough data is available  
+
+✔ DOCUMENT  
+- Record change in optimization log  
+- Add “reason for shift”  
+- Set review date (24 or 48 hours)  
+
+✔ COMMUNICATE  
+- Inform Account Manager of any major shifts  
+- Flag if budget reallocation affects monthly pacing  
+
+🔥 RULE:  
+Performance decides budget — not the calendar, not assumptions.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m4d',
+            title: 'Report any deviation immediately to Performance Lead.',
+            description: `🚨 DEVIATION REPORTING CHECKLIST (Immediate action)
+
+✔ TRIGGER CONDITIONS (Report if any)
+- CPL swings > ±20% vs target
+- Daily spend pacing off by >15%
+- Conversion events stop firing or tracking failure
+- Account at risk of fund exhaustion within 48 hours
+- Sudden big drop in CTR or huge CPC spike
+- Ad disapprovals affecting major campaigns
+
+✔ REPORT CONTENT (Must include)
+1) Headline: Short issue summary (1 line)  
+2) Evidence: Screenshot(s) + timestamp  
+3) Metrics: Current vs baseline (CPL/CPC/CTR/spend)  
+4) Actions taken: What you already did (paused, shifted budget, notified AM)  
+5) Recommendation: Suggested next step (pause, scale, deep-dive, client fund top-up)  
+6) Impact: Estimated lead / revenue risk if not resolved
+
+✔ ESCALATION CHANNEL
+- Primary: Performance Slack channel + tag Lead  
+- Secondary (urgent): Basecamp task + Email to Lead & AM  
+- Emergency (downtime/fund risk <48 hrs): WhatsApp tag + call
+
+✔ POST-ESCALATION
+- Log incident in campaign log with details and timeline  
+- Follow up with outcome and close the loop  
+
+🔥 RULE: Report early with facts — don’t wait to confirm a theory.`,
+            duration: '6 min',
+            isCompleted: false,
+            type: 'video'
+          }
         ]
       },
       {
         id: 's5',
-        title: 'Process & SOPs',
+        title: 'Reporting & Analysis',
         modules: [
           {
-            id: 'pm_m9',
-            title: 'Process & SOP Adherence',
-            description: 'Follow performance SOP for campaign setup, optimization, and reporting. Update trackers daily and submit campaign audit forms.',
-            duration: '20 min',
+            id: 'pm_m5',
+            title: 'Prepare weekly reports showing campaign performance and key insights.',
+            description: `📌 WEEKLY REPORTING CHECKLIST
+
+✔ DATA COLLECTION  
+- Meta Ads Manager  
+- Google Ads  
+- YouTube Studio (if applicable)  
+- Landing page analytics (GA4, Clarity)
+
+✔ KPIs TO INCLUDE  
+- Spend  
+- Leads generated  
+- CPL  
+- CTR  
+- CPC  
+- Conversion Rate  
+- Best performing audiences  
+- Best and worst creatives  
+
+✔ INSIGHTS (Explain the WHY)  
+- Why CPL increased or dropped  
+- Why certain audiences worked  
+- What creative fatigue looks like  
+- Why traffic quality changed  
+- What was fixed this week  
+
+✔ ACTIONS / NEXT STEPS  
+- Replace fatigued creatives  
+- Test new audiences  
+- Scale winners  
+- Optimize landing page sections  
+- Implement tracking fixes  
+
+✔ DELIVERY  
+- Upload report to Basecamp  
+- Share summary on WhatsApp tagging client  
+- Present it briefly on weekly calls  
+
+🔥 RULE:  
+Numbers are useless without insights — always explain the “why.”`,
+            duration: '7 min',
             isCompleted: false,
             type: 'video'
           },
           {
-            id: 'pm_m10',
-            title: 'Knowledge Transfer & Handover',
-            description: 'Follow KT template. Document pending tasks, red alerts, and update trackers. Ensure smooth continuity during leaves.',
-            duration: '16 min',
+            id: 'pm_m5b',
+            title: 'Highlight learning points, creative winners, and improvement areas.',
+            description: `📌 LEARNING INSIGHTS CHECKLIST (Weekly)
+
+✔ IDENTIFY WINNERS  
+- Creatives with best CTR  
+- Audiences with lowest CPL  
+- Formats generating longest retention  
+- High-quality traffic sources  
+- Strong conversion-rate segments  
+→ WHY they worked: hook strength, relevance, newness, seasonal benefit  
+
+✔ IDENTIFY LOSERS  
+- Creatives with fatigue (CTR drop + CPC rise)  
+- Audiences crossing CPL threshold  
+- Poor landing page behavior (bounce/scroll issues)  
+- Weak placements  
+→ WHY they dropped: creative saturation, poor match, platform shift, narrow targeting  
+
+✔ LEARNING POINTS  
+- What repeated pattern did you notice?  
+- What insight will shape next week’s strategy?  
+- Which risk surfaced early?  
+- Which opportunity emerged?  
+
+✔ NEXT STEPS  
+- Replace weak creatives  
+- Scale winning segments  
+- Test new angles or hooks  
+- Adjust targeting based on audience learning  
+- Improve landing page based on user behavior  
+
+🔥 RULE:  
+Insights must be useful, short, pattern-based, and action-driven.`,
+            duration: '7 min',
             isCompleted: false,
             type: 'video'
           },
+          {
+            id: 'pm_m5c',
+            title: 'Generate visual dashboards using Google Data Studio or Looker.',
+            description: `📌 DASHBOARD CREATION CHECKLIST
+
+✔ CONNECT DATA SOURCES  
+- Google Ads  
+- Meta Ads  
+- GA4  
+- YouTube Analytics  
+- Lead Sheet (Google Sheets)  
+
+✔ INCLUDE CORE KPIs  
+- Spend  
+- Leads  
+- CPL  
+- CTR  
+- CPC  
+- Conversions  
+- Landing page performance (if applicable)  
+
+✔ VISUAL ELEMENTS  
+- Line graphs → trends  
+- Bar charts → comparisons  
+- Pie charts → segmentation  
+- Tables → granular details  
+- Filters → date, campaign, audience  
+
+✔ QUALITY CHECK  
+- Match numbers with platform  
+- Check currency / date formats  
+- Test filter behavior  
+- Ensure dashboard updates automatically  
+
+✔ DELIVERY  
+- Share dashboard link with AM + Lead  
+- Add to Basecamp for the client  
+- Present major insights during weekly/monthly calls  
+
+🔥 RULE:  
+Dashboards must be simple, accurate, and insight-rich — not cluttered.`,
+            duration: '9 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m5d',
+            title: 'Submit reports to Performance Lead and Account Managers.',
+            description: `📤 REPORT SUBMISSION CHECKLIST
+
+✔ FORMAT & CHANNELS  
+- Weekly: Basecamp + WhatsApp summary (tag client if needed)  
+- Monthly: Basecamp + Email (attach PDF) + Dashboard link  
+- Urgent incidents: Slack + Email + Basecamp task  
+
+✔ CONTENT TO INCLUDE  
+- Short executive summary (1–3 lines)  
+- Key KPIs (Spend, Leads, CPL, CTR, ROAS)  
+- Top 3 insights and actions taken  
+- Recommended next steps with owner and ETA  
+- Dashboard link and attached PDF/screenshots  
+
+✔ DELIVERY STEPS  
+1) Upload report to Basecamp and attach PDF  
+2) Send email with summary + link; CC Performance Lead + AMs  
+3) Post short message in Performance Slack tagging Lead + AMs  
+4) Log submission and confirmation in tracker (timestamp + acknowledgement)  
+
+✔ FOLLOW-UP  
+- If action required: ask for confirmation within 24 hours  
+- If no acknowledgment in 24 hours: re-send and escalate to Lead  
+
+🔥 RULE:  
+A report isn’t delivered until the Lead and AM acknowledge it.`,
+            duration: '6 min',
+            isCompleted: false,
+            type: 'video'
+          }
         ]
       },
       {
         id: 's6',
-        title: 'Advanced Strategy',
+        title: 'Cross-Team Coordination',
+        modules: [
+          {
+            id: 'pm_m6',
+            title: 'Collaborate with Account team for new client goals or target updates.',
+            description: `🤝 ACCOUNT TEAM COLLABORATION CHECKLIST
+
+✔ RECEIVE UPDATES  
+- New monthly targets  
+- Revised CPL expectations  
+- Updated audience priorities  
+- Offer changes  
+- Upcoming campaigns or events  
+- Paused or discontinued services  
+- Client escalations or concerns  
+
+✔ ACTION ON UPDATES  
+- Re-run targeting logic  
+- Adjust budgets across campaigns  
+- Create or update ad copies  
+- Revise audience segments  
+- Prepare new experiment roadmap  
+- Document changes in tracker  
+
+✔ COMMUNICATION  
+- Confirm understanding of every update  
+- Clarify doubts immediately  
+- Share the estimated time of execution  
+- Send back a summary of changes implemented  
+
+✔ COORDINATION HABITS  
+- Sync at least once a week  
+- Join monthly planning meetings  
+- Tag AM in Basecamp for relevant tasks  
+- Share mini performance highlights they can forward to the client  
+
+🔥 RULE:  
+No update is minor — treat every input from Account Team as a performance directive.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m6b',
+            title: 'Share ad performance data with Creative team for content refinement.',
+            description: `🎨 PERFORMANCE → CREATIVE SYNC CHECKLIST (Weekly)
+
+✔ WHAT TO SHARE  
+- Top 3 winning creatives (with metrics)  
+- Bottom 3 poor performers (with reasons)  
+- CTR, CPC, Thumb-Stop Rate, Retention stats  
+- Hook performance comparison  
+- Creative fatigue signals (CTR drop + CPC rise)  
+- Audience behavior insights (age, gender, interests)  
+
+✔ HOW TO PRESENT  
+- Simple table or bullets  
+- Include screenshots with highlights  
+- Add 1-line insight per creative (Why it worked / Why it failed)  
+- Recommend next creative themes or hooks  
+
+✔ ACTIONS FOR CREATIVE TEAM  
+- Refine hooks based on top performers  
+- Replace fatigued creatives  
+- Experiment with new angles, formats, or colors  
+- Create versions of winning patterns (A/B variants)  
+
+✔ COMMUNICATION  
+- Share update on Basecamp + tag designers & copywriters  
+- Send quick WhatsApp summary for urgent items  
+- Record insights in performance tracker  
+
+🔥 RULE:  
+Don’t just send data — send direction.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m6c',
+            title: 'Work with SEO and Automation teams to align performance funnels.',
+            description: `🔗 PERFORMANCE → SEO → AUTOMATION ALIGNMENT CHECKLIST
+
+✔ ALIGN WITH SEO  
+- Share top-performing keywords and audiences  
+- Get SEO’s ranking priorities  
+- Align ad copy with SEO tone and keyword buckets  
+- Sync on landing page improvements (speed, content, CTAs)  
+- Use SEO insights for long-term funnel stability  
+
+✔ ALIGN WITH AUTOMATION  
+- Confirm all forms mapped to CRM correctly  
+- Check WhatsApp auto-replies and nurturing flows  
+- Ensure Pabbly automations run without errors  
+- Validate lead tagging + source accuracy  
+- Fix broken flows immediately  
+
+✔ FUNNEL OPTIMIZATION  
+- Align ad hooks with SEO content themes  
+- Pass lead-quality feedback to SEO for ranking strategy  
+- Coordinate with Automation for instant lead engagement  
+- Share timeline signals (peak enquiry hours, high-intent audiences)  
+
+✔ COMMUNICATION  
+- Update SEO + Automation teams in Basecamp  
+- Share weekly funnel insights summary  
+- Document all changes in performance tracker  
+
+🔥 RULE:  
+A funnel wins only when ads, SEO, and automation speak the same language.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m6d',
+            title: 'Document inter-department updates for review meetings.',
+            description: `📄 INTER-DEPARTMENT UPDATE CHECKLIST (Weekly)
+
+✔ WHAT TO DOCUMENT  
+- Creative delays or required assets  
+- New ad copy or scripts needed  
+- SEO changes affecting landing page or traffic quality  
+- Automation issues (Pabbly, WhatsApp, CRM mapping)  
+- Client updates received from Account Managers  
+- Performance trends that need cross-team attention  
+
+✔ FORMAT  
+- Use bullet points  
+- Group updates by department  
+- Add dates + context  
+- Note impact + required action  
+
+✔ EXAMPLES  
+- Creative: “Need 3 new hooks for LAL audiences due to creative fatigue.”  
+- SEO: “High bounce rate on LP—needs content fix on section 2.”  
+- Automation: “WhatsApp autoresponder not firing—leads delayed by 20 mins.”  
+
+✔ DELIVERY  
+- Upload in Basecamp under ‘Review Meeting Notes’  
+- Share summary with AM + Lead  
+- Present during weekly/monthly review meetings  
+
+🔥 RULE:  
+If an update impacts results, it must be documented before the review.`,
+            duration: '6 min',
+            isCompleted: false,
+            type: 'video'
+          }
+        ]
+      },
+      {
+        id: 's7',
+        title: 'AI & Automation Integration',
+        modules: [
+          {
+            id: 'pm_m7',
+            title: 'Use AI tools (ChatGPT, AdCreative.ai, Bard) for ad copy and creative suggestions.',
+            description: `🤖 AI USAGE CHECKLIST (Daily)
+
+✔ PREP INPUTS  
+- Gather top-performing creatives  
+- Identify poor performers  
+- Extract audience insights (age, gender, interests)  
+- Note campaign goals (CPL, leads, conversions)  
+
+✔ GENERATE WITH AI  
+- Hooks  
+- Headlines  
+- CTAs  
+- Ad copy variations  
+- Creative concepts  
+- Carousel frames  
+- Script outlines for UGC-style ads  
+- Localization (Telugu/Hindi/English)  
+
+✔ USE THE RIGHT TOOLS  
+- ChatGPT → Concepts, hooks, angles, scripts  
+- Bard → Data-backed suggestions, keyword-focused ideas  
+- AdCreative.ai → Visual mockups and quick creative layouts  
+
+✔ REVIEW BEFORE SHARING  
+- Remove clichés  
+- Ensure accuracy  
+- Match brand tone  
+- Avoid over-promising  
+- Ensure compliance with platform policies  
+
+✔ DELIVERY  
+- Share final shortlisted options with Creative team  
+- Add AI outputs to Creative Brief  
+- Add winning AI ideas to internal library  
+
+🔥 RULE:  
+AI expands creativity — YOU provide direction.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m7b',
+            title: 'Leverage Meta Advantage+ and Google AI tools for campaign scaling.',
+            description: `⚙️ PLATFORM AI CHECKLIST (Daily/Weekly)
+
+✔ WHEN TO USE AI  
+- High data volume  
+- Stable conversion tracking  
+- Clean funnel  
+- Strong past performance  
+
+✔ META ADVANTAGE+  
+- Broad audience expansion  
+- Creative diversification  
+- Automated placements  
+- Budget optimization  
+- Testing multiple hooks quickly  
+
+✔ GOOGLE AI (PMax + Smart Bidding)  
+- High-intent capture  
+- Automated keyword expansion  
+- Conversion probability bidding  
+- Cross-channel optimization  
+
+✔ HOW TO UTILIZE  
+1️⃣ Give clear conversion goals (Leads / Sales)  
+2️⃣ Feed top 5–7 winning creatives  
+3️⃣ Set minimum ROAS or max CPA targets  
+4️⃣ Monitor early signals for 48–72 hours  
+5️⃣ Let the algorithm stabilize before major edits  
+
+✔ WHAT NOT TO DO  
+🚫 Don’t switch off AI campaigns too soon  
+🚫 Don’t change budgets drastically  
+🚫 Don’t starve campaigns with insufficient creatives  
+🚫 Don’t rely blindly — always monitor  
+
+🔥 RULE:  
+AI scales what YOU set up correctly.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m7c',
+            title: 'Automate reporting dashboards and daily performance summaries.',
+            description: `🔁 AUTOMATION IMPLEMENTATION CHECKLIST (Daily / Weekly)
+
+✔ DATA SOURCES & CONNECTIONS  
+- Connect Meta Ads, Google Ads, GA4, YouTube, CRM/Lead Sheet  
+- Ensure connectors use service accounts or API keys (no manual uploads)  
+
+✔ DASHBOARD DESIGN  
+- Core KPIs: Spend, Leads, CPL, CTR, Top-performing creative/audience, Red-alert flag  
+- Weekly and monthly trend widgets + realtime snapshots  
+- Filters: Client, Campaign, Date range, Platform  
+
+✔ DATA VALIDATION & SANITY CHECKS  
+- Cross-verify totals with platform exports (daily)  
+- Row-level checks: UTMs, conversion timestamps, duplicate leads  
+- Alerts for mismatches >5% between dashboard and platform  
+
+✔ SUMMARY TEMPLATE (Daily automated email/slack)  
+- Subject: Daily Snapshot — Client — DD MMM  
+- 1-line headline (Status: Green/Amber/Red)  
+- Key metrics: Spend | Leads | CPL | Top Winner | Action (1-line)  
+- Attach dashboard link + 1 screenshot  
+
+✔ SCHEDULE & DELIVERY  
+- Auto-refresh dashboards pre-9:30 AM (local time)  
+- Auto-send summary to AM + Performance Lead via Email + Slack + Basecamp  
+- Include link to the dashboard and key screenshots  
+
+✔ MAINTENANCE & OWNERSHIP  
+- Weekly QA: check connectors, GA4 event mapping, UTM integrity  
+- Document automation flows & update when pixel/UTM/SOP change  
+- Backup export to Google Drive daily for audit  
+
+🔥 RULES  
+- If dashboard totals deviate >5% vs platform, pause automated send and investigate.  
+- Critical alerts (tracking failure, fund risk, CPL > 20% above target) must trigger immediate Slack + email + tag Lead.`,
+            duration: '10 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m7d',
+            title: 'Maintain AI insights log for internal learning.',
+            description: `🧠 AI INSIGHTS LOG — WEEKLY WORKFLOW
+
+✔ WHAT TO DOCUMENT  
+- Winning hooks generated by AI  
+- Audience ideas (interest clusters, lookalike prompts)  
+- Creative suggestions from AdCreative.ai  
+- Competitor insights (positioning, ad formats)  
+- Landing page improvement suggestions  
+- Search term expansion or negatives from AI analysis  
+- Screenshot + link of prompt used  
+
+✔ HOW TO ORGANIZE  
+- Category tabs: Copy | Creative | Audience | Keywords | Bidding | LP Suggestions | Competitor Insights  
+- Add columns: Prompt Used | Insight | Status (Tested/Not Tested) | Impact | Owner  
+
+✔ WHEN TO UPDATE  
+- End of every week (Friday EOD)  
+- Before weekly sync meeting  
+
+✔ ACTION STEPS  
+1️⃣ Log all AI-generated ideas worth testing  
+2️⃣ Mark insights as “Tested” once implemented  
+3️⃣ Record performance impact  
+4️⃣ Present top 3 insights in weekly sync  
+5️⃣ Archive non-useful insights for learning  
+
+🔥 RULES  
+- No AI idea is valid until tested  
+- Every tested idea must be logged with impact  
+- Insights must be accessible to the whole team  
+
+💡 AIM: Create a growing internal intelligence system.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          }
+        ]
+      },
+      {
+        id: 's8',
+        title: 'Client Updates & Escalations',
+        modules: [
+          {
+            id: 'pm_m8',
+            title: 'Share ad highlights and reports with Account team weekly.',
+            description: `📤 WEEKLY AD HIGHLIGHTS & REPORT SHARING CHECKLIST
+
+✔ TIMING  
+- Send weekly summary before the weekly review meeting (preferably 24 hours prior)
+
+✔ CONTENT (Short & Actionable)  
+- 1-line headline (Status: Green/Amber/Red)  
+- Top 3 winners (creative / audience / placement) with one metric each (CTR, CPL, ROAS)  
+- Top 2 risks or red alerts (tracking, pacing, creative fatigue)  
+- Top 3 actions taken this week  
+- Top 3 recommended next steps (owner + ETA)  
+- Link to dashboard and attached 1-slide snapshot or key screenshots
+
+✔ DELIVERY CHANNELS  
+- Basecamp: Upload full report + attach snapshot  
+- Email: Short executive summary + dashboard link (CC Performance Lead + AM)  
+- Slack/WhatsApp: 1-line headline + link (tag AM for visibility)
+
+✔ FORMAT TIPS  
+- Use bullets — keep it skimmable  
+- Include screenshots for winners and red alerts  
+- Mention impact on KPIs (e.g., “CPL down 18% week-on-week”)  
+- Provide exact owners + ETAs for recommended actions
+
+✔ CONFIRMATION & FOLLOW-UP  
+- Request acknowledgment from AM within 24 hours  
+- If no acknowledgment, follow up and escalate to Lead  
+- Log the share in the weekly communication tracker
+
+🔥 RULE:  
+If the Account team can’t forward your update to the client as-is, simplify it until they can.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m8b',
+            title: 'Prepare short summaries of wins and upcoming experiments for clients.',
+            description: `📈 WEEKLY WINS & UPCOMING EXPERIMENT SUMMARY CHECKLIST  
+
+✔ STRUCTURE  
+1) **Top Wins (with numbers)**  
+   - CTR up 22%  
+   - CPL down from ₹450 to ₹380  
+   - Lead quality improved (12% more calls connected)
+
+2) **Why These Wins Happened**  
+   - New hook performed well  
+   - Better audience match  
+   - Optimized landing page section  
+   - Improved creative format
+
+3) **Upcoming Experiments (Next 7–14 Days)**  
+   - New audience test  
+   - New creative angles  
+   - Different bidding strategy  
+   - Retargeting adjustments  
+   - Landing page tweaks
+
+✔ DELIVERY  
+- WhatsApp: Short, skimmable message  
+- Basecamp: Insert in weekly update thread  
+- Email: Formal summary (if major update)
+
+✔ TONE  
+- Confident  
+- Strategic  
+- Transparent  
+- No technical jargon unless needed
+
+🔥 RULE:  
+If the client can’t understand the update in 60 seconds, rewrite it to make it simpler.`,
+            duration: '6 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m8c',
+            title: 'Flag any campaign issues or platform challenges proactively.',
+            description: `🚨 PROACTIVE ISSUE FLAGGING CHECKLIST  
+
+✔ WHAT TO FLAG  
+- Sudden CPL spikes (20–30% increase in a day)  
+- Drop in CTR, impressions, or conversions  
+- Disapproved ads or restricted assets  
+- Conversion tracking issues  
+- Budget not spending  
+- Landing page loading issues  
+- Audience fatigue or creative burnout  
+- Platform bugs (events missing, delayed reporting)
+
+✔ HOW TO FLAG  
+Use this 4-part alert message:  
+1) **Issue:** What happened  
+2) **Impact:** Why it matters  
+3) **Action Taken:** What you already did  
+4) **Next Step Needed:** From AM/Lead/Client if required  
+
+✔ WHERE TO FLAG  
+- WhatsApp group (urgent issues)  
+- Basecamp (formal documentation)  
+- Slack (internal alignment)  
+- Campaign log (for audit)
+
+✔ BEST PRACTICES  
+- Flag within 15 minutes of identifying the issue  
+- Always include screenshots  
+- Always suggest a solution  
+- Never wait for the client to find the issue  
+
+🔥 RULE:  
+Early flagging prevents late panic.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m8d',
+            title: 'Ensure transparent communication on performance expectations.',
+            description: `📣 TRANSPARENT PERFORMANCE COMMUNICATION CHECKLIST  
+
+✔ WHAT TO COMMUNICATE  
+- Expected CPL range  
+- Learning phase period (7–14 days)  
+- Testing plan (audience, creatives, placements)  
+- Key dependencies (LP speed, client’s sales follow-up, budgets)  
+- Expected timeline for stability (3–4 weeks)  
+
+✔ WHEN TO COMMUNICATE  
+- At onboarding  
+- In weekly meetings  
+- Whenever performance drops  
+- Before launching experiments  
+- When budgets or conditions change  
+
+✔ HOW TO COMMUNICATE  
+- Keep language simple and non-technical  
+- Share real numbers, not vague statements  
+- Show comparison charts (week-on-week/month-on-month)  
+- Use phrases like:  
+  “Here’s what we’re testing now…”  
+  “This is the expected CPL range…”  
+  “Here’s what may affect numbers this week…”  
+
+✔ TONE  
+- Honest  
+- Calm  
+- Confidence-building  
+- Solution-focused  
+
+🔥 RULE:  
+Promise clarity, not miracles. Under-explain nothing. Over-explain nothing.`,
+            duration: '6 min',
+            isCompleted: false,
+            type: 'video'
+          }
+        ]
+      },
+      {
+        id: 's9',
+        title: 'Process & SOP Adherence',
+        modules: [
+          {
+            id: 'pm_m9',
+            title: 'Follow performance SOP for campaign setup, optimization, and reporting.',
+            description: `🧩 PERFORMANCE SOP COMPLIANCE CHECKLIST  
+
+✔ CAMPAIGN SETUP SOP  
+- Follow naming conventions: Campaign → Ad Set → Ad  
+- Add UTMs and verify tracking  
+- Ensure pixel events are firing  
+- Double-check audience size and bidding strategy  
+- Run pre-launch quality check (copy, CTA, creative, preview)
+
+✔ OPTIMIZATION SOP  
+- Daily CPL + spend check  
+- Daily placement / creative performance check  
+- Weekly search term + negative keyword update  
+- Weekly audience refresh or testing  
+- Landing page check once a week  
+- Pause underperformers based on SOP thresholds  
+- Document all optimization actions in log
+
+✔ REPORTING SOP  
+- Follow template for weekly/monthly reports  
+- Add insights, not just data  
+- Highlight wins, risks, and next actions  
+- Attach screenshots of important metrics  
+- Share via Basecamp + Email  
+- Log report submission
+
+✔ BEST PRACTICES  
+- Never rely on memory; rely on the SOP  
+- If a step is unclear, clarify — never assume  
+- If the SOP improves, update version number  
+- Keep the SOP open during audits and setup
+
+🔥 RULE:  
+SOPs are not optional — they are the standard for performance excellence.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m9b',
+            title: 'Update all campaign changes, ad IDs, and notes in the tracker daily.',
+            description: `📋 TRACKER UPDATE CHECKLIST (Daily)
+
+✔ WHEN TO UPDATE
+- Immediately after any campaign change (budget, audience, creative, bid, pause/enable)
+- End-of-day: consolidate minor edits into the daily log
+
+✔ WHAT TO RECORD
+- Campaign name & ad set/ad group name
+- Ad ID(s) affected (exact ID values)
+- Field changed (budget, audience, creative, bid, status)
+- Previous value → New value
+- Short reason / hypothesis (1–2 lines)
+- Expected outcome and review time (e.g., review after 24 hrs)
+- Screenshot or link to ad preview / platform note
+- Timestamp and your initials
+
+✔ HOW TO FORMAT (example)
+- Date | Campaign | Ad Set | Ad ID | Field | Old → New | Reason | Review Date | Proof Link
+- Keep entries concise and structured — one action per row
+
+✔ BEST PRACTICES
+- Use copy-paste templates to avoid inconsistent entries
+- If you perform multiple related changes, use a single grouped entry with bullet points
+- Tag AM/Lead in the tracker if decision affects pacing or client targets
+- Never leave ad IDs or actions undocumented — assume someone else will need this context
+
+🔥 RULE:
+If it’s not in the tracker — it didn’t officially happen. Update first, explain second.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          },
+          {
+            id: 'pm_m9c',
+            title: 'Submit campaign audit form after every major optimization cycle.',
+            description: `📋 CAMPAIGN AUDIT FORM CHECKLIST (When to submit & what to include)
+
+✔ WHEN TO SUBMIT  
+- After major budget reallocations (≥20% change)  
+- After structural changes (new campaign architecture / audience layers)  
+- After creative or landing page overhaul  
+- After implementing automation/AI-driven scaling that changes spend patterns  
+- After resolving major tracking or delivery issues
+
+✔ WHAT TO CAPTURE IN THE FORM  
+- Campaign name(s) & ad IDs affected  
+- Date & time of optimization cycle  
+- Baseline KPIs (pre-change): Spend | CPL | CTR | CPC | Conversions  
+- Actions taken (detailed bullets)  
+- Hypothesis for each action (1 line)  
+- Expected outcome & KPI target (with timeframe)  
+- Proof attachments: screenshots, tracker links, dashboard snapshot  
+- Follow-up review date and owner (when to check impact)  
+- Final status (Post-review: improved / unchanged / worsened) — to be filled after review
+
+✔ SUBMISSION & STORAGE  
+- Share to Performance Lead + Account Manager via Basecamp + Email  
+- Upload attachments to campaign folder (Month → Campaign → Audits)  
+- Add a line in the campaign log linking to the audit form
+
+✔ BEST PRACTICES  
+- Keep entries factual and concise (no opinions without data)  
+- Use timestamps and exact ad IDs for traceability  
+- Always include a review date (24–72 hrs depending on spend)  
+- If results differ from expected, add a short learning note post-review
+
+🔥 RULE:  
+No major optimization is complete until the audit form is submitted and a review date is logged.`,
+            duration: '8 min',
+            isCompleted: false,
+            type: 'video'
+          }
+        ]
+      },
+      {
+        id: 's10',
+        title: 'Knowledge Transfer & Handover',
+        modules: [
+          {
+            id: 'pm_m10',
+            title: 'Follow KT template.',
+            description: `📘 KT (Knowledge Transfer) CHECKLIST  
+
+✔ WHEN TO PREPARE KT  
+- Planned leave (prepare 24–48 hrs in advance)  
+- Unplanned leave (as soon as possible)  
+- Account handover  
+- Internal role change  
+- During onboarding of backup specialist  
+
+✔ WHAT TO INCLUDE (Follow the Template Exactly)  
+1) **Account Summary** — goals, KPIs, budget pacing  
+2) **Current Campaign Status** — active campaigns + ad IDs  
+3) **Live Optimizations** — what was changed recently + next review date  
+4) **Performance Risks** — CPL trends, tracking issues, LP concerns  
+5) **Pending Tasks** — with owners + due dates  
+6) **Upcoming Experiments** — what’s planned + hypothesis  
+7) **Creative Requirements** — pending assets or approvals  
+8) **Tracking Health** — GA4, pixel, conversion events  
+9) **Links Folder** — dashboards, trackers, Basecamp, campaign sheets  
+10) **Access Notes** — anything needed for login or approvals  
+
+✔ DELIVERY  
+- Share via Basecamp + Email  
+- Tag Performance Lead + Account Manager  
+- Handhold backup specialist for 10–15 minutes  
+- Get acknowledgment
+
+✔ COMMON MISTAKES TO AVOID  
+- Missing ad IDs  
+- Vague next steps  
+- No review dates  
+- No context on current risks  
+- Missing links  
+
+🔥 RULE:  
+If someone cannot run the account smoothly tomorrow using your KT — it is incomplete.`,
+            duration: '7 min',
+            isCompleted: false,
+            type: 'video'
+          }
+        ]
+      },
+      {
+        id: 's11',
+        title: 'Conversion Tracking & Landing Page Management',
         modules: [
           {
             id: 'pm_m11',
@@ -1970,7 +3294,13 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
             duration: '25 min',
             isCompleted: false,
             type: 'video'
-          },
+          }
+        ]
+      },
+      {
+        id: 's12',
+        title: 'Audience, Keyword & Creative Strategy Development',
+        modules: [
           {
             id: 'pm_m12',
             title: 'Audience, Keyword & Creative Strategy',
@@ -1978,12 +3308,12 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
             duration: '25 min',
             isCompleted: false,
             type: 'video'
-          },
+          }
         ]
       },
       {
-        id: 's7',
-        title: 'Onboarding & Troubleshooting',
+        id: 's13',
+        title: 'Onboarding & New Client Setup',
         modules: [
           {
             id: 'pm_m13',
@@ -1992,7 +3322,13 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
             duration: '25 min',
             isCompleted: false,
             type: 'video'
-          },
+          }
+        ]
+      },
+      {
+        id: 's14',
+        title: 'Tools, Diagnostics & Troubleshooting',
+        modules: [
           {
             id: 'pm_m14',
             title: 'Tools, Diagnostics & Troubleshooting',
@@ -2000,7 +3336,13 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
             duration: '24 min',
             isCompleted: false,
             type: 'video'
-          },
+          }
+        ]
+      },
+      {
+        id: 's15',
+        title: 'Red Alert Detection & Recovery Strategy',
+        modules: [
           {
             id: 'pm_m15',
             title: 'Red Alert Detection & Recovery',
@@ -2008,7 +3350,7 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
             duration: '25 min',
             isCompleted: false,
             type: 'video'
-          },
+          }
         ]
       }
     ],
@@ -2988,192 +4330,584 @@ export const MOCK_QUIZZES: Record<string, Quiz> = {
   },
   'q_pm_m1': {
     id: 'q_pm_m1',
-    title: 'Campaign Setup & Planning Assessment',
+    title: 'Campaign Planning Assessment',
     moduleId: 'pm_m1',
-    totalQuestions: 10,
-    timeLimit: '18:00',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'What is the first step in campaign setup?', options: ['Launching ads', 'Understanding goals', 'Writing copy', 'Uploading creatives'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'Naming conventions help with:', options: ['Confusion', 'Clear structure', 'Hiding details', 'Randomness'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Keyword research is required for:', options: ['Meta only', 'Google Search', 'Instagram Stories', 'Email'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'UTMs track:', options: ['Fonts', 'Source/performance', 'Competitors', 'Emails'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Landing page must be:', options: ['Slow', 'Confusing', 'Fast & clear', 'Hidden'], correctOptionIndex: 2 },
-      { id: 'q6', text: 'Pixel ensures:', options: ['Creative quality', 'Conversion tracking', 'Budget increase', 'Trend accuracy'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Who provides assets?', options: ['Performance', 'Creative', 'Sales', 'Security'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Test leads checked in:', options: ['CRM + sheet', 'Canva', 'WhatsApp', 'Email'], correctOptionIndex: 0 },
-      { id: 'q9', text: 'Audience research helps:', options: ['Music selection', 'Targeting accuracy', 'Color palette', 'Budget approval'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'Onboarding SOP ensures:', options: ['Waste', 'Readiness', 'High cost', 'Delay'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What is the purpose of a campaign plan?', options: ['To guess and try random tactics', 'To translate strategy into an executable structure', 'To repeat last month’s setup', 'To experiment without direction'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should you review before planning a campaign?', options: ['Only creatives', 'The approved strategy (objective, audience, budget, timeline)', 'Just the audience', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What should be included in the campaign structure?', options: ['Only budgets', 'Platforms, ad sets, audiences, placements, bidding', 'Designer bios', 'Random settings'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Why document the plan before launch?', options: ['To reduce confusion and provide alignment', 'To make folders heavier', 'To avoid sharing', 'It’s optional'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'What is the right mindset?', options: ['“Campaign planning is button clicking.”', '“Campaign planning designs the path to predictable results.”', '“Strategy doesn’t matter.”', '“Setup can be done without thinking.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m1b': {
+    id: 'q_pm_m1b',
+    title: 'Objectives & Targeting Assessment',
+    moduleId: 'pm_m1b',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why is choosing the right campaign objective important?', options: ['It controls how the algorithm spends the money', 'It doesn’t matter', 'Only creatives matter', 'Objectives are optional'], correctOptionIndex: 0 },
+      { id: 'q2', text: 'What should each ad set ideally contain?', options: ['Multiple mixed strategies', 'One single testing logic', 'Random audiences', 'No structure'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'How should budgets be allocated?', options: ['Randomly', 'Based on funnel strategy and audience size', 'Equally everywhere', 'Only to retargeting'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Which of these is part of target audience definition?', options: ['File names', 'Lookalikes, interests, custom audiences', 'Fonts and colors', 'Useless demographics'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What mindset should you apply?', options: ['“Anything works.”', '“Precision in objective, audience, and budget drives results.”', '“Platform will fix mistakes.”', '“Testing is not needed.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m1c': {
+    id: 'q_pm_m1c',
+    title: 'Creative Coordination Assessment',
+    moduleId: 'pm_m1c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the main purpose of coordinating with creative and copy teams?', options: ['To get random designs', 'To ensure ads align with campaign goals and audience', 'To fill folders', 'To avoid responsibility'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should a brief include?', options: ['Just a reference', 'Objective, audience, format, hook direction, references', 'Only the caption', 'Designer’s favorite colors'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'When should you review drafts?', options: ['At the last minute', 'Early during the creative process', 'Only after launch', 'Never'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What should you check before finalizing creatives?', options: ['Platform compliance and naming conventions', 'How colorful it is', 'Designer mood', 'Random preferences'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Creatives don’t affect performance.”', '“Great performance requires strong creative direction.”', '“Performance team shouldn’t review creatives.”', '“Copies are optional.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m1d': {
+    id: 'q_pm_m1d',
+    title: 'Naming & Tracking Assessment',
+    moduleId: 'pm_m1d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why are naming conventions important?', options: ['To decorate the account', 'To ensure clarity, scalability, and easy optimization', 'Because platforms demand it', 'For fun'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should a naming format include?', options: ['Random words', 'Client name, objective, audience type, platform, version', 'Emojis', 'Designer name'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Why are UTMs necessary?', options: ['They help track exactly which ad generated a lead', 'They make URLs look long', 'They reduce performance', 'They are optional'], correctOptionIndex: 0 },
+      { id: 'q4', text: 'When should naming and tracking be checked?', options: ['After the campaign is finished', 'Before the campaign launch', 'During unrelated tasks', 'Never'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Naming doesn’t matter.”', '“If tracking is wrong, data becomes useless.”', '“UTMs are optional.”', '“Clean structure slows us down.”'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m2': {
     id: 'q_pm_m2',
-    title: 'Ad Launch & Quality Check Assessment',
+    title: 'Campaign Setup Assessment',
     moduleId: 'pm_m2',
-    totalQuestions: 10,
-    timeLimit: '18:00',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'What is the purpose of QC?', options: ['Delay launch', 'Avoid expensive mistakes', 'Confuse team', 'Slow down work'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'Tracking must be checked before launch:', options: ['Never', 'Only sometimes', 'Always', 'After launch'], correctOptionIndex: 2 },
-      { id: 'q3', text: 'Test leads must reflect in:', options: ['CRM + lead sheet', 'WhatsApp', 'Canva', 'Email only'], correctOptionIndex: 0 },
-      { id: 'q4', text: 'Landing page must be checked for:', options: ['Speed & CTA', 'Font size only', 'Colors only', 'Nothing'], correctOptionIndex: 0 },
-      { id: 'q5', text: 'Ads must not be launched without:', options: ['Client approval', 'QC approval', 'Random approval', 'Designer approval'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'Incorrect UTMs cause:', options: ['Better tracking', 'Broken analytics', 'Higher leads', 'Faster delivery'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Naming conventions must be:', options: ['Optional', 'Followed strictly', 'Random', 'Stylish'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Final preview check ensures:', options: ['Correct copy and visuals', 'Fast spending', 'More impressions', 'CTR drop'], correctOptionIndex: 0 },
-      { id: 'q9', text: 'Missing pixel events lead to:', options: ['Cheaper CPL', 'No conversion tracking', 'Fast approvals', 'Better ROAS'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'LP broken on mobile → next step?', options: ['Launch anyway', 'Fix immediately', 'Ignore', 'Increase budget'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What determines most of the campaign’s success?', options: ['The setup quality', 'Luck', 'Random targeting', 'Designer preference'], correctOptionIndex: 0 },
+      { id: 'q2', text: 'What should each ad set contain?', options: ['Multiple mixed strategies', 'One clear testing logic', 'Random interests', 'Unrelated audiences'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What must be verified before launching a campaign?', options: ['Snack breaks', 'Creatives, URLs, pixel/tracking', 'Designer portfolio', 'Browser theme'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What platforms require tracking tags/pixels?', options: ['Only Meta', 'Google, Meta, LinkedIn', 'None', 'Only LinkedIn'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Platforms will fix my mistakes.”', '“Precise setup avoids wasted budget.”', '“Setup is optional.”', '“Testing happens later.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m2b': {
+    id: 'q_pm_m2b',
+    title: 'Pixel & Tracking Verification Assessment',
+    moduleId: 'pm_m2b',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why must tracking be verified before launch?', options: ['To decorate links', 'Because wrong tracking makes data unreliable', 'For fun', 'To delay campaigns'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Which tool helps check Meta Pixel firing?', options: ['Spotify', 'Pixel Helper', 'Canva', 'Excel'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What is the purpose of UTMs?', options: ['To track where the lead actually came from', 'To make URLs longer', 'To confuse clients', 'To replace landing pages'], correctOptionIndex: 0 },
+      { id: 'q4', text: 'What should you do before going live?', options: ['Guess tracking', 'Test events and submit a test lead', 'Ignore tracking', 'Launch immediately'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Tracking doesn’t matter.”', '“Tracking is the truth — without it everything else collapses.”', '“Platforms will auto-fix UTMs.”', '“Testing is optional.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m2c': {
+    id: 'q_pm_m2c',
+    title: 'Ad Preview Assessment',
+    moduleId: 'pm_m2c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the purpose of a test preview?', options: ['To waste time', 'To catch errors before budget starts spending', 'To decorate the account', 'To check designer mood'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should you check first in the preview?', options: ['Colors', 'Copy clarity, spelling, and hook', 'Followers', 'Music'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What must be verified in the CTA?', options: ['Font size', 'That it opens the correct landing page with working UTMs', 'Whether the button looks aesthetic', 'Whether it matches brand color'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Why preview ads on multiple placements?', options: ['Just curiosity', 'To detect cropping issues and text cut-offs', 'For fun', 'It’s optional'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the right mindset?', options: ['“Preview is optional.”', '“A quick preview prevents expensive mistakes.”', '“Setup is enough.”', '“Clients won’t notice.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m2d': {
+    id: 'q_pm_m2d',
+    title: 'Campaign Documentation Assessment',
+    moduleId: 'pm_m2d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why must campaign setup be documented?', options: ['To make the sheet look full', 'To ensure transparency and enable future optimization', 'To add extra workload', 'Because clients demand it'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'When should the campaign tracker be updated?', options: ['Only at month-end', 'Immediately after campaign goes live', 'Only if someone asks', 'Never'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What must be included in campaign documentation?', options: ['Only the campaign name', 'Full details: objective, audience, budget, placements, creatives', 'Only screenshots', 'Only ad copies'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What is the mindset rule for documentation?', options: ['If it’s in memory, it’s enough', 'Documentation is optional', 'If it isn’t documented, it doesn’t exist', 'Documentation slows us'], correctOptionIndex: 2 },
+      { id: 'q5', text: 'Who relies on the documented campaign details?', options: ['Only you', 'Account Managers, Leads, Analysts, Seniors', 'Clients only', 'No one'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m3': {
     id: 'q_pm_m3',
-    title: 'Campaign Optimization Assessment',
+    title: 'Daily Monitoring Assessment',
     moduleId: 'pm_m3',
     totalQuestions: 10,
-    timeLimit: '18:00',
+    timeLimit: '15:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'What is the goal of daily optimization?', options: ['Random testing', 'Improve performance and maintain control', 'Spend budgets faster', 'Avoid changes'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'High CPL ads should be:', options: ['Ignored', 'Switched off or fixed', 'Boosted', 'Left running'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Negative keywords are used to:', options: ['Increase cost', 'Block irrelevant searches', 'Reduce impressions', 'Track UTMs'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'A weak creative should be:', options: ['Removed or replaced', 'Ignored', 'Used more', 'Hidden'], correctOptionIndex: 0 },
-      { id: 'q5', text: 'Lead quality checks must be done:', options: ['Never', 'Only monthly', 'Regularly using CRM', 'Only after complaints'], correctOptionIndex: 2 },
-      { id: 'q6', text: 'Bid adjustments help with:', options: ['Impressions and cost control', 'Creative quality', 'Landing page design', 'CRM setup'], correctOptionIndex: 0 },
-      { id: 'q7', text: 'Daily updates must be:', options: ['Avoided', 'Logged in tracker', 'Sent randomly', 'Skipped'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Optimization decisions should be based on:', options: ['Guessing', 'Data and trends', 'Opinions', 'Visuals only'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'Daily coordination with AM is needed for:', options: ['No reason', 'Smooth execution', 'Approvals only', 'Design fixes'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'If CPL spikes suddenly:', options: ['Ignore', 'Act immediately', 'Wait a week', 'Ask designer'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What is the first thing you do during daily monitoring?', options: ['Run a full weekly audit', 'Quick dashboard scan for CTR, CPC, CPL, ROAS anomalies', 'Create new campaigns', 'Ignore the dashboard'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'If CTR is low, what should you check first?', options: ['Budget only', 'Creative hooks and ad relevance', 'Folder structure', 'File names'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'If CPL increases suddenly, immediate action should be:', options: ['Increase budget', 'Pause low-quality audiences and check landing page/conversion events', 'Wait a month', 'Change campaign name'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What does a falling ROAS indicate?', options: ['Strong profitability', 'Possible funnel or attribution issues; investigate offer, landing, and audience performance', 'That CTR is high', 'That you should delete the account'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'When should you escalate to Performance Lead?', options: ['Only at month end', 'When an account shows sustained negative deviation or red-alert status', 'Never', 'For minor daily fluctuations'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What should you document after taking action?', options: ['Only the campaign name', 'Screenshot + note with reason and next check time', 'Nothing', 'Only verbal update'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'How often should you check ad-level metrics for flagged campaigns?', options: ['Weekly', 'Daily or more frequently until stabilized', 'Yearly', 'Never'], correctOptionIndex: 1 },
+      { id: 'q8', text: 'If frequency is very high and CTR drops, the likely step is:', options: ['Increase bids', 'Refresh creatives or expand audience', 'Rename the campaign', 'Reduce tracking'], correctOptionIndex: 1 },
+      { id: 'q9', text: 'Which metric best signals creative fatigue?', options: ['ROAS only', 'CTR decline with rising CPC and steady impressions', 'File naming errors', 'Folder disorganization'], correctOptionIndex: 1 },
+      { id: 'q10', text: 'What is the correct mindset for daily monitoring?', options: ['Check numbers and ignore patterns', 'Spot signals early, act fast, and document everything', 'Only monitor when client complains', 'Leave monitoring to chance'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m3b': {
+    id: 'q_pm_m3b',
+    title: 'Segment Optimization Assessment',
+    moduleId: 'pm_m3b',
+    totalQuestions: 10,
+    timeLimit: '15:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What defines a high-performing segment?', options: ['Low CTR and high CPL', 'High CTR, stable CPC, and CPL within target', 'Only high impressions', 'Only high budget'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should you do with a low-performing segment?', options: ['Increase budget', 'Ignore it', 'Pause, reduce budget, or refresh creatives', 'Rename the campaign'], correctOptionIndex: 2 },
+      { id: 'q3', text: 'Why test one lever at a time?', options: ['To keep reports short', 'To know which change impacted performance', 'To confuse the client', 'To save time'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Which of the following is a common segmentation category?', options: ['File size', 'Gender, age, placement, device', 'Folder naming', 'Creative export format'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What should be documented after adjustments?', options: ['Only impressions', 'Segment name, issue, action taken', 'Just CTR', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What is a red flag for a segment?', options: ['Low CPC and low CPL', 'Rising CPC and dropping CTR', 'Consistent conversions', 'Stable ROAS'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What should you do with a winning segment?', options: ['Reduce budget', 'Turn it off', 'Scale budget or build variations', 'Remove tracking'], correctOptionIndex: 2 },
+      { id: 'q8', text: 'When should segment performance be checked?', options: ['Once a year', 'Daily or weekly depending on campaign spend', 'Only when client asks', 'Never'], correctOptionIndex: 1 },
+      { id: 'q9', text: 'What indicates creative fatigue in a specific segment?', options: ['CTR drops, CPC rises, impressions stable', 'High conversion rate', 'Strong ROAS', 'Low budget'], correctOptionIndex: 0 },
+      { id: 'q10', text: 'What is the mindset for segment optimization?', options: ['Change everything randomly', 'Precision adjustments with clear reasoning', 'Avoid making decisions', 'Guess and hope for the best'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m3c': {
+    id: 'q_pm_m3c',
+    title: 'A/B Testing Assessment',
+    moduleId: 'pm_m3c',
+    totalQuestions: 10,
+    timeLimit: '15:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What defines a high-performing segment?', options: ['Low CTR and high CPL', 'High CTR, stable CPC, and CPL within target', 'Only high impressions', 'Only high budget'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should you do with a low-performing segment?', options: ['Increase budget', 'Ignore it', 'Pause, reduce budget, or refresh creatives', 'Rename the campaign'], correctOptionIndex: 2 },
+      { id: 'q3', text: 'Why test one lever at a time?', options: ['To keep reports short', 'To know which change impacted performance', 'To confuse the client', 'To save time'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Which of the following is a common segmentation category?', options: ['File size', 'Gender, age, placement, device', 'Folder naming', 'Creative export format'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What should be documented after adjustments?', options: ['Only impressions', 'Segment name, issue, action taken', 'Just CTR', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What is a red flag for a segment?', options: ['Low CPC and low CPL', 'Rising CPC and dropping CTR', 'Consistent conversions', 'Stable ROAS'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What should you do with a winning segment?', options: ['Reduce budget', 'Turn it off', 'Scale budget or build variations', 'Remove tracking'], correctOptionIndex: 2 },
+      { id: 'q8', text: 'When should segment performance be checked?', options: ['Once a year', 'Daily or weekly depending on campaign spend', 'Only when client asks', 'Never'], correctOptionIndex: 1 },
+      { id: 'q9', text: 'What indicates creative fatigue in a specific segment?', options: ['CTR drops, CPC rises, impressions stable', 'High conversion rate', 'Strong ROAS', 'Low budget'], correctOptionIndex: 0 },
+      { id: 'q10', text: 'What is the mindset for segment optimization?', options: ['Change everything randomly', 'Precision adjustments with clear reasoning', 'Avoid making decisions', 'Guess and hope for the best'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m3d': {
+    id: 'q_pm_m3d',
+    title: 'Optimization Logging Assessment',
+    moduleId: 'pm_m3d',
+    totalQuestions: 10,
+    timeLimit: '15:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why is logging optimization actions important?', options: ['To fill the sheet', 'To create a traceable history of all decisions', 'To make campaigns look busy', 'It\'s optional'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should each log entry include?', options: ['Only impressions', 'Issue, action, reason, expected result', 'Budget only', 'Screenshots'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What happens if optimization is done but not logged?', options: ['Nothing', 'It’s considered incomplete', 'It doubles the performance', 'It disappears from the platform'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Which of the following is a valid reason to optimize?', options: ['CPL rising', 'Client asked about a different topic', 'Festive season', 'Designer on leave'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'What is the benefit of logging hypotheses?', options: ['Makes the sheet long', 'Helps understand why a change was made and improves future decisions', 'Confuses the team', 'Not useful'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What should you do after logging an optimization?', options: ['Forget it', 'Set a follow-up review time', 'Close the log', 'Delete previous entries'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'When should logs be updated?', options: ['At the end of the month', 'Immediately after optimization', 'Only when the lead asks', 'Never'], correctOptionIndex: 1 },
+      { id: 'q8', text: 'What does poor CTR + high CPC indicate?', options: ['Strong audience', 'Creative fatigue or weak audience', 'Low spend', 'Healthy performance'], correctOptionIndex: 1 },
+      { id: 'q9', text: 'Who benefits from clear optimization logs?', options: ['Only the client', 'Entire marketing and performance team', 'Only the designer', 'Nobody'], correctOptionIndex: 1 },
+      { id: 'q10', text: 'What mindset is needed for logging?', options: ['Randomness', 'Avoid documentation', 'Precision + discipline', 'Hide actions'], correctOptionIndex: 2 },
     ],
   },
   'q_pm_m4': {
     id: 'q_pm_m4',
-    title: 'Budget Monitoring Assessment',
+    title: 'Spend Tracking Assessment',
     moduleId: 'pm_m4',
-    totalQuestions: 10,
-    timeLimit: '18:00',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'What is the purpose of pacing?', options: ['Spend randomly', 'Ensure budgets last the entire month', 'Increase CPL', 'Reduce impressions'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'Overspending requires:', options: ['Higher budgets', 'Reducing bids or pausing poor segments', 'Ignoring', 'Posting more stories'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Underspending requires:', options: ['Doing nothing', 'Expanding audiences or increasing bids', 'Deleting campaigns', 'Lowering LP speed'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'Reallocating budget helps:', options: ['Waste money', 'Boost strong performers', 'Increase load time', 'Reduce leads'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Red-alert means:', options: ['Low CPC', 'CPL spike or delivery issues', 'Many comments', 'Too many creatives'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'Daily budget logs must be:', options: ['Optional', 'Recorded in tracker', 'Sent to designer', 'Hidden'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Weekly pacing checks prevent:', options: ['Overthinking', 'Last-minute spending problems', 'More work', 'Client meetings'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'If pacing is too slow:', options: ['Reduce bids', 'Increase bids or audiences', 'Pause all ads', 'Ask designer'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'If one ad set is over-consuming:', options: ['Pause or limit it', 'Boost it', 'Let it run', 'Duplicate everything'], correctOptionIndex: 0 },
-      { id: 'q10', text: 'Budget monitoring ensures:', options: ['Wasteful spend', 'Efficient use of ad money', 'Designer happiness', 'More meetings'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'Why is daily spend tracking important?', options: ['To count impressions', 'To prevent budget exhaustion, underspend, and pacing issues', 'To make the sheet busy', 'To please platforms'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'How do you calculate the ideal daily run-rate?', options: ['Monthly Budget × Random number', 'Monthly Budget ÷ Working Days', 'Monthly Budget + Weekend spend', 'Guesswork'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What should you do if a campaign is overspending with no performance uplift?', options: ['Increase budget more', 'Cap or pause campaign and notify AM + Lead', 'Ignore it', 'Rename the campaign'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'If the account is underspending but performance is strong, you should:', options: ['Do nothing', 'Reallocate budget to winners or run experiments', 'Stop all campaigns', 'Ask client for less budget'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is an immediate escalation trigger?', options: ['Minor daily fluctuation', 'Imminent fund exhaustion within 48 hours', 'A small change in CPL', 'A new creative upload'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'Where should spend updates be recorded?', options: ['Personal notes', 'Budget pacing sheet with screenshot proof', 'Only in the ad platform', 'Not recorded'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset should guide spend tracking?', options: ['“Let the platform spend it.”', '“Protect the client budget proactively.”', '“Overspend is fine if leads come.”', '“Budgets are not my responsibility.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m4b': {
+    id: 'q_pm_m4b',
+    title: 'Pacing Adjustment Assessment',
+    moduleId: 'pm_m4b',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why is pacing adjustment necessary?', options: ['To make reports look better', 'To prevent over- or under-spending and protect performance', 'To confuse the client', 'To change budgets randomly'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What is the first step before adjusting pacing?', options: ['Guessing the reason', 'Checking performance metrics', 'Increasing all budgets', 'Pausing the entire campaign'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What should you do when a campaign is overspending?', options: ['Increase budgets', 'Reduce budgets or tighten targeting', 'Ignore it', 'Add more creatives'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'How can underspending be corrected?', options: ['Decrease budgets', 'Expand audiences or increase budgets on winners', 'Pause all campaigns', 'Stop spending for the week'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What must be done after pacing adjustments?', options: ['Nothing', 'Log changes in the tracker', 'Delete the campaign', 'Message all team members'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What mindset should guide pacing decisions?', options: ['Let it spend freely', 'Protect performance and budget', 'Spend everything ASAP', 'Keep budgets static'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'Which campaigns should get budget increases when underspending?', options: ['Low performers', 'High-performing winners', 'Any random campaign', 'Untested segments'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m4c': {
+    id: 'q_pm_m4c',
+    title: 'Budget Reallocation Assessment',
+    moduleId: 'pm_m4c',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the purpose of dynamic budget reallocation?', options: ['To keep all campaigns equal', 'To shift budget to top-performing segments', 'To pause all campaigns', 'To reset the account'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Which campaigns should receive more budget?', options: ['High-performing ones', 'Low-performing ones', 'All campaigns', 'New clients only'], correctOptionIndex: 0 },
+      { id: 'q3', text: 'Which metric signals a campaign is underperforming?', options: ['High CPL', 'Low CPL', 'Stable CTR', 'High conversions'], correctOptionIndex: 0 },
+      { id: 'q4', text: 'What should you do after reallocating budget?', options: ['Forget about it', 'Log the change with reason', 'Delete old campaigns', 'Skip reporting'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What mindset should guide budget reallocation?', options: ['Keep budgets fixed', 'Move budget to where results are best', 'Spend randomly', 'Increase budgets everywhere'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'Who should be informed of major reallocations?', options: ['Designer', 'Account Manager', 'Client directly', 'SEO team'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'Why scale gradually instead of increasing budget drastically?', options: ['Prevents sudden performance drops', 'Makes account look neat', 'Fun experiment', 'Not necessary'], correctOptionIndex: 0 },
+    ],
+  },
+  'q_pm_m4d': {
+    id: 'q_pm_m4d',
+    title: 'Deviation Reporting Assessment',
+    moduleId: 'pm_m4d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'When must you report a deviation immediately?', options: ['Only at month end', 'When CPL deviates >20% or spend pacing >15% or fund risk <48 hrs', 'Only if the client notices', 'Never'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What must you attach to the report?', options: ['Opinions only', 'Screenshots, metric comparison, and timestamps', 'Designer drafts', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Which channel is primary for reporting performance deviations?', options: ['Personal DM only', 'Performance Slack channel + tag Lead', 'Random social media', 'No channel'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What should your report recommend?', options: ['Nothing — just raise the alarm', 'A clear next step (pause, reallocate, investigate, request funds)', 'Blame another team', 'Wait and watch'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset when escalating?', options: ['Hide issues to avoid questions', 'Be fast, factual, and solution-focused', 'Report only after full investigation', 'Only inform after client complains'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m5': {
     id: 'q_pm_m5',
-    title: 'Reporting & Analysis Assessment',
+    title: 'Weekly Reporting Assessment',
     moduleId: 'pm_m5',
-    totalQuestions: 10,
-    timeLimit: '18:00',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'Reporting converts:', options: ['Numbers into clarity', 'Clarity into confusion', 'Ads into designs', 'Creatives into scripts'], correctOptionIndex: 0 },
-      { id: 'q2', text: 'Daily dashboards require:', options: ['Guessing', 'Accurate CPL, spend, and tracking', 'Only CTR', 'Only impressions'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Weekly reports should highlight:', options: ['Only wins', 'Trends and insights', 'Only CPC', 'Only reach'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'GA4 helps you understand:', options: ['Fonts', 'Landing page behaviour', 'Ad colors', 'Creative size'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Clarity shows:', options: ['Scroll and click behaviour', 'Ad approval times', 'Budget errors', 'Video lengths'], correctOptionIndex: 0 },
-      { id: 'q6', text: 'Monthly reports include:', options: ['Screenshots only', 'Winners, losers, insights, next steps', 'Only CPL', 'Only creative names'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Creative fatigue shows when:', options: ['CTR increases', 'CTR drops and CPL rises', 'CPC becomes zero', 'LP traffic becomes high'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Keyword insights help you:', options: ['Improve creative design', 'Refine search strategy', 'Change LP color', 'Write emails'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'Good reporting leads to:', options: ['Wrong targeting', 'Better strategy and decisions', 'Confusion', 'Higher lead cost'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'Missing tracking in report means:', options: ['Minor issue', 'Entire data is unreliable', 'Good news', 'Does not matter'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What is the purpose of a weekly performance report?', options: ['To dump data', 'To explain what happened, why it happened, and what’s next', 'To share random screenshots', 'To impress with long documents'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What must be included along with KPIs?', options: ['Memes', 'Insights explaining the numbers', 'Only screenshots', 'Designer notes'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Which are examples of weekly insights?', options: ['Why CPL changed', 'Why audience performed well or poorly', 'Why creatives fatigued', 'All of the above'], correctOptionIndex: 3 },
+      { id: 'q4', text: 'How should the weekly report be delivered?', options: ['Only email', 'Basecamp + WhatsApp summary', 'Verbal updates only', 'No need to send'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What mindset should guide weekly reporting?', options: ['Just export data', 'Provide clarity and direction', 'Avoid explanations', 'Confuse the client'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m5b': {
+    id: 'q_pm_m5b',
+    title: 'Insights & Learnings Assessment',
+    moduleId: 'pm_m5b',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the purpose of highlighting learning points?', options: ['To fill space in the report', 'To extract insights that improve future decisions', 'To repeat numbers again', 'To confuse the client'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Which of the following is considered a creative winner?', options: ['High CTR + Low CPL', 'High CPC + Weak CTR', 'Low engagement', 'Zero conversions'], correctOptionIndex: 0 },
+      { id: 'q3', text: 'What should follow each insight?', options: ['A joke', 'An actionable next step', 'Nothing', 'A random screenshot'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What indicates creative fatigue?', options: ['CTR drop + CPC rise', 'CTR stable', 'CPL improving', 'New leads flowing'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'Why is identifying losers important?', options: ['To complain', 'To stop wasting budget', 'To make the report longer', 'To hide performance issues'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What mindset should guide insights?', options: ['Guesswork', 'Blame-shifting', 'Pattern-based and action-driven', 'Avoiding detail'], correctOptionIndex: 2 },
+      { id: 'q7', text: 'What should learning points help with?', options: ['Unrelated tasks', 'Next week’s strategy', 'Only reporting', 'Nothing'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m5c': {
+    id: 'q_pm_m5c',
+    title: 'Dashboard Creation Assessment',
+    moduleId: 'pm_m5c',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the primary purpose of dashboards?', options: ['Decoration', 'To help teams make fast, clear decisions', 'Adding colors to reports', 'To replace all campaigns'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What must be validated after connecting data sources?', options: ['Colors used', 'Whether dashboard values match platform values', 'Font style', 'Logo placement'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Which KPIs must be included in the dashboard?', options: ['Only impressions', 'Spend, Leads, CPL, CTR, CPC, Conversions', 'Only likes', 'Only views'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Dashboards should be:', options: ['Cluttered', 'Auto-updating', 'Screenshot-based', 'Text-only'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What visual elements help identify trends?', options: ['Line graphs', 'Handwritten notes', 'Emojis', 'Random text'], correctOptionIndex: 0 },
+      { id: 'q6', text: 'What mindset should guide dashboard creation?', options: ['Make it flashy', 'Make it useful and insight-rich', 'Add as many pages as possible', 'Keep it secret'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'Who should receive the dashboard link?', options: ['Only the designer', 'Account Manager + Performance Lead + Client', 'No one', 'Friends and family'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m5d': {
+    id: 'q_pm_m5d',
+    title: 'Report Submission Assessment',
+    moduleId: 'pm_m5d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What must you include in every report submission?', options: ['Only screenshots', 'Executive summary, KPIs, insights, recommended actions, and dashboard link', 'Random files', 'Designer notes'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Which channel is appropriate for monthly report delivery?', options: ['WhatsApp only', 'Basecamp + Email + Dashboard link', 'Personal chat only', 'No channel'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What should you do after sending the report?', options: ['Assume it’s received', 'Record acknowledgment in tracker and follow up if none within 24 hours', 'Wait a week to check', 'Ignore responses'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'When must urgent incident reports be sent?', options: ['Weekly', 'Immediately via Slack + Email + Basecamp task', 'Monthly', 'Never'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the purpose of including recommended next steps?', options: ['To fill space', 'To provide direction and speed up decision-making', 'To confuse the Lead', 'To delay action'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m6': {
     id: 'q_pm_m6',
-    title: 'Cross-Team Coordination Assessment',
+    title: 'Account Team Collaboration Assessment',
     moduleId: 'pm_m6',
-    totalQuestions: 10,
-    timeLimit: '15:00',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'Cross-team coordination helps:', options: ['Reduce clarity', 'Improve execution speed', 'Block communication', 'Increase CPL'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'AMs must be updated because:', options: ['They talk to clients', 'They manage reporting', 'They align expectations', 'All of the above'], correctOptionIndex: 3 },
-      { id: 'q3', text: 'Creative fatigue requires:', options: ['Ignoring', 'Immediate new creatives', 'Pausing all ads', 'Reducing CPC'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'Web/Landing team helps with:', options: ['Video editing', 'CRO and form fixes', 'Lead sheet updates', 'UTM writing'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Automation team fixes:', options: ['Designs', 'CRM + Pabbly issues', 'Copywriting', 'SEO'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'Weekly coordination meeting is for:', options: ['Food menu', 'Account-level insights', 'Ad approvals', 'Music choices'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Not coordinating with Creative can cause:', options: ['Lower CTR', 'Higher CPL', 'Delayed launches', 'All of the above'], correctOptionIndex: 3 },
-      { id: 'q8', text: 'AM update frequency must be:', options: ['Weekly', 'Daily', 'Monthly', 'Random'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'Duplicate leads usually mean:', options: ['Pixel issue', 'CRM/Pabbly error', 'Creative error', 'SEO problem'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'If LP tracking breaks:', options: ['Ignore', 'Fix with Web + Automation teams', 'Reduce budget only', 'Pause GMB'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'Why is coordination with the Account Manager (AM) critical?', options: ['To get free lunch', 'To align client expectations with campaign reality', 'To avoid work', 'To complain about designers'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'When should you update the AM?', options: ['Only when they ask', 'Proactively on performance changes, wins, and risks', 'Never', 'Once a year'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What information does the AM need from you?', options: ['Gossip', 'Clear data, insights, and next steps', 'Random numbers', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'If a client is unhappy, what should you do?', options: ['Hide', 'Equip the AM with data and a recovery plan', 'Blame the AM', 'Delete the campaign'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the purpose of the weekly internal sync?', options: ['To waste time', 'To review account health and strategy before client calls', 'To play games', 'To sleep'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'How does AM feedback help you?', options: ['It doesn’t', 'It provides business context you might miss', 'It slows you down', 'It confuses you'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset is required for AM collaboration?', options: ['“Us vs Them”', '“We are one team solving the client’s problem.”', '“AMs are annoying.”', '“I work alone.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m6b': {
+    id: 'q_pm_m6b',
+    title: 'Creative Team Collaboration Assessment',
+    moduleId: 'pm_m6b',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is the Performance Specialist’s role in the creative process?', options: ['To design the ads', 'To provide data-backed direction and insights', 'To critique colors only', 'To ignore creatives'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What makes a good creative brief?', options: ['“Make it pop”', 'Clear objective, audience, format, hook, and reference', '“Do whatever you want”', 'No brief'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'How do you help designers improve?', options: ['Say “it’s bad”', 'Share performance data (CTR, CPL) and examples of winners', 'Don’t talk to them', 'Reject everything'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'When should you request new creatives?', options: ['When fatigue sets in (CTR drops)', 'Every day', 'Never', 'When you are bored'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'What is a “creative feedback loop”?', options: ['A meeting that never ends', 'Continuous sharing of data to refine future designs', 'Complaining loop', 'Email chain'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'Why is respect important?', options: ['It isn’t', 'Design is hard; collaboration yields better results than commanding', 'Designers are sensitive', 'No reason'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset helps creative collaboration?', options: ['“I know best.”', '“Data + Design = Performance.”', '“Design doesn’t matter.”', '“I’ll do it myself.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m6c': {
+    id: 'q_pm_m6c',
+    title: 'SEO & Automation Collaboration Assessment',
+    moduleId: 'pm_m6c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'How does SEO help performance marketing?', options: ['It doesn’t', 'Improves landing page quality and organic visibility', 'Competes with it', 'Slows it down'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Why coordinate with the Automation team?', options: ['To fix printer issues', 'To ensure lead flow (CRM, email, SMS) works perfectly', 'To build robots', 'To write code'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What happens if lead automation breaks?', options: ['Nothing', 'Leads are lost, and money is wasted', 'Performance improves', 'Client is happy'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'When should you check landing page speed?', options: ['Never', 'Regularly, as it affects conversion rates', 'Only if it crashes', 'Once a year'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the goal of cross-department alignment?', options: ['More meetings', 'A seamless customer journey from ad to sale', 'Confusion', 'Separate goals'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m6d': {
+    id: 'q_pm_m6d',
+    title: 'Inter-Department Updates Assessment',
+    moduleId: 'pm_m6d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why share updates with other departments?', options: ['To brag', 'To ensure everyone is aware of campaign impact', 'To fill email inboxes', 'To waste time'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should be shared?', options: ['Lunch plans', 'Major wins, learnings, and upcoming changes', 'Personal problems', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'How does this help the agency?', options: ['It doesn’t', 'It builds a culture of transparency and shared success', 'It causes fights', 'It reduces work'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Who is responsible for communication?', options: ['Someone else', 'You are responsible for your campaign’s communication', 'The CEO', 'The client'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Silos are good.”', '“Communication prevents chaos.”', '“Keep secrets.”', '“Don’t bother others.”'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m7': {
     id: 'q_pm_m7',
-    title: 'AI & Automation Integration Assessment',
+    title: 'AI Tools Usage Assessment',
     moduleId: 'pm_m7',
-    totalQuestions: 10,
-    timeLimit: '15:00',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'AI helps you:', options: ['Slow work', 'Speed up and improve accuracy', 'Replace team', 'Reduce tracking'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'AI should be used for:', options: ['Copy drafts', 'Audience research', 'Competitor analysis', 'All of the above'], correctOptionIndex: 3 },
-      { id: 'q3', text: 'Meta Advantage+ and Google automation improve:', options: ['Delivery and performance', 'Video quality', 'Website design', 'Colour palette'], correctOptionIndex: 0 },
-      { id: 'q4', text: 'AI dashboards help with:', options: ['Screenshots', 'Summaries & anomaly detection', 'Fonts', 'Story posting'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Automating tracking prevents:', options: ['Mistakes', 'Fast loading', 'Extra meetings', 'Low impressions'], correctOptionIndex: 0 },
-      { id: 'q6', text: 'AI experiments must be:', options: ['Random', 'Logged for learning', 'Hidden', 'Avoided'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Broad match with smart bidding works best when:', options: ['No data is available', 'Enough conversion data exists', 'You guess keywords', 'Competitors run TV ads'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'AI-based alerts help you identify:', options: ['CPL spikes', 'Food ordering', 'Colour mismatch', 'Designer workload'], correctOptionIndex: 0 },
-      { id: 'q9', text: 'Automation tools include:', options: ['Pabbly', 'Zapier', 'Make', 'All'], correctOptionIndex: 3 },
-      { id: 'q10', text: 'AI should:', options: ['Replace humans', 'Assist strategy', 'Remove reporting', 'Replace design'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What is the primary role of AI in performance marketing?', options: ['To replace you', 'To augment efficiency and analysis', 'To write bad copy', 'To make coffee'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Which task is best suited for AI?', options: ['Strategic thinking', 'Data analysis and pattern recognition', 'Client relationship', 'Empathy'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'How can ChatGPT/Claude help?', options: ['Write final copy', 'Brainstorm hooks, angles, and summarize data', 'Make decisions', 'Run ads'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Should you copy-paste AI output directly?', options: ['Yes, always', 'No, review and refine for brand voice', 'Maybe', 'If you are lazy'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is a risk of over-relying on AI?', options: ['None', 'Loss of critical thinking and generic output', 'Too much speed', 'Better results'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What mindset should you have towards AI?', options: ['Fear', 'Curiosity and leverage', 'Ignorance', 'Hostility'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'AI is a:', options: ['Master', 'Tool', 'Enemy', 'Magic wand'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m7b': {
+    id: 'q_pm_m7b',
+    title: 'Platform AI & Scaling Assessment',
+    moduleId: 'pm_m7b',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is Meta’s Advantage+?', options: ['A discount', 'AI-driven automation for targeting and creative', 'A manual tool', 'A new social network'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What is Google’s Performance Max?', options: ['A drink', 'Goal-based campaign type accessing all Google inventory', 'A search engine', 'A video tool'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'When should you use these automated campaigns?', options: ['Always', 'When you have sufficient data and clear goals', 'Never', 'Randomly'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'What is the downside of full automation?', options: ['Less control and transparency', 'Too much control', 'Lower cost', 'More work'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'How do you scale with AI?', options: ['Let it run wild', 'Feed it high-quality data and creatives', 'Stop monitoring', 'Decrease budget'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What is the "learning phase"?', options: ['School', 'Period where the algorithm explores best delivery', 'Downtime', 'Error'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset is needed for platform AI?', options: ['“Trust but verify.”', '“Set and forget.”', '“Don’t trust it.”', '“Manual is always better.”'], correctOptionIndex: 0 },
+    ],
+  },
+  'q_pm_m7c': {
+    id: 'q_pm_m7c',
+    title: 'Automated Reporting Assessment',
+    moduleId: 'pm_m7c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why automate reporting?', options: ['To be lazy', 'To save time and reduce manual error', 'To hide data', 'To confuse clients'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What tools can automate reporting?', options: ['Looker Studio, Supermetrics', 'Notepad', 'Paint', 'Calculator'], correctOptionIndex: 0 },
+      { id: 'q3', text: 'What should you do with automated reports?', options: ['Send without looking', 'Review for accuracy and add insights', 'Delete them', 'Print them'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Does automation replace the analyst?', options: ['Yes', 'No, interpretation is still human', 'Maybe', 'Hopefully'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the benefit of real-time dashboards?', options: ['Stress', 'Immediate visibility into performance', 'Nothing', 'More colors'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m7d': {
+    id: 'q_pm_m7d',
+    title: 'AI Insights Log Assessment',
+    moduleId: 'pm_m7d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why log AI-generated insights?', options: ['To remember what worked and what didn’t', 'To waste storage', 'To copy-paste later', 'No reason'], correctOptionIndex: 0 },
+      { id: 'q2', text: 'What counts as an AI insight?', options: ['“Ad is good”', '“AI identified audience overlap in X segment”', '“I like this”', 'Random text'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'How does logging help the team?', options: ['It doesn’t', 'It shares knowledge and prevents repeated tests', 'It bores them', 'It creates work'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'When should you log?', options: ['Never', 'When a significant learning occurs', 'Every minute', 'Once a year'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“Keep learnings to myself.”', '“Shared knowledge scales success.”', '“AI is magic.”', '“Documentation is useless.”'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m8': {
     id: 'q_pm_m8',
-    title: 'Client Updates & Escalations Assessment',
+    title: 'Ad Highlights Sharing Assessment',
     moduleId: 'pm_m8',
-    totalQuestions: 10,
-    timeLimit: '15:00',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'Performance specialist must update:', options: ['Designer', 'Account Manager', 'SEO', 'Only client'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'Red alerts include:', options: ['CTR increase', 'CPL spike or under-delivery', 'Good leads', 'High impressions'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Updates must be:', options: ['Random', 'Proactive', 'Only monthly', 'Hidden'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'AM needs data to:', options: ['Create designs', 'Handle client calls', 'Write blogs', 'Manage SEO'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Performance drops must be:', options: ['Hidden', 'Explained with data', 'Ignored', 'Celebrated'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'A recovery plan includes:', options: ['New audiences', 'New creatives', 'Bid changes', 'All of the above'], correctOptionIndex: 3 },
-      { id: 'q7', text: 'Lead quality drops mean:', options: ['Pause all ads', 'Check CRM + adjust targeting', 'Change colours', 'Email support'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'If tracking breaks:', options: ['Run ads', 'Fix immediately', 'Ignore', 'Lower budgets'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'Updates help AM:', options: ['Lose trust', 'Align expectations with client', 'Delay work', 'Rebrand'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'Hiding issues leads to:', options: ['Bigger escalations', 'Better CPL', 'Happy clients', 'Higher CTR'], correctOptionIndex: 0 },
+      { id: 'q1', text: 'Why share ad highlights?', options: ['To show off', 'To keep the team morale high and informed', 'To fill time', 'To spam'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What constitutes a highlight?', options: ['Any ad', 'Top performers, innovative tests, or big wins', 'Failed ads', 'Stock images'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Who should see these highlights?', options: ['No one', 'The entire team (Creative, AM, Strategy)', 'Only you', 'The internet'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'How often should you share?', options: ['Weekly', 'Never', 'Daily', 'Yearly'], correctOptionIndex: 0 },
+      { id: 'q5', text: 'What is the benefit?', options: ['None', 'Inspires better work and alignment', 'Jealousy', 'Confusion'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m8b': {
+    id: 'q_pm_m8b',
+    title: 'Client Summaries Assessment',
+    moduleId: 'pm_m8b',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is a client summary?', options: ['A novel', 'A concise update on performance and actions', 'A complaint', 'A receipt'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Who writes the technical part of the summary?', options: ['The client', 'The Performance Specialist', 'The designer', 'The intern'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What tone should be used?', options: ['Casual', 'Professional, clear, and confident', 'Angry', 'Sad'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Why is clarity important?', options: ['It isn’t', 'Clients need to understand ROI quickly', 'It takes time', 'It’s boring'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What mindset is key?', options: ['“Confuse them.”', '“Make them the hero.”', '“Hide the truth.”', '“Don’t care.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m8c': {
+    id: 'q_pm_m8c',
+    title: 'Proactive Flagging Assessment',
+    moduleId: 'pm_m8c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What does proactive flagging mean?', options: ['Waiting for the fire', 'Alerting the team before the fire spreads', 'Ignoring the fire', 'Starting a fire'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'What should be flagged?', options: ['Everything', 'Risks (budget, performance drop, tracking issues)', 'Nothing', 'Good news only'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'Who do you flag to?', options: ['No one', 'Account Manager and Lead', 'The client directly (without AM knowledge)', 'Social media'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Why is speed important?', options: ['It isn’t', 'Early detection saves budget and trust', 'It causes panic', 'It’s fun'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What mindset is required?', options: ['“Not my problem.”', '“I own the outcome.”', '“Wait and see.”', '“Hide it.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m8d': {
+    id: 'q_pm_m8d',
+    title: 'Transparent Communication Assessment',
+    moduleId: 'pm_m8d',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is transparent communication?', options: ['Telling everything', 'Honesty about performance, good or bad', 'Lying', 'Silence'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Why is it hard?', options: ['It isn’t', 'It requires admitting mistakes or bad news', 'It’s easy', 'It’s fun'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What builds trust?', options: ['Excuses', 'Ownership and solutions', 'Blame', 'Hiding'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'If you made a mistake, what do you do?', options: ['Hide it', 'Admit it, fix it, and prevent it from happening again', 'Blame the platform', 'Quit'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the long-term benefit?', options: ['None', 'Stronger client relationships and career growth', 'Firing', 'More work'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m9': {
     id: 'q_pm_m9',
-    title: 'Process & SOP Adherence Assessment',
+    title: 'SOP Compliance Assessment',
     moduleId: 'pm_m9',
-    totalQuestions: 10,
-    timeLimit: '15:00',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'SOPs exist to:', options: ['Confuse', 'Create consistency', 'Delay work', 'Reduce performance'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'Naming conventions must be:', options: ['Optional', 'Strictly followed', 'Hidden', 'Random'], correctOptionIndex: 1 },
-      { id: 'q3', text: 'Documentation must include:', options: ['All changes', 'Only wins', 'Only budgets', 'Nothing'], correctOptionIndex: 0 },
-      { id: 'q4', text: 'QC checklist is used:', options: ['After launch', 'Before launch', 'Never', 'Only for Meta'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Tracking SOP ensures:', options: ['Wrong data', 'Correct conversions', 'Creative quality', 'More impressions'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'Audit reports help with:', options: ['Food orders', 'Identifying issues', 'Social media trends', 'Budget approval'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'SOP adherence prevents:', options: ['Scaling', 'Mistakes', 'CPC rise', 'Traffic drop'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Escalation SOP requires:', options: ['Hiding issues', 'Root cause + action plan', 'Blaming designer', 'Pausing everything'], correctOptionIndex: 1 },
-      { id: 'q9', text: 'Tracker updates must be:', options: ['Daily', 'Weekly', 'Monthly', 'Optional'], correctOptionIndex: 0 },
-      { id: 'q10', text: 'Good SOP discipline leads to:', options: ['Chaos', 'Smooth operations', 'More mistakes', 'Delays'], correctOptionIndex: 1 },
+      { id: 'q1', text: 'What is an SOP?', options: ['Suggestion', 'Standard Operating Procedure', 'Something Optional', 'Super Old Paper'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Why do we have SOPs?', options: ['To annoy you', 'To ensure consistency, quality, and scalability', 'To waste paper', 'To slow you down'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What happens if you ignore SOPs?', options: ['Innovation', 'Errors, chaos, and wasted budget', 'Promotion', 'Nothing'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'When should you follow SOPs?', options: ['When watched', 'Always', 'Never', 'Sometimes'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'Can SOPs be improved?', options: ['No', 'Yes, feedback is welcome', 'Only by the CEO', 'Never change them'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'Who is responsible for compliance?', options: ['The police', 'You are', 'Your mom', 'The client'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset is needed?', options: ['“Rules are for sheep.”', '“Discipline creates freedom.”', '“I know better.”', '“Whatever.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m9b': {
+    id: 'q_pm_m9b',
+    title: 'Tracker Updates Assessment',
+    moduleId: 'pm_m9b',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'Why update trackers?', options: ['To look busy', 'To maintain a single source of truth', 'To color cells', 'To practice typing'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'When should you update?', options: ['End of month', 'Real-time or daily', 'Never', 'When yelled at'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What happens if trackers are outdated?', options: ['Nothing', 'Decisions are made on wrong data', 'Magic', 'Success'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Who uses the trackers?', options: ['No one', 'The whole team', 'Aliens', 'Only you'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the correct mindset?', options: ['“I’ll do it later.”', '“Data integrity is my responsibility.”', '“It’s boring.”', '“Not my job.”'], correctOptionIndex: 1 },
+    ],
+  },
+  'q_pm_m9c': {
+    id: 'q_pm_m9c',
+    title: 'Campaign Audit Assessment',
+    moduleId: 'pm_m9c',
+    totalQuestions: 5,
+    timeLimit: '10:00',
+    passingScore: 80,
+    questions: [
+      { id: 'q1', text: 'What is a campaign audit?', options: ['A tax check', 'A systematic review of setup and performance', 'A punishment', 'A game'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'Why audit your own work?', options: ['To feel bad', 'To catch errors before anyone else does', 'To waste time', 'To sleep'], correctOptionIndex: 1 },
+      { id: 'q3', text: 'What should you check?', options: ['Everything (Settings, Creative, Tracking, Budget)', 'Only spend', 'Only images', 'Nothing'], correctOptionIndex: 0 },
+      { id: 'q4', text: 'How often should you audit?', options: ['Never', 'Regularly (Weekly/Monthly)', 'Once a decade', 'When fired'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'What is the goal?', options: ['Perfection', 'Continuous improvement', 'Failure', 'Stagnation'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m10': {
     id: 'q_pm_m10',
     title: 'Knowledge Transfer & Handover Assessment',
     moduleId: 'pm_m10',
-    totalQuestions: 10,
-    timeLimit: '12:00',
+    totalQuestions: 7,
+    timeLimit: '10:00',
+    passingScore: 80,
     questions: [
-      { id: 'q1', text: 'KT is required:', options: ['Only sometimes', 'Before every leave', 'Only monthly', 'During vacations only'], correctOptionIndex: 1 },
-      { id: 'q2', text: 'KT template must include:', options: ['Client details', 'Pending tasks', 'Red-alert items', 'All of the above'], correctOptionIndex: 3 },
-      { id: 'q3', text: 'KT ensures:', options: ['Work stops', 'Smooth continuity', 'Higher CPL', 'More escalations'], correctOptionIndex: 1 },
-      { id: 'q4', text: 'Access must be:', options: ['Ignored', 'Confirmed and shared', 'Removed', 'Skipped'], correctOptionIndex: 1 },
-      { id: 'q5', text: 'Pending tasks must be:', options: ['Hidden', 'Clearly documented', 'Deleted', 'Delayed'], correctOptionIndex: 1 },
-      { id: 'q6', text: 'For unplanned leave:', options: ['No KT needed', 'Minimal KT must be shared', 'Delete everything', 'Pause all ads'], correctOptionIndex: 1 },
-      { id: 'q7', text: 'Walkthrough is for:', options: ['Confusing others', 'Ensuring replacement understands work', 'Showing designs', 'Updating AM'], correctOptionIndex: 1 },
-      { id: 'q8', text: 'Screenshot or Loom videos help with:', options: ['Complex setups', 'Stories on Instagram', 'Competitor ads', 'Naming conventions'], correctOptionIndex: 0 },
-      { id: 'q9', text: 'Updated trackers help prevent:', options: ['Clarity', 'Missed tasks', 'Smooth performance', 'Automatic scaling'], correctOptionIndex: 1 },
-      { id: 'q10', text: 'Clean KT leads to:', options: ['Fewer errors', 'More escalations', 'Lower trust', 'Random work'], correctOptionIndex: 0 },
+      { id: 'q1', text: 'What is Knowledge Transfer (KT)?', options: ['Brain surgery', 'Passing information and responsibility to another', 'Deleting files', 'Hiding data'], correctOptionIndex: 1 },
+      { id: 'q2', text: 'When is KT needed?', options: ['When leaving, going on leave, or shifting accounts', 'Never', 'Every day', 'Randomly'], correctOptionIndex: 0 },
+      { id: 'q3', text: 'What must be included in KT?', options: ['Passwords only', 'Context, status, credentials, and next steps', 'Jokes', 'Empty folders'], correctOptionIndex: 1 },
+      { id: 'q4', text: 'Why is it important?', options: ['It isn’t', 'To ensure business continuity and client satisfaction', 'To be annoying', 'To slow things down'], correctOptionIndex: 1 },
+      { id: 'q5', text: 'How should you deliver KT?', options: ['Verbal only', 'Documented and walked through', 'Sticky note', 'Telepathy'], correctOptionIndex: 1 },
+      { id: 'q6', text: 'What happens if KT is poor?', options: ['Success', 'Balls drop, performance suffers, clients leave', 'Promotion', 'Happiness'], correctOptionIndex: 1 },
+      { id: 'q7', text: 'What mindset is needed?', options: ['“Not my problem anymore.”', '“Leave it better than I found it.”', '“Good luck.”', '“Run away.”'], correctOptionIndex: 1 },
     ],
   },
   'q_pm_m11': {
