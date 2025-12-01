@@ -1887,7 +1887,8 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
 If the plan is unclear, the performance will be unclear.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/pZ-zrEyBBsk'
           },
           {
             id: 'pm_m1b',
@@ -1922,7 +1923,8 @@ Choose based on KPI, not guesswork.
 Wrong objective or wrong audience = wrong results.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/ZcviHVxGKdI'
           },
           {
             id: 'pm_m1c',
@@ -1956,7 +1958,8 @@ Wrong objective or wrong audience = wrong results.`,
 Strong ads come from strong briefs, not guesswork.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/r3x_z_GN9xo'
           },
           {
             id: 'pm_m1d',
@@ -1983,7 +1986,8 @@ Bad naming = bad data.
 Bad data = bad decisions.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/_iLquUii47M'
           }
         ]
       },
@@ -2031,7 +2035,8 @@ Bad data = bad decisions.`,
 A clean setup prevents messy performance.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/2PL75A3hD_c'
           },
           {
             id: 'pm_m2b',
@@ -2067,7 +2072,8 @@ A clean setup prevents messy performance.`,
 If tracking is wrong, performance data is a lie.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/8mICy74c9gc'
           },
           {
             id: 'pm_m2c',
@@ -2099,7 +2105,8 @@ If tracking is wrong, performance data is a lie.`,
 🔥 RULE: If you haven’t previewed it, you haven’t launched it.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/Sa-nKaNIHlc'
           },
           {
             id: 'pm_m2d',
@@ -2134,7 +2141,8 @@ Frequency: Daily (post-launch)
 If the campaign is live, the tracker must be live too.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/N6liu9kbXe4'
           }
         ]
       },
@@ -2169,7 +2177,8 @@ If the campaign is live, the tracker must be live too.`,
 🔥 RULE: Daily monitoring is not just checking numbers — it's spotting signals and taking one immediate action.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/TG7NUD0V5AY'
           },
           {
             id: 'pm_m3b',
@@ -2214,7 +2223,8 @@ If the campaign is live, the tracker must be live too.`,
 🔥 RULE: Optimize segments, not whole campaigns — precision beats random changes.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/iaMLibYYSss'
           },
           {
             id: 'pm_m3c',
@@ -2259,7 +2269,8 @@ If the campaign is live, the tracker must be live too.`,
 🔥 RULE: Optimize segments, not whole campaigns — precision beats random changes.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/sL6z4-Rak2g'
           },
           {
             id: 'pm_m3d',
@@ -2299,7 +2310,8 @@ If the campaign is live, the tracker must be live too.`,
 🔥 Treat logs as “black box recordings” of the campaign.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/0Ii_nUuv2B4'
           }
         ]
       },
@@ -2338,7 +2350,8 @@ If the campaign is live, the tracker must be live too.`,
 If budget pacing is off, act first and notify second — immediate action avoids downtime.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/kiBuehw5FGM'
           },
           {
             id: 'pm_m4b',
@@ -2372,7 +2385,8 @@ If budget pacing is off, act first and notify second — immediate action avoids
 Pacing is never about random budget changes — every adjustment must be strategic.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/TVAZxlLG8hk'
           },
           {
             id: 'pm_m4c',
@@ -2412,7 +2426,8 @@ Pacing is never about random budget changes — every adjustment must be strateg
 Performance decides budget — not the calendar, not assumptions.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/r6ppjTfwxJM'
           },
           {
             id: 'pm_m4d',
@@ -2447,7 +2462,8 @@ Performance decides budget — not the calendar, not assumptions.`,
 🔥 RULE: Report early with facts — don’t wait to confirm a theory.`,
             duration: '6 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/J4qAa3r6Uo4'
           }
         ]
       },
@@ -2499,7 +2515,8 @@ Performance decides budget — not the calendar, not assumptions.`,
 Numbers are useless without insights — always explain the “why.”`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/UxXLNU0_xPM'
           },
           {
             id: 'pm_m5b',
@@ -2538,7 +2555,8 @@ Numbers are useless without insights — always explain the “why.”`,
 Insights must be useful, short, pattern-based, and action-driven.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/xCMNcwPcLtA'
           },
           {
             id: 'pm_m5c',
@@ -2583,7 +2601,8 @@ Insights must be useful, short, pattern-based, and action-driven.`,
 Dashboards must be simple, accurate, and insight-rich — not cluttered.`,
             duration: '9 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/xtQUNA3qSFc'
           },
           {
             id: 'pm_m5d',
@@ -2616,7 +2635,8 @@ Dashboards must be simple, accurate, and insight-rich — not cluttered.`,
 A report isn’t delivered until the Lead and AM acknowledge it.`,
             duration: '6 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/Ie4r3ZJWZSw'
           }
         ]
       },
@@ -2662,7 +2682,8 @@ A report isn’t delivered until the Lead and AM acknowledge it.`,
 No update is minor — treat every input from Account Team as a performance directive.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/djoK6u4uwzU'
           },
           {
             id: 'pm_m6b',
@@ -2698,7 +2719,8 @@ No update is minor — treat every input from Account Team as a performance dire
 Don’t just send data — send direction.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/5itq2jStUx0'
           },
           {
             id: 'pm_m6c',
@@ -2734,7 +2756,8 @@ Don’t just send data — send direction.`,
 A funnel wins only when ads, SEO, and automation speak the same language.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/Uf0PrY9keWw'
           },
           {
             id: 'pm_m6d',
@@ -2769,7 +2792,8 @@ A funnel wins only when ads, SEO, and automation speak the same language.`,
 If an update impacts results, it must be documented before the review.`,
             duration: '6 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/TY-j65M54O4'
           }
         ]
       },
@@ -2819,7 +2843,8 @@ If an update impacts results, it must be documented before the review.`,
 AI expands creativity — YOU provide direction.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/xM-36G8hy8w'
           },
           {
             id: 'pm_m7b',
@@ -2862,7 +2887,8 @@ AI expands creativity — YOU provide direction.`,
 AI scales what YOU set up correctly.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/t2dTYYYR3Gs'
           },
           {
             id: 'pm_m7c',
@@ -2904,7 +2930,8 @@ AI scales what YOU set up correctly.`,
 - Critical alerts (tracking failure, fund risk, CPL > 20% above target) must trigger immediate Slack + email + tag Lead.`,
             duration: '10 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/9m5k3EJ7SDI'
           },
           {
             id: 'pm_m7d',
@@ -2943,7 +2970,8 @@ AI scales what YOU set up correctly.`,
 💡 AIM: Create a growing internal intelligence system.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/tLroiIg_Q18'
           }
         ]
       },
@@ -2987,7 +3015,8 @@ AI scales what YOU set up correctly.`,
 If the Account team can’t forward your update to the client as-is, simplify it until they can.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/Q2Sgcovt28M'
           },
           {
             id: 'pm_m8b',
@@ -3028,7 +3057,8 @@ If the Account team can’t forward your update to the client as-is, simplify it
 If the client can’t understand the update in 60 seconds, rewrite it to make it simpler.`,
             duration: '6 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/kkiyUKE5Q3k'
           },
           {
             id: 'pm_m8c',
@@ -3068,7 +3098,8 @@ Use this 4-part alert message:
 Early flagging prevents late panic.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/6fFwCStbP78'
           },
           {
             id: 'pm_m8d',
@@ -3108,7 +3139,8 @@ Early flagging prevents late panic.`,
 Promise clarity, not miracles. Under-explain nothing. Over-explain nothing.`,
             duration: '6 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/NOdTYXa4PKE'
           }
         ]
       },
@@ -3155,7 +3187,8 @@ Promise clarity, not miracles. Under-explain nothing. Over-explain nothing.`,
 SOPs are not optional — they are the standard for performance excellence.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/fQes1Ec_3mo'
           },
           {
             id: 'pm_m9b',
@@ -3190,7 +3223,8 @@ SOPs are not optional — they are the standard for performance excellence.`,
 If it’s not in the tracker — it didn’t officially happen. Update first, explain second.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/2FdSt7Axogo'
           },
           {
             id: 'pm_m9c',
@@ -3230,7 +3264,8 @@ If it’s not in the tracker — it didn’t officially happen. Update first, ex
 No major optimization is complete until the audit form is submitted and a review date is logged.`,
             duration: '8 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/ftvUKfrdnr0'
           }
         ]
       },
@@ -3279,7 +3314,8 @@ No major optimization is complete until the audit form is submitted and a review
 If someone cannot run the account smoothly tomorrow using your KT — it is incomplete.`,
             duration: '7 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/D4JXPJ4uXsg'
           }
         ]
       },
@@ -3293,7 +3329,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
             description: 'Verify pixels, tracking events, and UTM parameters. Run test leads and monitor landing page speed and UX.',
             duration: '25 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/_ohcwqpNIBA'
           }
         ]
       },
@@ -3307,7 +3344,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
             description: 'Develop keyword and audience clusters. Monitor fatigue, test creatives, and study competitors. Build ongoing strategy.',
             duration: '25 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/I9q6WdqKeYA'
           }
         ]
       },
@@ -3321,7 +3359,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
             description: 'Collect and verify all accesses. Create folder structures, audit previous performance, and prepare first-month blueprints.',
             duration: '25 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/-3rZqInu7eM'
           }
         ]
       },
@@ -3335,7 +3374,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
             description: 'Use platform diagnostics and debug tools (GTM, GA4, Pixel Helper) to identify root causes of performance issues.',
             duration: '24 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/YzuMgU7W5xI'
           }
         ]
       },
@@ -3349,7 +3389,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
             description: 'Identify major drops fast. Systematic diagnosis of delivery, creative, budget, and tracking. Create and execute recovery plans.',
             duration: '25 min',
             isCompleted: false,
-            type: 'video'
+            type: 'video',
+            videoUrl: 'https://youtu.be/sL6z4-Rak2g'
           }
         ]
       }

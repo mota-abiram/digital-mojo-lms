@@ -41,7 +41,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
             if (quizResult && quizResult.passed) {
                 setQuizSubmitted(true);
                 setScore(quizResult.score);
-            } else if (courseProgress.completedModules.includes(quiz.moduleId)) {
+            } else if ((courseProgress.completedModules || []).includes(quiz.moduleId)) {
                 // Fallback for legacy completion without score
                 setQuizSubmitted(true);
                 setScore(100);
@@ -49,31 +49,52 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
         }
     }, [quiz, user.progress, courseId]);
 
-    // Initialize Timer
+    // Initialize Timer with LocalStorage
     useEffect(() => {
         if (quiz && !quizSubmitted) {
+            const STORAGE_KEY = `quiz_start_${quiz.id}_${user.id}`;
+            let startTime = localStorage.getItem(STORAGE_KEY);
+
+            if (!startTime) {
+                startTime = Date.now().toString();
+                localStorage.setItem(STORAGE_KEY, startTime);
+            }
+
             const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
-            setTimeLeft(minutes * 60 + seconds);
+            const durationSeconds = minutes * 60 + seconds;
+
+            const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+            const remaining = Math.max(0, durationSeconds - elapsed);
+
+            setTimeLeft(remaining);
         }
-    }, [quiz, quizSubmitted]);
+    }, [quiz, quizSubmitted, user.id]);
 
     // Timer Logic
     useEffect(() => {
-        if (quizSubmitted || timeLeft <= 0 || !quiz) return;
+        if (quizSubmitted || !quiz) return;
 
         const timer = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev <= 1) {
+            const STORAGE_KEY = `quiz_start_${quiz.id}_${user.id}`;
+            const startTime = localStorage.getItem(STORAGE_KEY);
+
+            if (startTime) {
+                const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+                const durationSeconds = minutes * 60 + seconds;
+                const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+                const remaining = Math.max(0, durationSeconds - elapsed);
+
+                setTimeLeft(remaining);
+
+                if (remaining <= 0) {
                     clearInterval(timer);
                     handleSubmit();
-                    return 0;
                 }
-                return prev - 1;
-            });
+            }
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [timeLeft, quizSubmitted, quiz]);
+    }, [quiz, quizSubmitted, user.id]);
 
     const handleOptionSelect = (questionId: string, optionIndex: number) => {
         if (quizSubmitted) return;
@@ -97,6 +118,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
 
         const passingScore = quiz.passingScore || 70;
         const passed = finalScore >= passingScore;
+
+        // Clear timer storage
+        localStorage.removeItem(`quiz_start_${quiz.id}_${user.id}`);
 
         if (user.id && courseId) {
             try {
@@ -236,6 +260,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                                         setAnswers({});
                                         setCurrentQuestionIndex(0);
                                         setScore(0);
+                                        localStorage.removeItem(`quiz_start_${quiz.id}_${user.id}`);
                                         const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
                                         setTimeLeft(minutes * 60 + seconds);
                                     }}

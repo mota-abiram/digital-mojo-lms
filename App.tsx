@@ -115,7 +115,7 @@ const AppContent: React.FC = () => {
             <Route path="/community" element={<PlaceholderPage title="Community" />} />
             <Route path="/messages" element={<PlaceholderPage title="Messages" />} />
             <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
-            <Route path="/admin/seed" element={<AdminSeed user={user!} onLogout={handleLogout} />} />
+
           </Route>
 
           {/* Standalone Routes */}

@@ -65,8 +65,8 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
             if (!progress) {
                 notStartedCount++;
             } else {
-                const totalModules = course.sections.flatMap(s => s.modules).length;
-                const completed = progress.completedModules.length;
+                const totalModules = course.sections?.flatMap(s => s.modules || [])?.length || 0;
+                const completed = (progress.completedModules || []).length;
                 if (completed >= totalModules && totalModules > 0) {
                     completedCount++;
                 } else if (completed > 0) {
@@ -89,8 +89,8 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
     if (selectedCourse) {
         const courseUsers = users.map(u => {
             const progress = u.progress?.[selectedCourse.id];
-            const totalModules = selectedCourse.sections.flatMap(s => s.modules).length;
-            const completedModulesCount = progress?.completedModules.length || 0;
+            const totalModules = selectedCourse.sections?.flatMap(s => s.modules || [])?.length || 0;
+            const completedModulesCount = (progress?.completedModules || []).length;
             const percentage = totalModules > 0 ? Math.round((completedModulesCount / totalModules) * 100) : 0;
 
             let status = 'Not Started';

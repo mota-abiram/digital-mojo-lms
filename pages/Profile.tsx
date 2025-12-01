@@ -96,7 +96,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                             <div className="flex justify-between items-center">
                                 <span className="text-text-light-secondary dark:text-text-dark-secondary text-sm">Courses Completed</span>
                                 <span className="font-medium text-text-light-primary dark:text-text-dark-primary">
-                                    {user.progress ? Object.values(user.progress as any).filter((p: any) => p.completedModules && p.completedModules.length > 0).length : 0}
+                                    {user.progress ? Object.values(user.progress as any).filter((p: any) => p && p.completedModules && p.completedModules.length > 0).length : 0}
                                 </span>
                             </div>
                         </div>
