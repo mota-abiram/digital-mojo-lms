@@ -56,7 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
             <span className="material-symbols-outlined">help</span>
             <p className="text-sm font-medium leading-normal">IT Support</p>
           </NavLink>
-          <button onClick={onLogout} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 transition-colors w-full text-left text-text-light-secondary dark:text-text-dark-secondary">
+          <button onClick={onLogout} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 transition-colors w-full text-left text-white">
             <span className="material-symbols-outlined">logout</span>
             <p className="text-sm font-medium leading-normal">Logout</p>
           </button>
