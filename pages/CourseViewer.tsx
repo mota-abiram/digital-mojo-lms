@@ -383,7 +383,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                             </div>
 
                             {/* Certificate Banner */}
-                            {progressPercentage === 100 && (
+                            {progressPercentage === 100 && course.id !== 'c_orient' && (
                                 <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 rounded-xl p-6 flex items-center justify-between shadow-sm animate-fade-in">
                                     <div className="flex items-center gap-4">
                                         <div className="size-12 rounded-full bg-yellow-500 text-white flex items-center justify-center shadow-md">
