@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface PlaceholderPageProps {
   title: string;
-  type: 'wiki' | 'directory' | 'profile' | 'support';
+  type: 'wiki' | 'directory' | 'profile' | 'support' | 'community' | 'messages' | 'settings';
 }
 
 export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ title, type }) => {
@@ -36,7 +36,7 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ title, type })
         <div className="size-24 rounded-full bg-primary/10 flex items-center justify-center">
           <span className="material-symbols-outlined text-6xl text-primary">{getIcon()}</span>
         </div>
-        
+
         <div className="space-y-2">
           <h1 className="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">{title}</h1>
           <p className="text-text-light-secondary dark:text-text-dark-secondary text-lg">
@@ -46,7 +46,7 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({ title, type })
 
         <div className="h-px w-full bg-border-light dark:bg-border-dark my-2"></div>
 
-        <button 
+        <button
           onClick={() => navigate('/dashboard')}
           className="flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors"
         >

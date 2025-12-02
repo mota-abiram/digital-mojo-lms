@@ -21,6 +21,8 @@ const AdminAnalytics = lazy(() => import('./pages/AdminAnalytics').then(module =
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
 const AdminCourseUpload = lazy(() => import('./pages/AdminCourseUpload').then(module => ({ default: module.AdminCourseUpload })));
 const AdminQuizUpload = lazy(() => import('./pages/AdminQuizUpload').then(module => ({ default: module.AdminQuizUpload })));
+const AdminCourseManager = lazy(() => import('./pages/AdminCourseManager').then(module => ({ default: module.AdminCourseManager })));
+const AdminCourseEditor = lazy(() => import('./pages/AdminCourseEditor').then(module => ({ default: module.AdminCourseEditor })));
 const PlaceholderPage = lazy(() => import('./pages/PlaceholderPage').then(module => ({ default: module.PlaceholderPage })));
 
 const LoadingScreen = () => (
@@ -94,7 +96,7 @@ const AppContent: React.FC = () => {
     <ErrorBoundary>
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
+          <Route path="/login" element={!user ? <Login onLogin={() => { }} /> : <Navigate to="/dashboard" replace />} />
           <Route path="/register" element={!user ? <Register user={user} /> : <Navigate to="/dashboard" replace />} />
 
           <Route element={user ? (
@@ -112,9 +114,9 @@ const AppContent: React.FC = () => {
             <Route path="/wiki" element={<PlaceholderPage title="Company Wiki" type="wiki" />} />
             <Route path="/directory" element={<PlaceholderPage title="Team Directory" type="directory" />} />
             <Route path="/support" element={<PlaceholderPage title="IT & HR Support" type="support" />} />
-            <Route path="/community" element={<PlaceholderPage title="Community" />} />
-            <Route path="/messages" element={<PlaceholderPage title="Messages" />} />
-            <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+            <Route path="/community" element={<PlaceholderPage title="Community" type="community" />} />
+            <Route path="/messages" element={<PlaceholderPage title="Messages" type="messages" />} />
+            <Route path="/settings" element={<PlaceholderPage title="Settings" type="settings" />} />
 
           </Route>
 
@@ -144,6 +146,9 @@ const AppContent: React.FC = () => {
             />}>
               <Route path="/admin" element={<AdminDashboard user={user!} />} />
               <Route path="/admin/analytics" element={<AdminAnalytics user={user!} />} />
+              <Route path="/admin/courses" element={<AdminCourseManager />} />
+              <Route path="/admin/course/new" element={<AdminCourseEditor />} />
+              <Route path="/admin/course/edit/:courseId" element={<AdminCourseEditor />} />
               <Route path="/admin/course-upload" element={<AdminCourseUpload />} />
               <Route path="/admin/quiz-upload" element={<AdminQuizUpload />} />
               <Route path="/admin/seed" element={<AdminSeed user={user!} onLogout={handleLogout} />} />
