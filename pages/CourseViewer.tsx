@@ -72,15 +72,17 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     // Check for linked quiz when active module changes
     useEffect(() => {
         const checkQuiz = async () => {
-            if (activeModuleId) {
-                // Disable quizzes for Welcome to Digital Mojo course
-                if (courseId === 'c_orient') {
+            if (activeModuleId && course) {
+                // Check course-level disable flag
+                if (course.disableQuizzes) {
                     setLinkedQuizId(null);
                     return;
                 }
 
-                // Disable quiz for Calendar Creation module
-                if (activeModuleId === 'm11') {
+                // Check module-level disable flag
+                // We need to find the module object first
+                const currentModule = allModules.find(m => m.id === activeModuleId);
+                if (currentModule?.disableQuiz) {
                     setLinkedQuizId(null);
                     return;
                 }
@@ -90,7 +92,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
             }
         };
         checkQuiz();
-    }, [activeModuleId, courseId]);
+    }, [activeModuleId, course]);
 
     // State to track if we are showing the video or the quiz start card for a quiz module
     const [showQuizStart, setShowQuizStart] = useState(false);
@@ -389,7 +391,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                             </div>
 
                             {/* Certificate Banner */}
-                            {progressPercentage === 100 && course.id !== 'c_orient' && (
+                            {progressPercentage === 100 && !course.disableQuizzes && (
                                 <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 rounded-xl p-6 flex items-center justify-between shadow-sm animate-fade-in">
                                     <div className="flex items-center gap-4">
                                         <div className="size-12 rounded-full bg-yellow-500 text-white flex items-center justify-center shadow-md">

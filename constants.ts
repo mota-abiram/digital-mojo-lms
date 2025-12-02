@@ -21,6 +21,7 @@ export const MOCK_COURSES: Course[] = [
     progress: 0,
     image: 'https://picsum.photos/seed/office/600/400',
     category: 'mandated',
+    disableQuizzes: true,
     sections: [
       {
         id: 's1',
@@ -445,6 +446,7 @@ Help others → others help you. Everyone gets better.`,
           {
             id: 'm11',
             title: 'Calendar Creation',
+            disableQuiz: true,
             description: `📌 CONTENT CALENDAR EXECUTION GUIDE
 
 🗓 FREQUENCY: Monthly

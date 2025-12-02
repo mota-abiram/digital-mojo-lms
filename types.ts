@@ -36,6 +36,7 @@ export interface CourseModule {
   isCompleted: boolean;
   type: 'video' | 'quiz' | 'reading';
   videoUrl?: string;
+  disableQuiz?: boolean;
 }
 
 export interface CourseSection {
@@ -53,6 +54,7 @@ export interface Course {
   category: 'mandated' | 'role-specific' | 'optional';
   dueDate?: string;
   sections: CourseSection[];
+  disableQuizzes?: boolean;
 }
 
 export interface Question {
