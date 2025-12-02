@@ -61,13 +61,19 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
         let inProgressCount = 0;
         let notStartedCount = 0;
 
+        // Get all valid module IDs for this course
+        const allModuleIds = new Set(course.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
+        const totalModules = allModuleIds.size;
+
         users.forEach(u => {
             const progress = u.progress?.[course.id];
             if (!progress) {
                 notStartedCount++;
             } else {
-                const totalModules = course.sections?.flatMap(s => s.modules || [])?.length || 0;
-                const completed = (progress.completedModules || []).length;
+                // Filter completed modules to only include those that currently exist in the course
+                const validCompletedModules = (progress.completedModules || []).filter(id => allModuleIds.has(id));
+                const completed = validCompletedModules.length;
+
                 if (completed >= totalModules && totalModules > 0) {
                     completedCount++;
                 } else if (completed > 0) {
@@ -88,10 +94,17 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
 
     // --- Detail View Logic ---
     if (selectedCourse) {
+        // Get all valid module IDs for the selected course
+        const allModuleIds = new Set(selectedCourse.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
+        const totalModules = allModuleIds.size;
+
         const courseUsers = users.map(u => {
             const progress = u.progress?.[selectedCourse.id];
-            const totalModules = selectedCourse.sections?.flatMap(s => s.modules || [])?.length || 0;
-            const completedModulesCount = (progress?.completedModules || []).length;
+
+            // Filter completed modules to only include those that currently exist in the course
+            const validCompletedModules = (progress?.completedModules || []).filter(id => allModuleIds.has(id));
+            const completedModulesCount = validCompletedModules.length;
+
             const percentage = totalModules > 0 ? Math.round((completedModulesCount / totalModules) * 100) : 0;
 
             let status = 'Not Started';
