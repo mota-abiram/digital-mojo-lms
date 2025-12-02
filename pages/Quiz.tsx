@@ -20,17 +20,33 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0); // in seconds
 
-    // Fetch Quiz
+    const [moduleDuration, setModuleDuration] = useState<string | null>(null);
+
+    // Fetch Quiz and Course
     useEffect(() => {
-        const fetchQuiz = async () => {
-            if (quizId) {
-                const data = await getQuiz(quizId);
-                setQuiz(data);
+        const fetchData = async () => {
+            if (quizId && courseId) {
+                const { getCourse, getQuiz } = await import('../services/db');
+                const quizData = await getQuiz(quizId);
+                setQuiz(quizData);
+
+                if (quizData) {
+                    const courseData = await getCourse(courseId);
+                    if (courseData) {
+                        const module = courseData.sections
+                            .flatMap(s => s.modules)
+                            .find(m => m.id === quizData.moduleId);
+
+                        if (module) {
+                            setModuleDuration(module.duration);
+                        }
+                    }
+                }
                 setLoading(false);
             }
         };
-        fetchQuiz();
-    }, [quizId]);
+        fetchData();
+    }, [quizId, courseId]);
 
     // Check for existing progress
     useEffect(() => {
@@ -60,15 +76,22 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                 localStorage.setItem(STORAGE_KEY, startTime);
             }
 
-            const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
-            const durationSeconds = minutes * 60 + seconds;
+            let durationSeconds = 0;
+            if (moduleDuration) {
+                // Parse "14 min" -> 14 * 60
+                const minutes = parseInt(moduleDuration);
+                durationSeconds = (isNaN(minutes) ? 15 : minutes) * 60;
+            } else {
+                const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+                durationSeconds = minutes * 60 + seconds;
+            }
 
             const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
             const remaining = Math.max(0, durationSeconds - elapsed);
 
             setTimeLeft(remaining);
         }
-    }, [quiz, quizSubmitted, user.id]);
+    }, [quiz, quizSubmitted, user.id, moduleDuration]);
 
     // Timer Logic
     useEffect(() => {
@@ -79,8 +102,15 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
             const startTime = localStorage.getItem(STORAGE_KEY);
 
             if (startTime) {
-                const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
-                const durationSeconds = minutes * 60 + seconds;
+                let durationSeconds = 0;
+                if (moduleDuration) {
+                    const minutes = parseInt(moduleDuration);
+                    durationSeconds = (isNaN(minutes) ? 15 : minutes) * 60;
+                } else {
+                    const [minutes, seconds] = quiz.timeLimit.split(':').map(Number);
+                    durationSeconds = minutes * 60 + seconds;
+                }
+
                 const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
                 const remaining = Math.max(0, durationSeconds - elapsed);
 
@@ -94,7 +124,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [quiz, quizSubmitted, user.id]);
+    }, [quiz, quizSubmitted, user.id, moduleDuration]);
 
     const handleOptionSelect = (questionId: string, optionIndex: number) => {
         if (quizSubmitted) return;
