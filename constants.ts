@@ -367,7 +367,7 @@ Deliver consistently within scope — without over-servicing or waiting indefini
             duration: '12 min',
             isCompleted: false,
             type: 'video',
-            videoUrl: 'https://youtu.be/I9q6WdqKeYA?si=AtDR3Bi6sv7xpGJ6',
+            videoUrl: 'https://youtu.be/TE30C1u28kE',
           },
           {
             id: 'm9',
