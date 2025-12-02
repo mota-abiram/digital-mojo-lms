@@ -73,12 +73,18 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     useEffect(() => {
         const checkQuiz = async () => {
             if (activeModuleId) {
+                // Disable quizzes for Welcome to Digital Mojo course
+                if (courseId === 'c_orient') {
+                    setLinkedQuizId(null);
+                    return;
+                }
+
                 const quiz = await getQuizByModuleId(activeModuleId);
                 setLinkedQuizId(quiz ? quiz.id : null);
             }
         };
         checkQuiz();
-    }, [activeModuleId]);
+    }, [activeModuleId, courseId]);
 
     // State to track if we are showing the video or the quiz start card for a quiz module
     const [showQuizStart, setShowQuizStart] = useState(false);

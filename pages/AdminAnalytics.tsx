@@ -27,7 +27,8 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                 const q = query(usersRef, limit(100));
                 const snapshot = await getDocs(q);
                 const usersData = snapshot.docs.map(doc => doc.data() as User);
-                setUsers(usersData);
+                const filteredUsers = usersData.filter(u => u.role !== 'admin' && u.role !== 'Admin');
+                setUsers(filteredUsers);
 
             } catch (error) {
                 console.error("Error fetching analytics data", error);

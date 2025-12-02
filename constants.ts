@@ -21,7 +21,6 @@ export const MOCK_COURSES: Course[] = [
     progress: 0,
     image: 'https://picsum.photos/seed/office/600/400',
     category: 'mandated',
-    dueDate: 'In 2 days',
     sections: [
       {
         id: 's1',
@@ -31,13 +30,7 @@ export const MOCK_COURSES: Course[] = [
           { id: 'm2', title: 'Our Core Values', description: 'Understanding the pillars of our company culture.', duration: '15 min', isCompleted: true, type: 'reading' },
         ]
       },
-      {
-        id: 's2',
-        title: 'Policies',
-        modules: [
-          { id: 'm3', title: 'Employee Handbook Quiz', description: 'Assessment of key policies and procedures.', duration: '20 min', isCompleted: true, type: 'quiz' },
-        ]
-      }
+
     ],
   },
 
