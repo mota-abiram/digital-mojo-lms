@@ -78,8 +78,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             return { ...course, progress: 0 };
         }
 
-        const completedModules = user.progress[course.id].completedModules || [];
-        const totalModules = course.sections?.flatMap(s => s.modules)?.length || 0;
+        // Get all valid module IDs for this course
+        const allModuleIds = new Set(course.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
+        const totalModules = allModuleIds.size;
+
+        // Filter completed modules to only include those that currently exist in the course
+        const completedModules = (user.progress[course.id].completedModules || []).filter(id => allModuleIds.has(id));
+
         const progress = totalModules > 0 ? Math.round((completedModules.length / totalModules) * 100) : 0;
 
         return { ...course, progress };
