@@ -215,7 +215,7 @@ Send message in format:
             duration: '11 min',
             isCompleted: false,
             type: 'video',
-            videoUrl: 'https://youtu.be/doKlyc928zg?si=Z9tRNhPr6pC4QhmF',
+            videoUrl: 'https://youtu.be/Sas6QVccYpM?si=83KwRb77PLr7fYYt',
           },
           {
             id: 'm5',
