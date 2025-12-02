@@ -157,7 +157,12 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
                     <button
-                        onClick={() => navigate(`/course/${courseId}/module/${quiz.moduleId}`)}
+                        onClick={() => {
+                            if (quiz && user.id) {
+                                localStorage.removeItem(`quiz_start_${quiz.id}_${user.id}`);
+                            }
+                            navigate(`/course/${courseId}/module/${quiz?.moduleId}`);
+                        }}
                         className="text-text-light-secondary dark:text-text-dark-secondary hover:text-primary flex items-center gap-1"
                     >
                         <span className="material-symbols-outlined">arrow_back</span>
