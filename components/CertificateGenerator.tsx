@@ -69,7 +69,7 @@ export const CertificateGenerator: React.FC<CertificateGeneratorProps> = ({ user
                             {/* Header Section */}
                             <div className="flex flex-col items-center">
                                 <img src={logo} alt="Digital Mojo" className="h-48 object-contain mb-2" />
-                                <h1 className="text-4xl font-bold text-gray-900 uppercase tracking-wide leading-none">Certificate of Completion</h1>
+                                <h1 className="text-4xl -mt-6 font-bold text-gray-900 uppercase tracking-wide leading-none">Certificate of Completion</h1>
                             </div>
 
                             {/* Body Section */}
