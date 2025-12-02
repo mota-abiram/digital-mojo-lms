@@ -79,6 +79,12 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                     return;
                 }
 
+                // Disable quiz for Calendar Creation module
+                if (activeModuleId === 'm11') {
+                    setLinkedQuizId(null);
+                    return;
+                }
+
                 const quiz = await getQuizByModuleId(activeModuleId);
                 setLinkedQuizId(quiz ? quiz.id : null);
             }

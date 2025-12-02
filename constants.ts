@@ -3649,19 +3649,7 @@ export const MOCK_QUIZZES: Record<string, Quiz> = {
       { id: 'q10', text: 'What should be the goal of calendar creation?', options: ['Clarity and ease of execution', 'Making a complex document', 'Copying other brands', 'Personal preferences'], correctOptionIndex: 0 },
     ],
   },
-  'q_m11': {
-    id: 'q_m11',
-    title: 'Calendar Creation Assessment',
-    moduleId: 'm11',
-    totalQuestions: 3,
-    timeLimit: '10:00',
-    passingScore: 70,
-    questions: [
-      { id: 'q1', text: 'What is a key takeaway from Calendar Creation?', options: ['Option A', 'Option B', 'Option C', 'Option D'], correctOptionIndex: 0 },
-      { id: 'q2', text: 'Why is Calendar Creation important?', options: ['Reason A', 'Reason B', 'Reason C', 'Reason D'], correctOptionIndex: 0 },
-      { id: 'q3', text: 'How do you apply Calendar Creation?', options: ['Method A', 'Method B', 'Method C', 'Method D'], correctOptionIndex: 0 },
-    ],
-  },
+
   'q_m12': {
     id: 'q_m12',
     title: 'Persona & Brand Understanding Assessment',
