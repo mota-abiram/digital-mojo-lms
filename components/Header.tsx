@@ -7,11 +7,13 @@ interface HeaderProps {
   showSearch?: boolean;
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
+  darkMode?: boolean;
+  toggleTheme?: () => void;
 }
 
 import logo from '../assets/logo.png';
 
-export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = true, searchQuery = '', onSearchChange }) => {
+export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = true, searchQuery = '', onSearchChange, darkMode, toggleTheme }) => {
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-card-light dark:bg-card-dark sticky top-0 z-20">
       <div className="flex items-center gap-4">
@@ -38,6 +40,16 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = tru
       )}
 
       <div className="flex items-center gap-4">
+        <button
+          onClick={toggleTheme}
+          className="flex items-center justify-center size-10 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors text-text-light-secondary dark:text-text-dark-secondary"
+          title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          <span className="material-symbols-outlined">
+            {darkMode ? 'light_mode' : 'dark_mode'}
+          </span>
+        </button>
+
         <button className="flex items-center justify-center size-10 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors text-text-light-secondary dark:text-text-dark-secondary">
           <span className="material-symbols-outlined">notifications</span>
         </button>
