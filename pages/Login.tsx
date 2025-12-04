@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-import { loginWithEmail, resetPassword } from '../services/db'; // Assuming resetPassword will be added to db.ts, or import directly from firebase/auth if preferred, but keeping service layer clean is better.
+import { loginWithEmail, resetPassword, loginWithGoogle } from '../services/db';
 // Actually, let's just import from firebase/auth here for speed if db.ts doesn't have it, OR update db.ts.
 // Let's update this file to use a new resetPassword function I'll add to db.ts in a moment.
 // For now, I'll add the state and the handler structure.
@@ -224,9 +224,32 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   </button>
                 </div>
 
-                <div className="pt-4 text-center">
-                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Don't have an account? <button type="button" onClick={() => window.location.hash = '#/register'} className="font-medium text-primary hover:underline focus:outline-none">Create an account</button></p>
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-card-light dark:bg-background-dark text-text-light-secondary dark:text-text-dark-secondary">Or continue with</span>
+                  </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await loginWithGoogle();
+                      if (onLogin) onLogin();
+                    } catch (err: any) {
+                      console.error(err);
+                      setError(err.message || 'Google Sign-In failed. Please try again.');
+                    }
+                  }}
+                  className="w-full py-3 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg font-bold text-base hover:bg-gray-50 dark:hover:bg-gray-700 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                >
+                  <img src="https://www.google.com/favicon.ico" alt="Google" className="w-6 h-6" />
+                  Sign in with Google
+                </button>
+
               </form>
             </div>
           </div>

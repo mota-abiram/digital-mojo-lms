@@ -193,32 +193,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             </div>
 
             {/* Right Sidebar Widgets */}
-            <div className="w-full lg:w-80 border-l border-border-light dark:border-border-dark bg-background-light dark:bg-card-dark p-6 flex flex-col gap-8">
 
 
-                {/* Announcements */}
+            {/* Announcements */}
 
-                {/* Support Contact */}
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                            <span className="material-symbols-outlined text-sm">support_agent</span>
-                        </div>
-                        <div>
-                            <p className="text-sm font-bold text-text-light-primary dark:text-text-dark-primary">Need Help?</p>
-                            <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Contact HR Team</p>
-                        </div>
-                    </div>
-                    <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-3">Questions about your onboarding?</p>
-                    <button
-                        onClick={() => navigate('/support')}
-                        className="w-full py-2 bg-card-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg text-xs font-bold hover:bg-white transition-colors"
-                    >
-                        Chat with HR
-                    </button>
-                </div>
+            {/* Support Contact */}
 
-            </div>
         </div>
+
     );
 };

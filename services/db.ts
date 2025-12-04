@@ -1,5 +1,5 @@
 import { auth, db } from '../firebaseConfig';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore';
 import { User, CourseModule } from '../types';
 import { MOCK_USER } from '../constants';
@@ -18,6 +18,43 @@ export const loginWithEmail = async (email: string, pass: string, rememberMe: bo
     }
 };
 
+export const loginWithGoogle = async () => {
+    try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        // Check domain
+        if (!user.email?.endsWith('@digitalmojo.in')) {
+            await signOut(auth);
+            throw new Error("Only @digitalmojo.in emails are allowed.");
+        }
+
+        // Check if user exists in Firestore
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            // Create new user profile if it doesn't exist
+            const userData: User = {
+                id: user.uid,
+                name: user.displayName || "User",
+                email: user.email || "",
+                avatar: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=random`,
+                role: 'user',
+                department: '', // To be filled later
+                joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            };
+            await setDoc(userRef, userData);
+        }
+
+        return user;
+    } catch (error) {
+        console.error("Google login failed", error);
+        throw error;
+    }
+};
+
 export const resetPassword = async (email: string) => {
     try {
         const { sendPasswordResetEmail } = await import('firebase/auth');
@@ -28,8 +65,12 @@ export const resetPassword = async (email: string) => {
     }
 };
 
-export const registerUser = async (email: string, pass: string, name: string, role: string, department: string) => {
+export const registerUser = async (email: string, pass: string, name: string, role: string, department: string = "") => {
     try {
+        if (!email.endsWith('@digitalmojo.in')) {
+            throw new Error("Only @digitalmojo.in emails are allowed.");
+        }
+
         // 1. Create Auth User
         const { createUserWithEmailAndPassword } = await import('firebase/auth');
         const userCredential = await createUserWithEmailAndPassword(auth, email, pass);

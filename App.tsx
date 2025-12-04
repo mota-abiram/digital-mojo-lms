@@ -8,6 +8,7 @@ import { MainLayout } from './components/MainLayout';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { DepartmentSelector } from './components/DepartmentSelector';
 
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -94,6 +95,12 @@ const AppContent: React.FC = () => {
 
   return (
     <ErrorBoundary>
+      {user && !user.department && (
+        <DepartmentSelector
+          user={user}
+          onUpdate={(updatedUser) => setUser(updatedUser)}
+        />
+      )}
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/login" element={!user ? <Login onLogin={() => { }} /> : <Navigate to="/dashboard" replace />} />

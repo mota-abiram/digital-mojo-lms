@@ -50,9 +50,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = tru
           </span>
         </button>
 
-        <button className="flex items-center justify-center size-10 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors text-text-light-secondary dark:text-text-dark-secondary">
-          <span className="material-symbols-outlined">notifications</span>
-        </button>
+
         <div
           className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-light dark:border-border-dark cursor-pointer"
           style={{ backgroundImage: `url("${user.avatar}")` }}

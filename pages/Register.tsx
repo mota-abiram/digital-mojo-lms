@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../services/db';
+import { registerUser, loginWithGoogle } from '../services/db';
 import { User } from '../types';
 
 interface RegisterProps {
@@ -14,7 +14,6 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
         email: '',
         password: '',
         role: 'user', // Default role is ALWAYS user
-        department: 'Sales'
     });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
@@ -35,8 +34,7 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
                 formData.email,
                 formData.password,
                 formData.name,
-                formData.role,
-                formData.department
+                formData.role
             );
             // Registration successful, show success message
             setSuccess(true);
@@ -148,24 +146,6 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1.5">Department</label>
-                        <div className="relative">
-                            <select
-                                name="department"
-                                className="w-full px-4 py-3 rounded-lg border border-gray-800 bg-[#111] text-white focus:ring-2 focus:ring-brand-yellow/50 focus:border-brand-yellow transition-all outline-none appearance-none"
-                                value={formData.department}
-                                onChange={handleChange}
-                            >
-                                <option value="Sales">Sales</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="HR">HR</option>
-                            </select>
-                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
-                        </div>
-                    </div>
-
                     <button
                         type="submit"
                         disabled={loading}
@@ -181,6 +161,32 @@ export const Register: React.FC<RegisterProps> = ({ user }) => {
                         )}
                     </button>
                 </form>
+
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-800"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-black text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={async () => {
+                            try {
+                                await loginWithGoogle();
+                                navigate('/dashboard');
+                            } catch (error: any) {
+                                setError(error.message || "Google Sign-In failed.");
+                            }
+                        }}
+                        className="mt-6 w-full py-3.5 bg-white text-black rounded-lg font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                    >
+                        <img src="https://www.google.com/favicon.ico" alt="Google" className="w-6 h-6" />
+                        Sign up with Google
+                    </button>
+                </div>
 
                 <div className="mt-8 text-center">
                     <p className="text-gray-400">
