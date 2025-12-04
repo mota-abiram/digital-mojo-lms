@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Course } from '../types';
-import { getCourses } from '../services/db';
+import { getCourses, getQuizzesForModules } from '../services/db';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
@@ -10,8 +10,11 @@ interface AdminAnalyticsProps {
 
 export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [users, setUsers] = useState<User[]>([]);
     const [courses, setCourses] = useState<Course[]>([]);
+    const [courseQuizzes, setCourseQuizzes] = useState<{ [key: string]: { title: string, moduleId: string } }>({}); // Map quizId -> {title, moduleId}
+    const [moduleNames, setModuleNames] = useState<{ [key: string]: string }>({}); // Map moduleId -> moduleTitle
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -43,6 +46,37 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
             setLoading(false);
         }
     }, [user.role]);
+
+    useEffect(() => {
+        const fetchQuizzes = async () => {
+            if (selectedCourse) {
+                const quizModuleIds = selectedCourse.sections
+                    ?.flatMap(s => s.modules || [])
+                    .map(m => m.id) || [];
+
+                // Create module name map
+                const modMap: { [key: string]: string } = {};
+                selectedCourse.sections?.forEach(s => {
+                    s.modules?.forEach(m => {
+                        modMap[m.id] = m.title;
+                    });
+                });
+                setModuleNames(modMap);
+
+                if (quizModuleIds.length > 0) {
+                    const quizzes = await getQuizzesForModules(quizModuleIds);
+                    const quizMap: { [key: string]: { title: string, moduleId: string } } = {};
+                    quizzes.forEach(q => {
+                        quizMap[q.id] = { title: q.title, moduleId: q.moduleId };
+                    });
+                    setCourseQuizzes(quizMap);
+                } else {
+                    setCourseQuizzes({});
+                }
+            }
+        };
+        fetchQuizzes();
+    }, [selectedCourse]);
 
     if (user.role !== 'admin' && user.role !== 'Admin' && user.role !== 'Manager') {
         return <div className="p-10 text-center">Access Denied. Admin privileges required.</div>;
@@ -98,6 +132,11 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
         const allModuleIds = new Set(selectedCourse.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
         const totalModules = allModuleIds.size;
 
+        // Get all quiz modules for the selected course (either type='quiz' or has a quiz linked)
+        const allQuizModules = selectedCourse.sections?.flatMap(s => s.modules || []).filter(m => {
+            return m.type === 'quiz' || Object.values(courseQuizzes).some(q => q.moduleId === m.id);
+        }) || [];
+
         const courseUsers = users.map(u => {
             const progress = u.progress?.[selectedCourse.id];
 
@@ -115,72 +154,202 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                 ...u,
                 percentage,
                 status,
-                lastUpdated: progress?.lastUpdated ? new Date(progress.lastUpdated).toLocaleDateString() : '-'
+                lastUpdated: progress?.lastUpdated ? new Date(progress.lastUpdated).toLocaleDateString() : '-',
+                joinDate: u.joinDate || '-',
+                quizScores: progress?.quizScores || {}
             };
         });
 
         return (
-            <div className="p-6 md:p-10 bg-background-light dark:bg-background-dark min-h-screen">
-                <button
-                    onClick={() => setSelectedCourse(null)}
-                    className="mb-6 flex items-center gap-2 text-text-light-secondary dark:text-text-dark-secondary hover:text-primary transition-colors"
-                >
-                    <span className="material-symbols-outlined">arrow_back</span>
-                    Back to Overview
-                </button>
+            <>
+                {selectedUser && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                        <div className="w-full max-w-3xl bg-card-light dark:bg-card-dark rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                            <div className="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-background-light dark:bg-background-dark">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full bg-gray-200 bg-cover" style={{ backgroundImage: `url("${selectedUser.avatar}")` }}></div>
+                                    <div>
+                                        <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">{selectedUser.name}</h2>
+                                        <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">{selectedUser.email}</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setSelectedUser(null)}
+                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                                >
+                                    <span className="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
+                            <div className="p-6 overflow-y-auto">
+                                <h3 className="text-lg font-bold mb-4 text-text-light-primary dark:text-text-dark-primary">
+                                    {allQuizModules.length > 0 ? 'Quiz Performance Breakdown' : 'Module Completion Status'}
+                                </h3>
+                                <div className="space-y-4">
+                                    {allQuizModules.length > 0 ? (
+                                        allQuizModules.map(module => {
+                                            // Find the quiz ID for this module
+                                            const quizEntry = Object.entries(courseQuizzes).find(([_, data]) => data.moduleId === module.id);
+                                            const quizId = quizEntry ? quizEntry[0] : null;
+                                            const scoreData = quizId && selectedUser.progress?.[selectedCourse.id]?.quizScores?.[quizId];
 
-                <h1 className="text-3xl font-bold mb-2 text-text-light-primary dark:text-text-dark-primary">{selectedCourse.title}</h1>
-                <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">User Progress Report</p>
+                                            return (
+                                                <div key={module.id} className="flex flex-col p-4 bg-background-light dark:bg-background-dark rounded-xl border border-border-light dark:border-border-dark">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <p className="font-bold text-text-light-primary dark:text-text-dark-primary">{module.title}</p>
+                                                            <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                                                {quizEntry ? quizEntry[1].title : 'Quiz'}
+                                                            </p>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">Total Attempts</p>
+                                                            <span className="font-bold text-text-light-primary dark:text-text-dark-primary">
+                                                                {scoreData ? scoreData.attempts : 0}
+                                                            </span>
+                                                        </div>
+                                                    </div>
 
-                <div className="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-background-light dark:bg-background-dark text-text-light-secondary dark:text-text-dark-secondary text-xs uppercase tracking-wider">
-                                    <th className="p-4 font-semibold">User Name</th>
-                                    <th className="p-4 font-semibold">Department</th>
-                                    <th className="p-4 font-semibold text-center">Status</th>
-                                    <th className="p-4 font-semibold text-center">Progress</th>
-                                    <th className="p-4 font-semibold text-center">Last Active</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border-light dark:divide-border-dark">
-                                {courseUsers.map(u => (
-                                    <tr key={u.id} className="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
-                                        <td className="p-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-gray-200 bg-cover" style={{ backgroundImage: `url("${u.avatar}")` }}></div>
-                                                <div>
-                                                    <p className="font-bold text-text-light-primary dark:text-text-dark-primary">{u.name}</p>
-                                                    <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">{u.email}</p>
+                                                    {/* History Section */}
+                                                    {scoreData && scoreData.history && scoreData.history.length > 0 && (
+                                                        <div className="mt-4 pt-3 border-t border-border-light dark:border-border-dark">
+                                                            <p className="text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary mb-2 uppercase tracking-wider">Attempt History</p>
+                                                            <div className="space-y-2">
+                                                                {scoreData.history.map((attempt, index) => (
+                                                                    <div key={index} className="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                                                                        <span className="text-text-light-secondary dark:text-text-dark-secondary font-medium">Attempt {index + 1}</span>
+                                                                        <div className="flex items-center gap-4">
+                                                                            <span className="text-xs text-gray-500">
+                                                                                {new Date(attempt.completedAt).toLocaleDateString()} {new Date(attempt.completedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                                            </span>
+                                                                            <span className={`font-bold ${attempt.passed ? 'text-green-600' : 'text-red-500'}`}>
+                                                                                {attempt.score}%
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Fallback for legacy data (no history) */}
+                                                    {scoreData && (!scoreData.history || scoreData.history.length === 0) && (
+                                                        <div className="mt-4 pt-3 border-t border-border-light dark:border-border-dark flex justify-between items-center">
+                                                            <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Best Score</span>
+                                                            <span className={`font-bold text-lg ${scoreData.passed ? 'text-green-600' : 'text-red-500'}`}>
+                                                                {scoreData.score}%
+                                                            </span>
+                                                        </div>
+                                                    )}
+
+                                                    {!scoreData && (
+                                                        <div className="mt-2 text-right">
+                                                            <span className="text-sm text-gray-400 italic">Not attempted yet</span>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="p-4 text-text-light-secondary dark:text-text-dark-secondary">{u.department}</td>
-                                        <td className="p-4 text-center">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${u.status === 'Completed' ? 'bg-green-100 text-green-700' :
-                                                u.status === 'In Progress' ? 'bg-yellow-100 text-yellow-700' :
-                                                    'bg-gray-100 text-gray-600'
-                                                }`}>
-                                                {u.status}
-                                            </span>
-                                        </td>
-                                        <td className="p-4 text-center">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                                    <div className={`h-full ${u.percentage === 100 ? 'bg-green-500' : 'bg-primary'}`} style={{ width: `${u.percentage}%` }}></div>
-                                                </div>
-                                                <span className="text-xs font-bold">{u.percentage}%</span>
-                                            </div>
-                                        </td>
-                                        <td className="p-4 text-center text-sm text-text-light-secondary dark:text-text-dark-secondary">{u.lastUpdated}</td>
+                                            );
+                                        })
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
+                                                This course has no quizzes. Showing module completion status:
+                                            </p>
+                                            {selectedCourse.sections?.flatMap(s => s.modules || []).map(module => {
+                                                const isCompleted = selectedUser.progress?.[selectedCourse.id]?.completedModules?.includes(module.id);
+                                                return (
+                                                    <div key={module.id} className="flex items-center justify-between p-3 bg-background-light dark:bg-background-dark rounded-lg border border-border-light dark:border-border-dark">
+                                                        <div className="flex items-center gap-3">
+                                                            <span className={`material-symbols-outlined text-lg ${isCompleted ? 'text-green-500' : 'text-gray-400'}`}>
+                                                                {isCompleted ? 'check_circle' : 'radio_button_unchecked'}
+                                                            </span>
+                                                            <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">{module.title}</span>
+                                                        </div>
+                                                        <span className={`text-xs font-bold ${isCompleted ? 'text-green-600' : 'text-gray-500'}`}>
+                                                            {isCompleted ? 'Completed' : 'Pending'}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div className="p-6 md:p-10 bg-background-light dark:bg-background-dark min-h-screen">
+                    <button
+                        onClick={() => setSelectedCourse(null)}
+                        className="mb-6 flex items-center gap-2 text-text-light-secondary dark:text-text-dark-secondary hover:text-primary transition-colors"
+                    >
+                        <span className="material-symbols-outlined">arrow_back</span>
+                        Back to Overview
+                    </button>
+
+                    <h1 className="text-3xl font-bold mb-2 text-text-light-primary dark:text-text-dark-primary">{selectedCourse.title}</h1>
+                    <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">User Progress Report</p>
+
+                    <div className="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-background-light dark:bg-background-dark text-text-light-secondary dark:text-text-dark-secondary text-xs uppercase tracking-wider">
+                                        <th className="p-4 font-semibold">User Name</th>
+                                        <th className="p-4 font-semibold">Department</th>
+                                        <th className="p-4 font-semibold text-center">First Login</th>
+                                        <th className="p-4 font-semibold text-center">Status</th>
+                                        <th className="p-4 font-semibold text-center">Progress</th>
+                                        <th className="p-4 font-semibold text-center">Last Active</th>
+                                        <th className="p-4 font-semibold text-center">Action</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="divide-y divide-border-light dark:divide-border-dark">
+                                    {courseUsers.map(u => (
+                                        <tr key={u.id} className="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
+                                            <td className="p-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 rounded-full bg-gray-200 bg-cover" style={{ backgroundImage: `url("${u.avatar}")` }}></div>
+                                                    <div>
+                                                        <p className="font-bold text-text-light-primary dark:text-text-dark-primary">{u.name}</p>
+                                                        <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">{u.email}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="p-4 text-text-light-secondary dark:text-text-dark-secondary">{u.department}</td>
+                                            <td className="p-4 text-center text-text-light-secondary dark:text-text-dark-secondary text-sm">{u.joinDate}</td>
+                                            <td className="p-4 text-center">
+                                                <span className={`px-2 py-1 rounded-full text-xs font-bold ${u.status === 'Completed' ? 'bg-green-100 text-green-700' :
+                                                    u.status === 'In Progress' ? 'bg-yellow-100 text-yellow-700' :
+                                                        'bg-gray-100 text-gray-600'
+                                                    }`}>
+                                                    {u.status}
+                                                </span>
+                                            </td>
+                                            <td className="p-4 text-center">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                        <div className={`h-full ${u.percentage === 100 ? 'bg-green-500' : 'bg-primary'}`} style={{ width: `${u.percentage}%` }}></div>
+                                                    </div>
+                                                    <span className="text-xs font-bold">{u.percentage}%</span>
+                                                </div>
+                                            </td>
+                                            <td className="p-4 text-center text-sm text-text-light-secondary dark:text-text-dark-secondary">{u.lastUpdated}</td>
+                                            <td className="p-4 text-center">
+                                                <button
+                                                    onClick={() => setSelectedUser(u)}
+                                                    className="px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-bold transition-all"
+                                                >
+                                                    View Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 

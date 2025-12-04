@@ -17,6 +17,11 @@ export interface User {
           attempts: number;
           passed: boolean;
           completedAt: string;
+          history?: {
+            score: number;
+            passed: boolean;
+            completedAt: string;
+          }[];
         }
       };
       certificate?: {

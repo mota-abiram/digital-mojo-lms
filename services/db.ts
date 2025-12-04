@@ -10,6 +10,8 @@ export const loginWithEmail = async (email: string, pass: string, rememberMe: bo
         const { setPersistence, browserLocalPersistence, browserSessionPersistence } = await import('firebase/auth');
         await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 
+
+
         const userCredential = await signInWithEmailAndPassword(auth, email, pass);
         return userCredential.user;
     } catch (error) {
@@ -214,12 +216,20 @@ export const saveQuizResult = async (userId: string, courseId: string, quizId: s
             const bestScore = Math.max(currentQuizScore?.score || 0, score);
             const isPassed = passed || currentQuizScore?.passed || false;
 
+            const currentHistory = currentQuizScore?.history || [];
+            const newHistory = [...currentHistory, {
+                score: score,
+                passed: passed,
+                completedAt: new Date().toISOString()
+            }];
+
             const updateData = {
                 [`progress.${courseId}.quizScores.${quizId}`]: {
                     score: bestScore,
                     passed: isPassed,
                     attempts: newAttempts,
-                    completedAt: new Date().toISOString()
+                    completedAt: new Date().toISOString(),
+                    history: newHistory
                 },
                 [`progress.${courseId}.lastUpdated`]: new Date().toISOString()
             };
@@ -300,5 +310,28 @@ export const getQuizByModuleId = async (moduleId: string): Promise<Quiz | null> 
     } catch (error) {
         console.error("Error fetching quiz by module", error);
         return null;
+    }
+};
+
+export const getQuizzesForModules = async (moduleIds: string[]): Promise<Quiz[]> => {
+    try {
+        if (moduleIds.length === 0) return [];
+        const quizzesRef = collection(db, 'quizzes');
+        // Firestore 'in' query supports up to 10 values. We need to batch if more.
+        const chunks = [];
+        for (let i = 0; i < moduleIds.length; i += 10) {
+            chunks.push(moduleIds.slice(i, i + 10));
+        }
+
+        const results: Quiz[] = [];
+        for (const chunk of chunks) {
+            const q = query(quizzesRef, where("moduleId", "in", chunk));
+            const snapshot = await getDocs(q);
+            snapshot.docs.forEach(doc => results.push(doc.data() as Quiz));
+        }
+        return results;
+    } catch (error) {
+        console.error("Error fetching quizzes for modules", error);
+        return [];
     }
 };

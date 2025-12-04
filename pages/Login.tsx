@@ -33,7 +33,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       console.error("Login Error:", err);
       // Firebase Auth Error Handling
       const errorCode = err.code;
-      if (errorCode === 'auth/invalid-credential' || errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+      if (errorCode === 'auth/invalid-credential' || errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found' || errorCode === 'auth/invalid-login-credentials') {
         setError('Incorrect email or password. Please try again.');
       } else if (errorCode === 'auth/invalid-email') {
         setError('Please enter a valid email address.');
@@ -42,7 +42,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       } else if (errorCode === 'auth/network-request-failed') {
         setError('Network error. Please check your internet connection.');
       } else {
-        setError('An unexpected error occurred. Please try again.');
+        setError(`An unexpected error occurred (${errorCode}). Please try again.`);
       }
     } finally {
       setLoading(false);

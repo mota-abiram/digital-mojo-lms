@@ -17,8 +17,8 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = tru
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 md:px-10 py-3 bg-card-light dark:bg-card-dark sticky top-0 z-20">
       <div className="flex items-center gap-4">
-        <div className="h-10 w-auto">
-          <img src={logo} alt="Digital Mojo" className="h-full w-auto object-contain" />
+        <div className="h-12 w-auto">
+          <img src={logo} alt="Digital Mojo" className="h-12 w-auto scale-150" />
         </div>
         <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">Digital Mojo</h2>
       </div>
