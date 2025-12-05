@@ -7,7 +7,7 @@ export const MOCK_USER: User = {
   avatar: 'https://picsum.photos/seed/user1/200/200',
   role: 'Account Manager',
   department: 'Sales',
-  joinDate: 'Oct 2023'
+  joinDate: 'Nov 25, 2023'
 };
 
 
@@ -41,7 +41,7 @@ export const MOCK_COURSES: Course[] = [
     title: 'Account Manager',
     description: 'Comprehensive training on client retention, growth strategies, and effective communication for Digital Mojo Account Managers.',
     progress: 0,
-    image: 'https://picsum.photos/seed/accountmgmt/600/400',
+    image: 'images/account-manager.png',
     category: 'role-specific',
     sections: [
       {
@@ -1841,7 +1841,7 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
     title: 'Performance Marketing Specialist',
     description: 'Complete certification for Performance Specialists covering Campaign Setup, Ad Launch, Optimization, Budgeting, and Reporting across Google and Meta.',
     progress: 0,
-    image: 'https://picsum.photos/seed/ppc/600/400',
+    image: 'images/performance-marketing.png',
     category: 'role-specific',
     sections: [
       {
@@ -3396,7 +3396,7 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
     title: 'Web Developer',
     description: 'Full-stack fundamentals covering Wordpress, PHP, MySQL, and modern backend integration.',
     progress: 0,
-    image: 'https://picsum.photos/seed/webdev/600/400',
+    image: 'images/web-developer.png',
     category: 'role-specific',
     sections: [
       {
@@ -3421,7 +3421,7 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
     title: 'Advanced SEO Mastery',
     description: 'Learn technical SEO, on-page optimization, and backlink strategies to rank #1.',
     progress: 0,
-    image: 'https://picsum.photos/seed/seocourse/600/400',
+    image: 'images/seo-specialist.png',
     category: 'role-specific',
     sections: [
       {

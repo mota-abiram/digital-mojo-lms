@@ -45,7 +45,7 @@ export const loginWithGoogle = async () => {
                 avatar: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=random`,
                 role: 'user',
                 department: '', // To be filled later
-                joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                joinDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
             };
             await setDoc(userRef, userData);
         }
@@ -87,7 +87,7 @@ export const registerUser = async (email: string, pass: string, name: string, ro
             avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`,
             role,
             department,
-            joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            joinDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
         };
 
         await setDoc(userRef, userData);

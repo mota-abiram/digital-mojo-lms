@@ -160,27 +160,35 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col gap-8 overflow-y-auto">
 
                 {/* Welcome Banner */}
-                <div className="bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-2xl p-6 md:p-8 text-black shadow-lg relative overflow-hidden">
+                <div className="bg-gradient-to-r from-brand-dark-gray to-bla
+                 rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden w-full h-fit">
+                    <img src="/images/banner-bg.png" alt="Abstract background" className="absolute inset-0 w-full h-full object-cover opacity-30" />
                     <div className="relative z-10 max-w-2xl">
                         <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
-                        <p className="text-black/80 text-lg mb-6">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
+                        <div className="flex flex-col gap-1 mb-6">
+                            <p className="text-white/80 text-lg">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
+                            <p className="text-white/50 text-sm font-medium flex items-center gap-1">
+                                <span className="material-symbols-outlined text-[16px]">calendar_today</span>
+                                First Login: {user?.joinDate}
+                            </p>
+                        </div>
 
-                        <div className="flex items-center gap-4 bg-black/5 backdrop-blur-sm p-4 rounded-xl border border-black/10 w-fit">
+                        <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10 w-fit">
                             <div className="relative size-12">
                                 <svg className="size-full -rotate-90" viewBox="0 0 36 36">
-                                    <path className="text-black/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
-                                    <path className="text-black transition-all duration-1000" strokeDasharray={`${onboardingProgress || 0}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
+                                    <path className="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
+                                    <path className="text-white transition-all duration-1000" strokeDasharray={`${onboardingProgress || 0}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
                                 </svg>
                                 <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{onboardingProgress || 0}%</div>
                             </div>
                             <div>
                                 <p className="font-bold text-sm">Onboarding Progress</p>
-                                <p className="text-xs text-black/60">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
+                                <p className="text-xs text-white/60">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
                             </div>
                         </div>
                     </div>
                     <div className="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4">
-                        <span className="material-symbols-outlined text-[250px] text-black">rocket_launch</span>
+                        <span className="material-symbols-outlined text-[250px] text-white">rocket_launch</span>
                     </div>
                 </div>
 
