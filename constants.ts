@@ -16,7 +16,7 @@ export const MOCK_COURSES: Course[] = [
   // Mandated / Onboarding
   {
     id: 'c_orient',
-    title: 'Welcome to Digital Mojo',
+    title: 'Begin Your Mojo Adventure',
     description: 'Essential company history, culture, values, and handbook review for all new joiners.',
     progress: 0,
     image: 'https://picsum.photos/seed/office/600/400',
@@ -39,7 +39,8 @@ export const MOCK_COURSES: Course[] = [
   {
     id: 'c1',
     title: 'Account Manager',
-    description: 'Comprehensive training on client retention, growth strategies, and effective communication for Digital Mojo Account Managers.',
+    description: `Become the client’s favorite human 😉
+Learn chill tricks to keep vibes good and projects rolling.`,
     progress: 0,
     image: '/images/account-manager.png',
     category: 'role-specific',
@@ -1839,7 +1840,8 @@ Handover is complete ONLY when the team is fully clear — not when you simply s
   {
     id: 'c_perf_spec',
     title: 'Performance Marketing Specialist',
-    description: 'Complete certification for Performance Specialists covering Campaign Setup, Ad Launch, Optimization, Budgeting, and Reporting across Google and Meta.',
+    description: `Level up your campaigns with tactics that truly work.
+Learn practical performance skills that lead to real, satisfying wins.`,
     progress: 0,
     image: '/images/performance-marketing.png',
     category: 'role-specific',
@@ -3394,7 +3396,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
   {
     id: 'c3',
     title: 'Web Developer',
-    description: 'Full-stack fundamentals covering Wordpress, PHP, MySQL, and modern backend integration.',
+    description: `Craft websites that make people go “Oh wow”
+Learn website dev skills that feel empowering, not overwhelming.`,
     progress: 0,
     image: '/images/web-developer.png',
     category: 'role-specific',
@@ -3419,7 +3422,8 @@ If someone cannot run the account smoothly tomorrow using your KT — it is inco
   {
     id: 'c4',
     title: 'Advanced SEO Mastery',
-    description: 'Learn technical SEO, on-page optimization, and backlink strategies to rank #1.',
+    description: `Turn keywords into superpowers.
+Learn smart SEO techniques that raise your visibility naturally.`,
     progress: 0,
     image: '/images/seo-specialist.png',
     category: 'role-specific',

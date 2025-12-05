@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Course } from '../types';
 import { useNavigate, Link } from 'react-router-dom';
 import { getCourses } from '../services/db';
+import { MOCK_COURSES } from '../constants';
 
 interface DashboardProps {
     user: User;
@@ -16,7 +17,7 @@ const CourseCard: React.FC<{ course: Course; user: User; locked?: boolean }> = (
 
     const CardContent = (
         <>
-            <div className="relative w-full h-32 overflow-hidden">
+            <div className="relative w-full h-48 overflow-hidden">
                 <div
                     className={`w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-500 ${locked ? 'grayscale' : 'group-hover:scale-105'}`}
                     style={{ backgroundImage: `url("${course.image}")` }}
@@ -35,7 +36,7 @@ const CourseCard: React.FC<{ course: Course; user: User; locked?: boolean }> = (
 
             <div className="flex flex-col gap-2 p-4 pt-0 flex-1">
                 <h3 className={`text-base font-bold leading-tight transition-colors line-clamp-1 ${locked ? 'text-text-light-secondary dark:text-text-dark-secondary' : 'text-text-light-primary dark:text-text-dark-primary group-hover:text-primary'}`} title={course.title}>{course.title}</h3>
-                <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-relaxed line-clamp-2">{course.description}</p>
+                <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-relaxed whitespace-pre-wrap">{course.description}</p>
 
                 <div className="flex flex-col gap-1.5 mt-auto pt-2">
                     <div className="flex justify-between items-center text-xs text-text-light-secondary dark:text-text-dark-secondary">
@@ -83,17 +84,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const data = await getCourses();
-                setCourses(data);
-            } catch (error) {
-                console.error("Failed to fetch courses", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCourses();
+        // Use local mock data to reflect code changes immediately
+        setCourses(MOCK_COURSES);
+        setLoading(false);
     }, []);
 
     const getCourseWithProgress = (course: Course) => {
@@ -160,9 +153,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
             <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col gap-8 overflow-y-auto">
 
                 {/* Welcome Banner */}
-                <div className="bg-gradient-to-r from-brand-dark-gray to-bla
-                 rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden w-full h-fit">
-                    <img src="/images/banner-bg.png" alt="Abstract background" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+                <div className="rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden w-full h-fit">
+                    <img src="/images/dashboard-banner.jpg" alt="Dashboard Banner" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent"></div>
                     <div className="relative z-10 max-w-2xl">
                         <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
                         <div className="flex flex-col gap-1 mb-6">
