@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { User, Course } from '../types';
 import { Header } from '../components/Header';
-import { updateModuleProgress, getCourse, getQuizByModuleId } from '../services/db';
+import { updateModuleProgress, getCourse, getQuizByModuleId, getCourses } from '../services/db';
 // import { CertificateGenerator } from '../components/CertificateGenerator'; // Removed static import
 
 const CertificateGenerator = React.lazy(() => import('../components/CertificateGenerator').then(module => ({ default: module.CertificateGenerator })));
@@ -25,6 +25,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     const navigate = useNavigate();
     const [course, setCourse] = useState<Course | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isCourseLocked, setIsCourseLocked] = useState(false);
 
     // activeModuleId is now derived primarily from the URL, fallback to state or first module
     const [activeModuleId, setActiveModuleId] = useState<string | undefined>(undefined);
@@ -37,17 +38,50 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
 
     const location = useLocation();
 
-    // Fetch Course
+    // Fetch Course and Check Lock Status
     useEffect(() => {
-        const fetchCourse = async () => {
+        const fetchData = async () => {
             if (courseId) {
-                const data = await getCourse(courseId);
-                setCourse(data);
-                setLoading(false);
+                try {
+                    const [courseData, allCourses] = await Promise.all([
+                        getCourse(courseId),
+                        getCourses()
+                    ]);
+
+                    setCourse(courseData);
+
+                    // Check Lock Status
+                    if (courseData && user.role !== 'admin' && courseData.category !== 'mandated') {
+                        const mandatoryCourses = allCourses.filter(c => c.category === 'mandated');
+
+                        // Calculate mandatory progress
+                        const completedMandatory = mandatoryCourses.filter(c => {
+                            if (!user.progress || !user.progress[c.id]) return false;
+
+                            const allModuleIds = new Set(c.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
+                            const totalModules = allModuleIds.size;
+                            const completedModules = (user.progress[c.id].completedModules || []).filter(id => allModuleIds.has(id));
+
+                            return totalModules > 0 && completedModules.length === totalModules;
+                        }).length;
+
+                        const totalMandatory = mandatoryCourses.length;
+                        const onboardingProgress = totalMandatory > 0 ? Math.round((completedMandatory / totalMandatory) * 100) : 0;
+
+                        if (onboardingProgress < 100) {
+                            setIsCourseLocked(true);
+                        }
+                    }
+
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching course data", error);
+                    setLoading(false);
+                }
             }
         };
-        fetchCourse();
-    }, [courseId]);
+        fetchData();
+    }, [courseId, user]);
 
     // Flatten all modules for easy navigation
     const allModules = course?.sections?.flatMap(section => section.modules || []) || [];
@@ -196,6 +230,21 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
     };
 
     if (loading) return <div className="p-8 text-center text-text-light-primary dark:text-text-dark-primary">Loading course...</div>;
+
+    if (isCourseLocked) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen p-8 text-center text-text-light-primary dark:text-text-dark-primary bg-background-light dark:bg-background-dark">
+                <span className="material-symbols-outlined text-6xl text-warning mb-4">lock</span>
+                <h2 className="text-2xl font-bold mb-2">Course Locked</h2>
+                <p className="text-text-light-secondary mb-6 max-w-md">
+                    This course is currently locked. You must complete all mandatory onboarding courses before accessing this content.
+                </p>
+                <Link to="/dashboard" className="px-6 py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                    Back to Dashboard
+                </Link>
+            </div>
+        );
+    }
 
     // Debug logging
     console.log("CourseViewer Render:", { course, loading, activeModuleId });

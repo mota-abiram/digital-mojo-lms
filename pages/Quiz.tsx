@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { User, Quiz } from '../types';
-import { getQuiz } from '../services/db';
+import { getQuiz, getCourses } from '../services/db';
 
 interface QuizPageProps {
     user: User;
@@ -13,6 +13,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
     const navigate = useNavigate();
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isLocked, setIsLocked] = useState(false);
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<{ [key: string]: number }>({});
@@ -27,26 +28,58 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
         const fetchData = async () => {
             if (quizId && courseId) {
                 const { getCourse, getQuiz } = await import('../services/db');
-                const quizData = await getQuiz(quizId);
-                setQuiz(quizData);
 
-                if (quizData) {
-                    const courseData = await getCourse(courseId);
-                    if (courseData) {
-                        const module = courseData.sections
-                            .flatMap(s => s.modules)
-                            .find(m => m.id === quizData.moduleId);
+                try {
+                    const [quizData, allCourses] = await Promise.all([
+                        getQuiz(quizId),
+                        getCourses()
+                    ]);
 
-                        if (module) {
-                            setModuleDuration(module.duration);
+                    setQuiz(quizData);
+
+                    if (quizData) {
+                        const courseData = await getCourse(courseId);
+                        if (courseData) {
+                            const module = courseData.sections
+                                .flatMap(s => s.modules)
+                                .find(m => m.id === quizData.moduleId);
+
+                            if (module) {
+                                setModuleDuration(module.duration);
+                            }
+
+                            // Check Lock Status
+                            if (user.role !== 'admin' && courseData.category !== 'mandated') {
+                                const mandatoryCourses = allCourses.filter(c => c.category === 'mandated');
+
+                                const completedMandatory = mandatoryCourses.filter(c => {
+                                    if (!user.progress || !user.progress[c.id]) return false;
+
+                                    const allModuleIds = new Set(c.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
+                                    const totalModules = allModuleIds.size;
+                                    const completedModules = (user.progress[c.id].completedModules || []).filter(id => allModuleIds.has(id));
+
+                                    return totalModules > 0 && completedModules.length === totalModules;
+                                }).length;
+
+                                const totalMandatory = mandatoryCourses.length;
+                                const onboardingProgress = totalMandatory > 0 ? Math.round((completedMandatory / totalMandatory) * 100) : 0;
+
+                                if (onboardingProgress < 100) {
+                                    setIsLocked(true);
+                                }
+                            }
                         }
                     }
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching quiz data", error);
+                    setLoading(false);
                 }
-                setLoading(false);
             }
         };
         fetchData();
-    }, [quizId, courseId]);
+    }, [quizId, courseId, user]);
 
     // Check for existing progress
     useEffect(() => {
@@ -175,6 +208,22 @@ export const QuizPage: React.FC<QuizPageProps> = ({ user, onLogout }) => {
     };
 
     if (loading) return <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">Loading quiz...</div>;
+
+    if (isLocked) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-background-light dark:bg-background-dark text-center p-8">
+                <span className="material-symbols-outlined text-6xl text-warning mb-4">lock</span>
+                <h2 className="text-2xl font-bold mb-2 text-text-light-primary dark:text-text-dark-primary">Quiz Locked</h2>
+                <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6 max-w-md">
+                    This quiz is currently locked. You must complete all mandatory onboarding courses before accessing this content.
+                </p>
+                <Link to="/dashboard" className="px-6 py-3 bg-primary text-black rounded-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                    Back to Dashboard
+                </Link>
+            </div>
+        );
+    }
+
     if (!quiz) return <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">Quiz not found</div>;
 
     const currentQuestion = quiz.questions[currentQuestionIndex];

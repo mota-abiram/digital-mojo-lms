@@ -275,7 +275,7 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div >
                 )}
                 <div className="p-6 md:p-10 bg-background-light dark:bg-background-dark min-h-screen">
                     <button

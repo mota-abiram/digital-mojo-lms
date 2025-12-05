@@ -224,17 +224,23 @@ export const saveQuizResult = async (userId: string, courseId: string, quizId: s
             }];
 
             const updateData = {
-                [`progress.${courseId}.quizScores.${quizId}`]: {
-                    score: bestScore,
-                    passed: isPassed,
-                    attempts: newAttempts,
-                    completedAt: new Date().toISOString(),
-                    history: newHistory
-                },
-                [`progress.${courseId}.lastUpdated`]: new Date().toISOString()
+                progress: {
+                    [courseId]: {
+                        quizScores: {
+                            [quizId]: {
+                                score: bestScore,
+                                passed: isPassed,
+                                attempts: newAttempts,
+                                completedAt: new Date().toISOString(),
+                                history: newHistory
+                            }
+                        },
+                        lastUpdated: new Date().toISOString()
+                    }
+                }
             };
 
-            transaction.update(userRef, updateData);
+            transaction.set(userRef, updateData, { merge: true });
         });
 
         console.log(`Quiz result saved for user ${userId}, quiz ${quizId}, score ${score}`);

@@ -5,11 +5,15 @@ import { doc, getDoc, setDoc, collection, addDoc } from 'firebase/firestore';
 import { Course, CourseSection, CourseModule } from '../types';
 import { getCourse } from '../services/db';
 
+import { storage } from '../firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 export const AdminCourseEditor: React.FC = () => {
     const { courseId } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
 
     const [course, setCourse] = useState<Partial<Course>>({
         title: '',
@@ -53,6 +57,49 @@ export const AdminCourseEditor: React.FC = () => {
             alert("Failed to save course");
         } finally {
             setSaving(false);
+        }
+    };
+
+
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploadingImage(true);
+        console.log("Starting upload for file:", file.name);
+
+        try {
+            const storageRef = ref(storage, `course-images/${Date.now()}_${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                },
+                (error) => {
+                    console.error("Upload error:", error);
+                    alert(`Upload failed: ${error.message}`);
+                    setUploadingImage(false);
+                },
+                async () => {
+                    try {
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
+                        console.log("File available at", url);
+                        setCourse({ ...course, image: url });
+                        setUploadingImage(false);
+                    } catch (urlError: any) {
+                        console.error("Error getting download URL:", urlError);
+                        alert(`Failed to get image URL: ${urlError.message}`);
+                        setUploadingImage(false);
+                    }
+                }
+            );
+        } catch (error: any) {
+            console.error("Error initiating upload", error);
+            alert(`Failed to initiate upload: ${error.message || error}`);
+            setUploadingImage(false);
         }
     };
 
@@ -175,13 +222,46 @@ export const AdminCourseEditor: React.FC = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1">Image URL</label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
-                            value={course.image}
-                            onChange={e => setCourse({ ...course, image: e.target.value })}
-                        />
+                        <label className="block text-sm font-medium mb-1">Course Image</label>
+                        <div className="space-y-3">
+                            <input
+                                type="text"
+                                className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                                value={course.image}
+                                onChange={e => setCourse({ ...course, image: e.target.value })}
+                                placeholder="Enter Image URL"
+                            />
+                            <div className="flex items-center gap-4">
+                                <div className="relative">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="hidden"
+                                        id="course-image-upload"
+                                        disabled={uploadingImage}
+                                    />
+                                    <label
+                                        htmlFor="course-image-upload"
+                                        className={`px-4 py-2 rounded-lg text-sm font-bold cursor-pointer transition-colors flex items-center gap-2 ${uploadingImage ? 'bg-gray-200 text-gray-500' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'}`}
+                                    >
+                                        <span className="material-symbols-outlined">cloud_upload</span>
+                                        {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                                    </label>
+                                </div>
+                                <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                    Supported: JPG, PNG, WEBP
+                                </span>
+                            </div>
+                            {course.image && (
+                                <div className="mt-2 w-full h-48 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-border-light dark:border-border-dark relative group">
+                                    <img src={course.image} alt="Course Preview" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <p className="text-white font-bold">Preview</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-2">

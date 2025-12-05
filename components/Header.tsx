@@ -56,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogout, showSearch = tru
           style={{ backgroundImage: `url("${user.avatar}")` }}
           title={user.name}
         ></div>
-        <button onClick={onLogout} className="text-sm font-medium text-white hover:text-primary transition-colors hidden sm:block">
+        <button onClick={onLogout} className="text-sm font-medium text-black dark:text-white hover:text-primary transition-colors hidden sm:block">
           Logout
         </button>
       </div>
