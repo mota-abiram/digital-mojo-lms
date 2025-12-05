@@ -167,10 +167,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                         <h1 className="text-3xl font-bold mb-2">Welcome to Digital Mojo, {user?.name ? user.name.split(' ')[0] : 'User'}!</h1>
                         <div className="flex flex-col gap-1 mb-6">
                             <p className="text-white/80 text-lg">We're thrilled to have you on the {user?.department || 'Digital Mojo'} team. Let's get you settled in.</p>
-                            <p className="text-white/50 text-sm font-medium flex items-center gap-1">
-                                <span className="material-symbols-outlined text-[16px]">calendar_today</span>
-                                First Login: {user?.joinDate}
-                            </p>
+
                         </div>
 
                         <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10 w-fit">
