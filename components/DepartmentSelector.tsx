@@ -75,7 +75,7 @@ export const DepartmentSelector: React.FC<DepartmentSelectorProps> = ({ user, on
                             <option value="Website">Website</option>
                             <option value="Interns">Interns</option>
                         </select>
-                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></span>
                     </div>
 
                     <button
