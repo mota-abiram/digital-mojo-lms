@@ -8,10 +8,12 @@ interface SidebarProps {
   onLogout: () => void;
 }
 
+import { UserAvatar } from './UserAvatar';
+
 export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
   const menuItems = [
     { id: 'dashboard', path: '/dashboard', icon: 'dashboard', label: 'Onboarding Hub' },
-    { id: 'courses', path: '/dashboard', icon: 'school', label: 'Learning Center' },
+    { id: 'courses', path: '/courses', icon: 'school', label: 'Learning Center' },
     { id: 'profile', path: '/profile', icon: 'person', label: 'My Profile' },
   ];
 
@@ -25,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
       <div className="flex h-full flex-col justify-between p-4">
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-3 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark/50">
-            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style={{ backgroundImage: `url("${user.avatar}")` }}></div>
+            <UserAvatar user={user} size="lg" />
             <div className="flex flex-col overflow-hidden">
               <h1 className="text-sm font-bold leading-normal truncate">{user.name}</h1>
               <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-normal truncate">{user.role}</p>

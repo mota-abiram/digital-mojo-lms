@@ -93,14 +93,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 min-h-screen">
 
           {/* Left Column - Hero */}
-          <div className="relative hidden lg:flex flex-col items-center justify-center bg-background-dark text-white p-12">
+          <div className="relative hidden lg:flex flex-col items-center justify-center text-white p-12">
             <div className="absolute inset-0 z-0">
               <img
-                className="h-full w-full object-cover opacity-40 mix-blend-overlay"
-                src="https://picsum.photos/seed/digitalmojo/1600/1200"
+                className="h-full w-full object-cover"
+                src="/images/home.jpeg"
                 alt="Digital office environment"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-background-dark/80 to-background-dark/95"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80"></div>
             </div>
             <div className="relative z-10 flex flex-col items-start max-w-md space-y-6">
               <div className="flex items-center space-x-3">

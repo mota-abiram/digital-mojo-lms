@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { User } from '../types';
 
+import { UserAvatar } from '../components/UserAvatar';
+
 interface ProfileProps {
     user: User;
 }
@@ -69,10 +71,11 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                 <div className="col-span-1 flex flex-col gap-6">
                     <div className="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col items-center text-center">
                         <div className="relative w-32 h-32 mb-4">
-                            <div
-                                className="w-full h-full rounded-full bg-cover bg-center border-4 border-background-light dark:border-background-dark shadow-md"
-                                style={{ backgroundImage: `url("${user.avatar}")` }}
-                            ></div>
+                            <UserAvatar
+                                user={user}
+                                size="xl"
+                                className="w-full h-full border-4 border-background-light dark:border-background-dark shadow-md"
+                            />
                             {isEditing && (
                                 <button className="absolute bottom-0 right-0 bg-primary text-black p-2 rounded-full shadow-lg hover:bg-primary/90 transition-transform hover:scale-105">
                                     <span className="material-symbols-outlined text-sm">edit</span>
@@ -158,57 +161,10 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                                     <p className="text-text-light-primary dark:text-text-dark-primary font-medium">{formData.department}</p>
                                 )}
                             </div>
-                            <div className="col-span-1 md:col-span-2 flex flex-col gap-2">
-                                <label className="text-xs font-bold text-text-light-secondary dark:text-text-dark-secondary uppercase">Bio</label>
-                                {isEditing ? (
-                                    <textarea
-                                        name="bio"
-                                        value={formData.bio}
-                                        onChange={handleChange}
-                                        rows={3}
-                                        className="p-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none resize-none"
-                                    />
-                                ) : (
-                                    <p className="text-text-light-primary dark:text-text-dark-primary font-medium leading-relaxed">{formData.bio}</p>
-                                )}
-                            </div>
                         </div>
                     </div>
 
                     {/* Settings */}
-                    <div className="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
-                        <h3 className="font-bold text-lg mb-6 text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
-                            <span className="material-symbols-outlined text-primary">settings</span>
-                            Preferences
-                        </h3>
-                        <div className="flex flex-col gap-4">
-                            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-text-light-secondary">notifications</span>
-                                    <div>
-                                        <p className="font-medium text-text-light-primary dark:text-text-dark-primary">Email Notifications</p>
-                                        <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Receive updates about your course progress</p>
-                                    </div>
-                                </div>
-                                <div className={`w-12 h-6 rounded-full p-1 transition-colors cursor-pointer ${formData.notifications ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'}`} onClick={() => isEditing && setFormData(prev => ({ ...prev, notifications: !prev.notifications }))}>
-                                    <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${formData.notifications ? 'translate-x-6' : 'translate-x-0'}`}></div>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-text-light-secondary">dark_mode</span>
-                                    <div>
-                                        <p className="font-medium text-text-light-primary dark:text-text-dark-primary">Dark Mode</p>
-                                        <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Toggle application theme</p>
-                                    </div>
-                                </div>
-                                <div className="text-xs text-text-light-secondary bg-background-light dark:bg-background-dark px-3 py-1 rounded-full border border-border-light dark:border-border-dark">
-                                    System Default
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

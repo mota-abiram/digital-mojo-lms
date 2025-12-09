@@ -117,6 +117,7 @@ const AppContent: React.FC = () => {
             />
           ) : <Navigate to="/login" replace />}>
             <Route path="/dashboard" element={<Dashboard user={user!} searchQuery={searchQuery} />} />
+            <Route path="/courses" element={<Dashboard user={user!} searchQuery={searchQuery} />} />
             <Route path="/profile" element={<Profile user={user!} />} />
             <Route path="/wiki" element={<PlaceholderPage title="Company Wiki" type="wiki" />} />
             <Route path="/directory" element={<PlaceholderPage title="Team Directory" type="directory" />} />

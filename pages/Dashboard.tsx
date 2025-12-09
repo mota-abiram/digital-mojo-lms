@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Course } from '../types';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { MOCK_COURSES } from '../constants';
 
 interface DashboardProps {
@@ -52,7 +52,7 @@ const CourseCard: React.FC<{ course: Course; user: User; locked?: boolean }> = (
                 <div
                     className={`mt-2 w-full rounded-md border py-2 text-xs font-bold transition-colors text-center ${locked
                         ? 'bg-transparent border-border-light text-text-light-secondary cursor-not-allowed'
-                        : 'bg-transparent border-primary text-primary group-hover:bg-primary group-hover:text-white'
+                        : 'bg-primary border-primary text-black group-hover:bg-transparent group-hover:text-primary'
                         }`}
                 >
                     {locked ? 'Locked' : (course.progress === 0 ? 'Start' : 'Continue')}
@@ -82,11 +82,29 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const location = useLocation();
+
     useEffect(() => {
         // Use local mock data to reflect code changes immediately
         setCourses(MOCK_COURSES);
         setLoading(false);
     }, []);
+
+    useEffect(() => {
+        if (loading) return;
+
+        if (location.pathname === '/courses') {
+            const element = document.getElementById('learning-path-section');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else if (location.pathname === '/dashboard') {
+            const element = document.getElementById('mandatory-section');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [location.pathname, loading]);
 
     const getCourseWithProgress = (course: Course) => {
         if (!user.progress || !user.progress[course.id]) {
@@ -180,7 +198,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 </div>
 
                 {/* Mandatory Training Section */}
-                <section>
+                <section id="mandatory-section" className="scroll-mt-24">
                     <div className="flex items-center gap-2 mb-4">
                         <span className="material-symbols-outlined text-orange-500">priority_high</span>
                         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Mandatory Onboarding</h2>
@@ -197,7 +215,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 </section>
 
                 {/* Role Specific Section */}
-                <section>
+                <section id="learning-path-section" className="scroll-mt-24">
                     <div className="flex items-center gap-2 mb-4">
                         <span className="material-symbols-outlined text-primary">school</span>
                         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Your Learning Path</h2>

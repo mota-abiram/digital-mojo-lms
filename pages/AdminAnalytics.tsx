@@ -3,6 +3,7 @@ import { User, Course } from '../types';
 import { getCourses, getQuizzesForModules } from '../services/db';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { UserAvatar } from '../components/UserAvatar';
 
 interface AdminAnalyticsProps {
     user: User;
@@ -167,7 +168,7 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                         <div className="w-full max-w-3xl bg-card-light dark:bg-card-dark rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                             <div className="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-background-light dark:bg-background-dark">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-gray-200 bg-cover" style={{ backgroundImage: `url("${selectedUser.avatar}")` }}></div>
+                                    <UserAvatar user={selectedUser} size="lg" className="!size-12" />
                                     <div>
                                         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">{selectedUser.name}</h2>
                                         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">{selectedUser.email}</p>
@@ -308,7 +309,7 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                                         <tr key={u.id} className="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
                                             <td className="p-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-gray-200 bg-cover" style={{ backgroundImage: `url("${u.avatar}")` }}></div>
+                                                    <UserAvatar user={u} size="sm" />
                                                     <div>
                                                         <p className="font-bold text-text-light-primary dark:text-text-dark-primary">{u.name}</p>
                                                         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">{u.email}</p>
