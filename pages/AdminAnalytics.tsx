@@ -100,7 +100,16 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
         const allModuleIds = new Set(course.sections?.flatMap(s => s.modules || []).map(m => m.id) || []);
         const totalModules = allModuleIds.size;
 
-        users.forEach(u => {
+        const targetDepartment = course.id === 'c1' ? 'Social Media' :
+            course.id === 'c_perf_spec' ? 'PPC' :
+                course.id === 'c3' ? 'Website' :
+                    course.id === 'c4' ? 'SEO' : null;
+
+        const relevantUsers = targetDepartment
+            ? users.filter(u => u.department === targetDepartment)
+            : users;
+
+        relevantUsers.forEach(u => {
             const progress = u.progress?.[course.id];
             if (!progress) {
                 notStartedCount++;
@@ -138,7 +147,16 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
             return m.type === 'quiz' || Object.values(courseQuizzes).some(q => q.moduleId === m.id);
         }) || [];
 
-        const courseUsers = users.map(u => {
+        const targetDepartment = selectedCourse.id === 'c1' ? 'Social Media' :
+            selectedCourse.id === 'c_perf_spec' ? 'PPC' :
+                selectedCourse.id === 'c3' ? 'Website' :
+                    selectedCourse.id === 'c4' ? 'SEO' : null;
+
+        const relevantUsers = targetDepartment
+            ? users.filter(u => u.department === targetDepartment)
+            : users;
+
+        const courseUsers = relevantUsers.map(u => {
             const progress = u.progress?.[selectedCourse.id];
 
             // Filter completed modules to only include those that currently exist in the course

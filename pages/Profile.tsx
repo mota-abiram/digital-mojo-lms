@@ -150,13 +150,27 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                             <div className="flex flex-col gap-2">
                                 <label className="text-xs font-bold text-text-light-secondary dark:text-text-dark-secondary uppercase">Department</label>
                                 {isEditing ? (
-                                    <input
-                                        type="text"
+                                    <select
                                         name="department"
                                         value={formData.department}
                                         onChange={handleChange}
                                         className="p-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none"
-                                    />
+                                    >
+                                        <option value="">Select Department</option>
+                                        <option value="Business Development">Business Development</option>
+                                        <option value="GD Department">GD Department</option>
+                                        <option value="HR">HR</option>
+                                        <option value="Interns">Interns</option>
+                                        <option value="Management">Management</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="Operations">Operations</option>
+                                        <option value="PPC">PPC</option>
+                                        <option value="Photography">Photography</option>
+                                        <option value="SEO">SEO</option>
+                                        <option value="Social Media">Social Media</option>
+                                        <option value="Telecaller">Telecaller</option>
+                                        <option value="Website">Website</option>
+                                    </select>
                                 ) : (
                                     <p className="text-text-light-primary dark:text-text-dark-primary font-medium">{formData.department}</p>
                                 )}
