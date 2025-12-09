@@ -34,8 +34,8 @@ const CourseCard: React.FC<{ course: Course; user: User; locked?: boolean }> = (
             </div>
 
             <div className="flex flex-col gap-2 p-4 pt-0 flex-1">
-                <h3 className={`text-base font-bold leading-tight transition-colors line-clamp-1 ${locked ? 'text-text-light-secondary dark:text-text-dark-secondary' : 'text-text-light-primary dark:text-text-dark-primary group-hover:text-primary'}`} title={course.title}>{course.title}</h3>
-                <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-relaxed whitespace-pre-wrap">{course.description}</p>
+                <h3 className={`text-lg font-bold leading-tight transition-colors line-clamp-1 ${locked ? 'text-text-light-secondary dark:text-text-dark-secondary' : 'text-text-light-primary dark:text-text-dark-primary'}`} title={course.title}>{course.title}</h3>
+                <p className="text-text-light-secondary dark:text-text-dark-secondary text-m font-normal leading-relaxed whitespace-pre-wrap">{course.description}</p>
 
                 <div className="flex flex-col gap-1.5 mt-auto pt-2">
                     <div className="flex justify-between items-center text-xs text-text-light-secondary dark:text-text-dark-secondary">
@@ -50,9 +50,9 @@ const CourseCard: React.FC<{ course: Course; user: User; locked?: boolean }> = (
                 </div>
 
                 <div
-                    className={`mt-2 w-full rounded-md border py-2 text-xs font-bold transition-colors text-center ${locked
+                    className={`mt-2 w-full rounded-md border py-2 text-m font-bold transition-colors text-center ${locked
                         ? 'bg-transparent border-border-light text-text-light-secondary cursor-not-allowed'
-                        : 'bg-primary border-primary text-black group-hover:bg-transparent group-hover:text-primary'
+                        : 'bg-primary border-primary text-black group-hover:bg-transparent group-hover:text-black dark:group-hover:text-white group-hover:border-black dark:group-hover:border-white'
                         }`}
                 >
                     {locked ? 'Locked' : (course.progress === 0 ? 'Start' : 'Continue')}
@@ -187,8 +187,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                                 <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{onboardingProgress || 0}%</div>
                             </div>
                             <div>
-                                <p className="font-bold text-sm">Onboarding Progress</p>
-                                <p className="text-xs text-white/60">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
+                                <p className="font-bold  text-m">Onboarding Progress</p>
+                                <p className="text-s text-white/60">{completedMandatory || 0} of {totalMandatory || 0} mandatory modules completed</p>
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 <section id="mandatory-section" className="scroll-mt-24">
                     <div className="flex items-center gap-2 mb-4">
                         <span className="material-symbols-outlined text-orange-500">priority_high</span>
-                        <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Mandatory Onboarding</h2>
+                        <h2 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Mandatory Onboarding</h2>
                     </div>
                     {mandatoryCourses.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
@@ -218,7 +218,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, searchQuery = '' }) 
                 <section id="learning-path-section" className="scroll-mt-24">
                     <div className="flex items-center gap-2 mb-4">
                         <span className="material-symbols-outlined text-primary">school</span>
-                        <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Your Learning Path</h2>
+                        <h2 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Your Learning Path</h2>
 
                     </div>
                     {roleCourses.length > 0 ? (

@@ -29,8 +29,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
           <div className="flex items-center gap-3 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark/50">
             <UserAvatar user={user} size="lg" />
             <div className="flex flex-col overflow-hidden">
-              <h1 className="text-sm font-bold leading-normal truncate">{user.name}</h1>
-              <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-normal truncate">{user.role}</p>
+              <h1 className="text-m font-bold leading-normal truncate">{user.name}</h1>
+              <p className="text-text-light-secondary dark:text-text-dark-secondary text-m font-normal leading-normal truncate">{user.role}</p>
             </div>
           </div>
 
@@ -39,13 +39,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout }) => {
               <NavLink
                 key={item.id}
                 to={item.path}
-                className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-r-lg transition-all duration-200 w-full text-left ${isActive
-                  ? 'bg-primary/10 text-primary font-bold border-l-4 border-primary shadow-sm'
-                  : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-background-light dark:hover:bg-background-dark hover:text-primary'
+                className={({ isActive }) => `flex items-center gap-3 px-3 py-3 rounded-r-lg transition-all duration-200 w-full text-left ${isActive
+                  ? 'bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white font-bold shadow-sm'
+                  : 'text-text-light-primary dark:text-text-dark-primary hover:bg-background-light dark:hover:bg-background-dark'
                   }`}
               >
                 <span className={`material-symbols-outlined`}>{item.icon}</span>
-                <p className="text-sm leading-normal">{item.label}</p>
+                <p className="text-base font-bold leading-normal">{item.label}</p>
               </NavLink>
             ))}
           </nav>

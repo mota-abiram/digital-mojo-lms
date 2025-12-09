@@ -394,7 +394,7 @@ export const CourseViewer: React.FC<CourseViewerProps> = ({ user, onLogout }) =>
                     {activeModule ? (
                         <div className="max-w-4xl mx-auto flex flex-col gap-6">
                             {/* Breadcrumbs */}
-                            <div className="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary">
+                            <div className="flex items-center gap-2 text-l text-text-light-secondary dark:text-text-dark-secondary">
                                 <Link to="/dashboard" className="cursor-pointer hover:underline hover:text-primary">My Courses</Link>
                                 <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                                 <span className="truncate max-w-[150px]">{course.title}</span>
