@@ -100,9 +100,10 @@ export const CertificateGenerator: React.FC<CertificateGeneratorProps> = ({ user
                                 </div>
 
                                 <div className="text-center">
+                                    <img src="/certificate-signature.png" alt="Signature" className="h-14 mx-auto -mb-0 block" />
                                     <div className="w-40 border-b border-gray-400 mb-1"></div>
-                                    <p className="text-gray-600 font-bold text-sm">Instructor / Director</p>
-                                    <p className="text-gray-500 text-xs">Digital Mojo Team</p>
+
+                                    <p className="text-gray-500 mb-2 text-xs">Instructor / Director</p>
                                 </div>
                             </div>
                         </div>

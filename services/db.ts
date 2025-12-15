@@ -341,3 +341,62 @@ export const getQuizzesForModules = async (moduleIds: string[]): Promise<Quiz[]>
         return [];
     }
 };
+
+export const markCourseComplete = async (userId: string, courseId: string) => {
+    try {
+        // 1. Get the course to find all modules
+        const courseRef = doc(db, 'courses', courseId);
+        const courseSnap = await getDoc(courseRef);
+
+        if (!courseSnap.exists()) {
+            throw new Error(`Course ${courseId} not found`);
+        }
+
+        const course = courseSnap.data() as Course;
+        const allModuleIds = course.sections?.flatMap(s => s.modules || []).map(m => m.id) || [];
+
+        if (allModuleIds.length === 0) {
+            console.warn(`Course ${courseId} has no modules.`);
+            return;
+        }
+
+        // 2. Get associated quizzes to mark them as passed
+        const associatedQuizzes = await getQuizzesForModules(allModuleIds);
+        const quizScoresData: any = {};
+
+        associatedQuizzes.forEach(quiz => {
+            quizScoresData[quiz.id] = {
+                score: 100,
+                passed: true,
+                attempts: 1,
+                completedAt: new Date().toISOString(),
+                history: [{
+                    score: 100,
+                    passed: true,
+                    completedAt: new Date().toISOString()
+                }]
+            };
+        });
+
+        // 3. Update user progress
+        const userRef = doc(db, 'users', userId);
+
+        await setDoc(userRef, {
+            progress: {
+                [courseId]: {
+                    completedModules: allModuleIds, // Set all modules as completed
+                    quizScores: quizScoresData,     // Set all quizzes as passed
+                    lastUpdated: new Date().toISOString(),
+                    lastAccessedModuleId: allModuleIds[allModuleIds.length - 1]
+                }
+            }
+        }, { merge: true });
+
+        console.log(`Course ${courseId} marked as complete for user ${userId} (including ${associatedQuizzes.length} quizzes)`);
+        return true;
+    } catch (error) {
+        console.error("Error marking course complete:", error);
+        throw error;
+    }
+};
+

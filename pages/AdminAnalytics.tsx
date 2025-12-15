@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Course } from '../types';
-import { getCourses, getQuizzesForModules } from '../services/db';
+import { getCourses, getQuizzesForModules, markCourseComplete } from '../services/db';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { UserAvatar } from '../components/UserAvatar';
@@ -136,6 +136,53 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
         };
     });
 
+    const handleMarkComplete = async () => {
+        if (!selectedUser || !selectedCourse) return;
+
+        if (window.confirm(`Are you sure you want to mark "${selectedCourse.title}" as 100% complete for ${selectedUser.name}? This will also mark all quizzes as passed.`)) {
+            try {
+                await markCourseComplete(selectedUser.id, selectedCourse.id);
+
+                // Construct quiz scores for local update to show immediate feedback
+                const quizScoresStub: any = {};
+                Object.keys(courseQuizzes).forEach(qId => {
+                    quizScoresStub[qId] = {
+                        score: 100,
+                        passed: true,
+                        attempts: 1,
+                        completedAt: new Date().toISOString(),
+                        history: [{ score: 100, passed: true, completedAt: new Date().toISOString() }]
+                    };
+                });
+
+                // Simple state update to reflect change in UI without full reload
+                const updatedUsers = users.map(u => {
+                    if (u.id === selectedUser.id) {
+                        const newProgress = {
+                            ...u.progress, [selectedCourse.id]: {
+                                ...u.progress?.[selectedCourse.id],
+                                completedModules: selectedCourse.sections?.flatMap(s => s.modules || []).map(m => m.id) || [],
+                                quizScores: { ...u.progress?.[selectedCourse.id]?.quizScores, ...quizScoresStub }
+                            }
+                        };
+                        return { ...u, progress: newProgress };
+                    }
+                    return u;
+                });
+                setUsers(updatedUsers);
+
+                // Update selected user as well to show completed status immediately
+                const updatedSelectedUser = updatedUsers.find(u => u.id === selectedUser.id);
+                if (updatedSelectedUser) setSelectedUser(updatedSelectedUser);
+
+                alert('Course marked as complete!');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to mark complete.');
+            }
+        }
+    };
+
     // --- Detail View Logic ---
     if (selectedCourse) {
         // Get all valid module IDs for the selected course
@@ -192,12 +239,21 @@ export const AdminAnalytics: React.FC<AdminAnalyticsProps> = ({ user }) => {
                                         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">{selectedUser.email}</p>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() => setSelectedUser(null)}
-                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
-                                >
-                                    <span className="material-symbols-outlined">close</span>
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={handleMarkComplete}
+                                        className="px-3 py-1.5 bg-green-100 text-green-700 hover:bg-green-200 rounded-lg text-sm font-bold transition-colors"
+                                        title="Mark all modules as completed"
+                                    >
+                                        Mark as Complete
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedUser(null)}
+                                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined">close</span>
+                                    </button>
+                                </div>
                             </div>
                             <div className="p-6 overflow-y-auto">
                                 <h3 className="text-lg font-bold mb-4 text-text-light-primary dark:text-text-dark-primary">
