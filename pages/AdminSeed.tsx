@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { seedDatabase } from '../services/seed';
-import { createDemoAccount, updateDemoAccountData, DEMO_ACCOUNT } from '../services/demoAccount';
+import { createDemoAccount, DEMO_ACCOUNT } from '../services/demoAccount';
 import { Header } from '../components/Header';
 import { User } from '../types';
-import { auth } from '../firebaseConfig';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 interface AdminSeedProps {
     user: User;
@@ -42,26 +40,14 @@ export const AdminSeed: React.FC<AdminSeedProps> = ({ user, onLogout }) => {
         try {
             const result = await createDemoAccount();
             
-            if (result.exists) {
-                // Try to update existing account data
-                try {
-                    // Sign in temporarily to get user ID
-                    const userCredential = await signInWithEmailAndPassword(
-                        auth,
-                        DEMO_ACCOUNT.email,
-                        DEMO_ACCOUNT.password
-                    );
-                    await updateDemoAccountData(userCredential.user.uid);
-                    await signOut(auth);
-                    
-                    setDemoStatus('success');
-                    setDemoMessage('Demo account data refreshed successfully!');
-                    setShowCredentials(true);
-                } catch (updateError: any) {
-                    setDemoStatus('success');
-                    setDemoMessage(result.message);
-                    setShowCredentials(true);
-                }
+            if (result.success) {
+                setDemoStatus('success');
+                setDemoMessage(result.message);
+                setShowCredentials(true);
+            } else if (result.passwordIssue) {
+                setDemoStatus('error');
+                setDemoMessage(result.message);
+                setShowCredentials(true);
             } else {
                 setDemoStatus('success');
                 setDemoMessage(result.message);
