@@ -2,7 +2,7 @@ import { auth, db } from '../firebaseConfig';
 import { signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore';
 import { User, CourseModule } from '../types';
-import { MOCK_USER } from '../constants';
+
 
 // Auth Services
 export const loginWithEmail = async (email: string, pass: string, rememberMe: boolean = false) => {
@@ -127,21 +127,29 @@ export const getUserData = async (uid: string, email?: string | null): Promise<U
 
         if (userSnap.exists()) {
             const data = userSnap.data();
-            // Validate required fields to prevent UI crashes
-            if (data && typeof data.name === 'string' && typeof data.department === 'string') {
+            if (data && typeof data.name === 'string') {
                 return data as User;
-            } else {
-                console.warn("User data found but incomplete:", data);
-                return null; // Triggers App.tsx fallback
             }
-        } else {
-            // Only return mock data if the email matches the mock user
-            if (email === MOCK_USER.email) {
-                return { ...MOCK_USER, id: uid };
-            }
-            // Otherwise return null (user needs to register or data is missing)
-            return null;
         }
+
+        // No Firestore profile exists — create one automatically from Firebase Auth data
+        const firebaseUser = auth.currentUser;
+        if (firebaseUser && firebaseUser.uid === uid) {
+            const name = firebaseUser.displayName || (email ? email.split('@')[0] : 'User');
+            const newUser: User = {
+                id: uid,
+                name,
+                email: email || firebaseUser.email || '',
+                avatar: firebaseUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`,
+                role: 'user',
+                department: '',
+                joinDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            };
+            await setDoc(userRef, newUser);
+            return newUser;
+        }
+
+        return null;
     } catch (error) {
         console.error("Error fetching user data", error);
         return null;
